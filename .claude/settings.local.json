@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command \"cd ''C:\\Users\\papcy\\Desktop\\YoMeet Web''; Remove-Item -Path ''index.html'' -ErrorAction SilentlyContinue; Remove-Item -Path ''styles.css'' -ErrorAction SilentlyContinue\")",
+      "Bash(copy \"c:\\Users\\papcy\\Desktop\\YoMeet\\assets\\Adaptive icon.png\" \"C:\\Users\\papcy\\Desktop\\YoMeet Web\\public\\logo.png\")",
+      "Bash(powershell -Command:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm install:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)",
+      "Bash(del:*)",
+      "Bash(rm:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
