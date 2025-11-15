@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
-const openai = new OpenAI({
-  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-})
-
 export async function POST(request: NextRequest) {
   try {
     const { transcript } = await request.json()
@@ -15,6 +11,10 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
+
+    const openai = new OpenAI({
+      apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY || process.env.OPENAI_API_KEY,
+    })
 
     // Generate summary using GPT-4
     const summaryCompletion = await openai.chat.completions.create({
