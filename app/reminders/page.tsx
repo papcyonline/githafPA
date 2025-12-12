@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/lib/auth-context'
@@ -8,7 +8,7 @@ import { remindersService, Reminder } from '@/lib/notes.service'
 import { supabase } from '@/lib/supabase'
 import FloatingAIChat from '@/components/FloatingAIChat'
 
-export default function RemindersPage() {
+function RemindersContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { user, loading: authLoading, signOut } = useAuth()
@@ -518,5 +518,13 @@ function ReminderCard({ reminder, onDelete, onAddToCalendar, googleConnected, fo
         </div>
       </div>
     </div>
+  )
+}
+
+export default function RemindersPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center"><div className="text-white">Loading...</div></div>}>
+      <RemindersContent />
+    </Suspense>
   )
 }

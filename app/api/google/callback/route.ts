@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getTokensFromCode } from '@/lib/google-calendar.service'
 import { createClient } from '@supabase/supabase-js'
 
+// Force dynamic rendering - this route uses searchParams
+export const dynamic = 'force-dynamic'
+
 function getSupabaseAdmin() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

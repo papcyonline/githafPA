@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '../../lib/auth-context'
 import { supabase } from '../../lib/supabase'
 
-export default function SettingsPage() {
+function SettingsContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { user, loading: authLoading, signOut } = useAuth()
@@ -341,7 +341,7 @@ export default function SettingsPage() {
           {/* App Info */}
           <div className="mt-8 text-center text-gray-500 text-sm">
             <p>MeetAI Web App v1.0.0</p>
-            <p className="mt-1">© 2025 Papcy. All rights reserved.</p>
+            <p className="mt-1">© 2025 MeetAI. All rights reserved.</p>
           </div>
         </div>
       </div>
@@ -349,9 +349,16 @@ export default function SettingsPage() {
       <footer className="py-8 border-t border-white/10">
         <div className="container mx-auto max-w-7xl text-center">
           <p className="text-gray-400">&copy; 2025 MeetAI. All rights reserved.</p>
-          <p className="text-gray-500 text-sm mt-2">A <span className="text-primary font-semibold">Papcy</span> Company</p>
         </div>
       </footer>
     </main>
+  )
+}
+
+export default function SettingsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center"><div className="text-white">Loading...</div></div>}>
+      <SettingsContent />
+    </Suspense>
   )
 }
