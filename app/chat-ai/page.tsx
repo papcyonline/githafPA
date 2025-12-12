@@ -94,8 +94,8 @@ export default function ChatAIPage() {
         <div className="flex flex-col h-full">
           <div className="p-6 border-b border-white/10">
             <Link href="/dashboard" className="flex items-center space-x-3">
-              <img src="/logo.png" alt="YoMeet" className="w-10 h-10 rounded-lg" />
-              <span className="text-2xl font-black">YoMeet</span>
+              <img src="/logo.png" alt="MeetAI" className="w-10 h-10 rounded-lg" />
+              <span className="text-2xl font-black">MeetAI</span>
             </Link>
           </div>
 

@@ -8,8 +8,8 @@ export default function TermsOfService() {
         <div className="container mx-auto px-4 sm:px-6">
           <nav className="glass rounded-full px-5 py-2 flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <img src="/logo.png" alt="YoMeet Logo" className="w-10 h-10 rounded-lg" />
-              <span className="text-xl font-black">YoMeet</span>
+              <img src="/logo.png" alt="MeetAI Logo" className="w-10 h-10 rounded-lg" />
+              <span className="text-xl font-black">MeetAI</span>
             </div>
             <a href="/" className="text-sm font-medium hover:text-primary transition-colors">
               Back to Home
@@ -33,14 +33,14 @@ export default function TermsOfService() {
               <section className="space-y-4">
                 <h2 className="text-2xl sm:text-3xl font-bold">1. Acceptance of Terms</h2>
                 <p className="text-gray-300 leading-relaxed">
-                  By accessing and using YoMeet ("the Service"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these Terms of Service, please do not use the Service.
+                  By accessing and using MeetAI ("the Service"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these Terms of Service, please do not use the Service.
                 </p>
               </section>
 
               <section className="space-y-4">
                 <h2 className="text-2xl sm:text-3xl font-bold">2. Description of Service</h2>
                 <p className="text-gray-300 leading-relaxed">
-                  YoMeet provides an AI-powered meeting recording, transcription, and summarization service. The Service allows users to:
+                  MeetAI provides an AI-powered meeting recording, transcription, and summarization service. The Service allows users to:
                 </p>
                 <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
                   <li>Record audio meetings and conversations</li>
@@ -78,7 +78,7 @@ export default function TermsOfService() {
                   <li>Use recordings only for lawful purposes</li>
                 </ul>
                 <p className="text-gray-300 leading-relaxed">
-                  YoMeet is not responsible for any illegal recording or use of the Service that violates applicable laws.
+                  MeetAI is not responsible for any illegal recording or use of the Service that violates applicable laws.
                 </p>
               </section>
 
@@ -102,10 +102,10 @@ export default function TermsOfService() {
               <section className="space-y-4">
                 <h2 className="text-2xl sm:text-3xl font-bold">6. Intellectual Property</h2>
                 <p className="text-gray-300 leading-relaxed">
-                  You retain all rights to the content you create and upload to YoMeet. By using the Service, you grant YoMeet a limited license to process, store, and display your content solely for the purpose of providing the Service.
+                  You retain all rights to the content you create and upload to MeetAI. By using the Service, you grant MeetAI a limited license to process, store, and display your content solely for the purpose of providing the Service.
                 </p>
                 <p className="text-gray-300 leading-relaxed">
-                  The YoMeet platform, including its design, features, and technology, is protected by copyright, trademark, and other intellectual property laws. You may not copy, modify, distribute, or reverse engineer any part of the Service.
+                  The MeetAI platform, including its design, features, and technology, is protected by copyright, trademark, and other intellectual property laws. You may not copy, modify, distribute, or reverse engineer any part of the Service.
                 </p>
               </section>
 
@@ -138,12 +138,12 @@ export default function TermsOfService() {
               <section className="space-y-4">
                 <h2 className="text-2xl sm:text-3xl font-bold">9. AI-Generated Content</h2>
                 <p className="text-gray-300 leading-relaxed">
-                  YoMeet uses artificial intelligence to transcribe and summarize recordings. While we strive for accuracy:
+                  MeetAI uses artificial intelligence to transcribe and summarize recordings. While we strive for accuracy:
                 </p>
                 <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
                   <li>Transcriptions and summaries may contain errors</li>
                   <li>AI-generated content should be reviewed for accuracy</li>
-                  <li>YoMeet is not responsible for decisions made based on AI-generated content</li>
+                  <li>MeetAI is not responsible for decisions made based on AI-generated content</li>
                   <li>You should verify important information independently</li>
                 </ul>
               </section>
@@ -184,7 +184,7 @@ export default function TermsOfService() {
               <section className="space-y-4">
                 <h2 className="text-2xl sm:text-3xl font-bold">13. Indemnification</h2>
                 <p className="text-gray-300 leading-relaxed">
-                  You agree to indemnify and hold harmless YoMeet, its officers, directors, employees, and agents from any claims, damages, losses, liabilities, and expenses (including legal fees) arising from:
+                  You agree to indemnify and hold harmless MeetAI, its officers, directors, employees, and agents from any claims, damages, losses, liabilities, and expenses (including legal fees) arising from:
                 </p>
                 <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
                   <li>Your use of the Service</li>
@@ -204,7 +204,7 @@ export default function TermsOfService() {
               <section className="space-y-4">
                 <h2 className="text-2xl sm:text-3xl font-bold">15. Governing Law</h2>
                 <p className="text-gray-300 leading-relaxed">
-                  These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which YoMeet operates, without regard to its conflict of law provisions.
+                  These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which MeetAI operates, without regard to its conflict of law provisions.
                 </p>
               </section>
 
@@ -214,14 +214,14 @@ export default function TermsOfService() {
                   If you have any questions about these Terms of Service, please contact us:
                 </p>
                 <ul className="list-none text-gray-300 space-y-2 ml-4">
-                  <li>Email: legal@yomeet.com</li>
+                  <li>Email: legal@meetai.app</li>
                   <li>Website: <a href="/contact" className="text-primary hover:underline">Contact Page</a></li>
                 </ul>
               </section>
 
               <section className="space-y-4 pt-8 border-t border-white/10">
                 <p className="text-gray-400 text-sm">
-                  By using YoMeet, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.
+                  By using MeetAI, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.
                 </p>
               </section>
             </div>
@@ -232,9 +232,8 @@ export default function TermsOfService() {
       {/* Footer */}
       <footer className="py-8 px-4 sm:px-6 border-t border-white/10">
         <div className="container mx-auto max-w-7xl">
-          <div className="text-center space-y-2">
-            <p className="text-gray-400">&copy; 2025 YoMeet. All rights reserved.</p>
-            <p className="text-gray-500 text-sm">A <span className="text-primary font-semibold">Papcy</span> Company</p>
+          <div className="text-center">
+            <p className="text-gray-400">&copy; 2025 MeetAI. All rights reserved.</p>
           </div>
         </div>
       </footer>

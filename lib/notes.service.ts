@@ -25,8 +25,15 @@ export interface Task {
   id: string
   user_id: string
   title: string
+  description: string | null
   completed: boolean
+  due_date: string | null
+  due_time: string | null
+  priority: 'low' | 'medium' | 'high' | 'urgent'
+  source: 'manual' | 'ai_extracted'
+  recording_id: string | null
   created_at: string
+  updated_at: string | null
 }
 
 export const notesService = {
@@ -128,18 +135,53 @@ export const remindersService = {
   },
 }
 
+export interface CreateTaskInput {
+  title: string
+  description?: string
+  due_date?: string
+  due_time?: string
+  priority?: 'low' | 'medium' | 'high' | 'urgent'
+  source?: 'manual' | 'ai_extracted'
+  recording_id?: string
+}
+
 export const tasksService = {
   async getTasks(): Promise<Task[]> {
     const { data, error } = await supabase
       .from('tasks')
       .select('*')
-      .order('created_at', { ascending: false })
+      .order('due_date', { ascending: true, nullsFirst: false })
 
     if (error) throw error
     return data || []
   },
 
-  async createTask(title: string): Promise<Task> {
+  async getTasksByDueDate(date: string): Promise<Task[]> {
+    const { data, error } = await supabase
+      .from('tasks')
+      .select('*')
+      .eq('due_date', date)
+      .eq('completed', false)
+      .order('priority', { ascending: false })
+
+    if (error) throw error
+    return data || []
+  },
+
+  async getOverdueTasks(): Promise<Task[]> {
+    const today = new Date().toISOString().split('T')[0]
+    const { data, error } = await supabase
+      .from('tasks')
+      .select('*')
+      .lt('due_date', today)
+      .eq('completed', false)
+      .order('due_date', { ascending: true })
+
+    if (error) throw error
+    return data || []
+  },
+
+  async createTask(input: CreateTaskInput): Promise<Task> {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) throw new Error('User not authenticated')
 
@@ -147,9 +189,27 @@ export const tasksService = {
       .from('tasks')
       .insert({
         user_id: user.id,
-        title,
+        title: input.title,
+        description: input.description || null,
+        due_date: input.due_date || null,
+        due_time: input.due_time || null,
+        priority: input.priority || 'medium',
+        source: input.source || 'manual',
+        recording_id: input.recording_id || null,
         completed: false,
       })
+      .select()
+      .single()
+
+    if (error) throw error
+    return data
+  },
+
+  async updateTask(id: string, updates: Partial<CreateTaskInput & { completed: boolean }>): Promise<Task> {
+    const { data, error } = await supabase
+      .from('tasks')
+      .update(updates)
+      .eq('id', id)
       .select()
       .single()
 

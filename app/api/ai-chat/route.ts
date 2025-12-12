@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
       messages: [
         {
           role: 'system',
-          content: 'You are a helpful AI assistant for YoMeet, an app for recording, transcribing, and organizing audio notes and meetings. Help users with their recordings, notes, tasks, and reminders. Be concise, friendly, and helpful.',
+          content: 'You are a helpful AI assistant for MeetAI, an app for recording, transcribing, and organizing audio notes and meetings. Help users with their recordings, notes, tasks, and reminders. Be concise, friendly, and helpful.',
         },
         ...messages,
       ],

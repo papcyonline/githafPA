@@ -220,8 +220,8 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6">
           <nav className={`glass rounded-full px-4 sm:px-5 py-2 flex items-center justify-between transition-all duration-300 ${scrolled ? 'shadow-lg' : ''}`}>
             <div className="flex items-center space-x-2">
-              <img src="/logo.png" alt="YoMeet Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg" />
-              <span className="text-lg sm:text-xl font-black">YoMeet</span>
+              <img src="/logo.png" alt="MeetAI Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg" />
+              <span className="text-lg sm:text-xl font-black">MeetAI</span>
             </div>
             <ul className="hidden lg:flex items-center space-x-6 xl:space-x-8 text-sm font-medium">
               <li><a href="#recording-section" className="hover:text-primary transition-colors">Record</a></li>
@@ -347,7 +347,7 @@ export default function Home() {
               <span className="gradient-text">Meeting Detail</span> Again
             </h1>
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-400 max-w-3xl mx-auto px-2">
-              Record, transcribe, and summarize your meetings with AI. YoMeet turns hours of recordings into actionable notes in seconds.
+              Record, transcribe, and summarize your meetings with AI. MeetAI turns hours of recordings into actionable notes in seconds.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-2 sm:pt-4 px-2">
               <a href="#download" className="w-full sm:w-auto bg-primary hover:bg-purple-600 px-8 py-3.5 sm:px-8 sm:py-4 rounded-full font-semibold text-base sm:text-lg transition-all btn-hover-effect text-center min-h-[48px] flex items-center justify-center">
@@ -377,7 +377,7 @@ export default function Home() {
               />
               <img
                 src="/hand.webp"
-                alt="YoMeet App"
+                alt="MeetAI App"
                 className="w-full h-auto relative z-10"
                 loading="eager"
               />
@@ -1202,7 +1202,7 @@ export default function Home() {
                 name: 'Carlos Fernández',
                 role: 'Product Manager',
                 country: 'Madrid, Spain',
-                text: 'YoMeet has completely changed how I run meetings. The AI summaries save me hours every week.'
+                text: 'MeetAI has completely changed how I run meetings. The AI summaries save me hours every week.'
               },
               {
                 name: 'Emily Watson',
@@ -1220,13 +1220,13 @@ export default function Home() {
                 name: 'Giulia Bianchi',
                 role: 'Business Consultant',
                 country: 'Rome, Italy',
-                text: 'The multilingual support is perfect for my international clients. YoMeet understands every conversation.'
+                text: 'The multilingual support is perfect for my international clients. MeetAI understands every conversation.'
               },
               {
                 name: 'Michael Chen',
                 role: 'Startup Founder',
                 country: 'San Francisco, US',
-                text: 'Our whole team uses YoMeet. Sharing recordings and collaborating has never been easier.'
+                text: 'Our whole team uses MeetAI. Sharing recordings and collaborating has never been easier.'
               },
               {
                 name: 'Sophie Dubois',
@@ -1256,19 +1256,19 @@ export default function Home() {
                 name: 'Henrik Andersen',
                 role: 'Architect',
                 country: 'Copenhagen, Denmark',
-                text: 'I use YoMeet for all client consultations. The search feature makes finding old discussions effortless.'
+                text: 'I use MeetAI for all client consultations. The search feature makes finding old discussions effortless.'
               },
               {
                 name: 'Isabella Rossi',
                 role: 'Journalist',
                 country: 'Milan, Italy',
-                text: 'As a journalist, accurate transcriptions are crucial. YoMeet delivers every single time.'
+                text: 'As a journalist, accurate transcriptions are crucial. MeetAI delivers every single time.'
               },
               {
                 name: 'James O\'Brien',
                 role: 'Legal Advisor',
                 country: 'Dublin, Ireland',
-                text: 'The security and accuracy of YoMeet make it perfect for legal consultations. Highly recommend.'
+                text: 'The security and accuracy of MeetAI make it perfect for legal consultations. Highly recommend.'
               }
             ].map((testimonial, index) => (
               <div key={index} className="glass rounded-3xl p-6 testimonial-card">
@@ -1299,7 +1299,7 @@ export default function Home() {
           <div className="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 text-center space-y-4 sm:space-y-6 md:space-y-8">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold px-2">Ready to Transform Your Meetings?</h2>
             <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto px-2">
-              Download YoMeet now and start recording smarter meetings today. Available on iOS and Android.
+              Download MeetAI now and start recording smarter meetings today. Available on iOS and Android.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 pt-2 sm:pt-4">
               <a href="#" className="hover:opacity-80 transition-opacity w-full sm:w-auto flex justify-center">
@@ -1327,8 +1327,8 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 md:gap-12 mb-8 sm:mb-10 md:mb-12">
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
-                <img src="/logo.png" alt="YoMeet Logo" className="w-10 h-10 rounded-lg" />
-                <span className="text-2xl font-bold">YoMeet</span>
+                <img src="/logo.png" alt="MeetAI Logo" className="w-10 h-10 rounded-lg" />
+                <span className="text-2xl font-bold">MeetAI</span>
               </div>
               <p className="text-gray-400">AI-powered meeting recorder that helps you focus on what matters.</p>
             </div>
@@ -1359,8 +1359,7 @@ export default function Home() {
           </div>
           <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex flex-col items-center md:items-start gap-2">
-              <p className="text-gray-400">&copy; 2025 YoMeet. All rights reserved.</p>
-              <p className="text-gray-500 text-sm">A <span className="text-primary font-semibold">Papcy</span> Company</p>
+              <p className="text-gray-400">&copy; 2025 MeetAI. All rights reserved.</p>
             </div>
             <div className="flex items-center gap-6">
               <a href="#" className="text-gray-400 hover:text-primary transition-colors" aria-label="Facebook">

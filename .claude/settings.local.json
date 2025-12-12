@@ -10,7 +10,15 @@
       "Bash(git remote add:*)",
       "Bash(git add:*)",
       "Bash(del:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(cat:*)",
+      "Bash(npm run build:*)",
+      "Bash(npx tsc:*)",
+      "Bash(timeout:*)",
+      "Bash(curl:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []

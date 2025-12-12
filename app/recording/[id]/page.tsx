@@ -202,7 +202,12 @@ export default function RecordingDetail() {
         await remindersService.createReminder(title, aiResult, dateStr, timeStr)
         alert('Saved as reminder! Check the Notes page to view and edit it.')
       } else if (type === 'task') {
-        await tasksService.createTask(aiResult.substring(0, 100))
+        await tasksService.createTask({
+          title: aiResult.substring(0, 100),
+          description: aiResult,
+          source: 'ai_extracted',
+          recording_id: recording?.id,
+        })
         alert('Saved as task! Check the Notes page to view it.')
       }
     } catch (error) {

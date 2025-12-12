@@ -10,8 +10,8 @@ export default function Contact() {
         <div className="container mx-auto px-4 sm:px-6">
           <nav className="glass rounded-full px-4 sm:px-5 py-2 flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-2">
-              <img src="/logo.png" alt="YoMeet Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg" />
-              <span className="text-lg sm:text-xl font-black">YoMeet</span>
+              <img src="/logo.png" alt="MeetAI Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg" />
+              <span className="text-lg sm:text-xl font-black">MeetAI</span>
             </Link>
             <Link href="/" className="text-sm sm:text-base hover:text-primary transition-colors">
               Back to Home
@@ -43,22 +43,22 @@ export default function Contact() {
               <div className="space-y-6">
                 <div>
                   <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">Email Support</h3>
-                  <a href="mailto:support@yomeet.com" className="text-primary hover:text-purple-400 transition-colors text-base sm:text-lg">
-                    support@yomeet.com
+                  <a href="mailto:support@meetai.app" className="text-primary hover:text-purple-400 transition-colors text-base sm:text-lg">
+                    support@meetai.app
                   </a>
                 </div>
 
                 <div>
                   <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">Sales Inquiries</h3>
-                  <a href="mailto:sales@yomeet.com" className="text-primary hover:text-purple-400 transition-colors text-base sm:text-lg">
-                    sales@yomeet.com
+                  <a href="mailto:sales@meetai.app" className="text-primary hover:text-purple-400 transition-colors text-base sm:text-lg">
+                    sales@meetai.app
                   </a>
                 </div>
 
                 <div>
                   <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">General Inquiries</h3>
-                  <a href="mailto:hello@yomeet.com" className="text-primary hover:text-purple-400 transition-colors text-base sm:text-lg">
-                    hello@yomeet.com
+                  <a href="mailto:hello@meetai.app" className="text-primary hover:text-purple-400 transition-colors text-base sm:text-lg">
+                    hello@meetai.app
                   </a>
                 </div>
               </div>
@@ -103,8 +103,7 @@ export default function Contact() {
       <footer className="py-8 sm:py-10 md:py-12 px-4 sm:px-6 border-t border-white/10">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center">
-            <p className="text-gray-400">&copy; 2025 YoMeet. All rights reserved.</p>
-            <p className="text-gray-500 text-sm mt-2">A <span className="text-primary font-semibold">Papcy</span> Company</p>
+            <p className="text-gray-400">&copy; 2025 MeetAI. All rights reserved.</p>
           </div>
         </div>
       </footer>

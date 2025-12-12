@@ -11,7 +11,7 @@ type TabType = 'notes' | 'reminders' | 'tasks'
 
 export default function NotesPage() {
   const router = useRouter()
-  const { user, loading: authLoading } = useAuth()
+  const { user, loading: authLoading, signOut } = useAuth()
   const [activeTab, setActiveTab] = useState<TabType>('notes')
   const [notes, setNotes] = useState<Note[]>([])
   const [reminders, setReminders] = useState<Reminder[]>([])
@@ -111,7 +111,7 @@ export default function NotesPage() {
   const handleCreateTask = async () => {
     if (!taskTitle.trim()) return
     try {
-      await tasksService.createTask(taskTitle)
+      await tasksService.createTask({ title: taskTitle })
       setTaskTitle('')
       setShowTaskModal(false)
       fetchData()
@@ -154,8 +154,8 @@ export default function NotesPage() {
         <div className="flex flex-col h-full">
           <div className="p-6 border-b border-white/10">
             <Link href="/dashboard" className="flex items-center space-x-3">
-              <img src="/logo.png" alt="YoMeet" className="w-10 h-10 rounded-lg" />
-              <span className="text-2xl font-black">YoMeet</span>
+              <img src="/logo.png" alt="MeetAI" className="w-10 h-10 rounded-lg" />
+              <span className="text-2xl font-black">MeetAI</span>
             </Link>
           </div>
 
@@ -214,6 +214,15 @@ export default function NotesPage() {
                 <p className="text-xs text-gray-400 truncate">{user?.email}</p>
               </div>
             </div>
+            <button
+              onClick={signOut}
+              className="w-full mt-3 px-4 py-3 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 border border-red-500/30 rounded-xl transition-colors flex items-center justify-center gap-2"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              Sign Out
+            </button>
           </div>
         </div>
       </aside>

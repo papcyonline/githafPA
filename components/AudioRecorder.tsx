@@ -15,6 +15,7 @@ export default function AudioRecorder({ onClose, onRecordingComplete }: AudioRec
   const [isPaused, setIsPaused] = useState(false)
   const [duration, setDuration] = useState(0)
   const [uploading, setUploading] = useState(false)
+  const [transcribing, setTranscribing] = useState(false)
   const [error, setError] = useState('')
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
@@ -135,7 +136,7 @@ export default function AudioRecorder({ onClose, onRecordingComplete }: AudioRec
         .getPublicUrl(filePath)
 
       // Create database record
-      const { error: dbError } = await supabase
+      const { data: recordingData, error: dbError } = await supabase
         .from('recordings')
         .insert({
           user_id: user?.id,
@@ -147,8 +148,97 @@ export default function AudioRecorder({ onClose, onRecordingComplete }: AudioRec
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
         })
+        .select()
+        .single()
 
       if (dbError) throw dbError
+
+      // Auto-transcribe the recording
+      setTranscribing(true)
+      try {
+        const transcribeResponse = await fetch('/api/transcribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ audioUrl: publicUrl }),
+        })
+
+        if (transcribeResponse.ok) {
+          const { transcript } = await transcribeResponse.json()
+
+          if (transcript) {
+            // Update recording with transcript
+            await supabase
+              .from('recordings')
+              .update({
+                transcript,
+                updated_at: new Date().toISOString()
+              })
+              .eq('id', recordingData.id)
+
+            // Parse the voice command with AI
+            try {
+              const parseResponse = await fetch('/api/parse-voice-command', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ transcript }),
+              })
+
+              if (parseResponse.ok) {
+                const parsed = await parseResponse.json()
+
+                // Auto-create the appropriate item based on parsed type
+                if (parsed.type === 'reminder' && parsed.title) {
+                  await supabase.from('reminders').insert({
+                    user_id: user?.id,
+                    title: parsed.title,
+                    description: parsed.description || transcript,
+                    reminder_date: parsed.date || new Date().toISOString().split('T')[0],
+                    reminder_time: parsed.time || '09:00',
+                  })
+                } else if (parsed.type === 'task' && parsed.title) {
+                  await supabase.from('tasks').insert({
+                    user_id: user?.id,
+                    title: parsed.title,
+                    description: parsed.description || transcript,
+                    due_date: parsed.date || null,
+                    priority: parsed.priority || 'medium',
+                    completed: false,
+                    source: 'ai_extracted',
+                    recording_id: recordingData.id,
+                  })
+                } else if (parsed.type === 'note' && parsed.title) {
+                  await supabase.from('notes').insert({
+                    user_id: user?.id,
+                    title: parsed.title,
+                    content: parsed.description || transcript,
+                  })
+                } else if (parsed.type === 'event' && parsed.title) {
+                  const eventDate = parsed.date || new Date().toISOString().split('T')[0]
+                  const startTime = parsed.time || '09:00'
+                  const startDateTime = `${eventDate}T${startTime}:00`
+                  const endDateTime = new Date(new Date(startDateTime).getTime() + 60 * 60 * 1000).toISOString()
+
+                  await supabase.from('calendar_events').insert({
+                    user_id: user?.id,
+                    title: parsed.title,
+                    description: parsed.description || transcript,
+                    start_time: new Date(startDateTime).toISOString(),
+                    end_time: endDateTime,
+                    recording_id: recordingData.id,
+                  })
+                }
+              }
+            } catch (parseError) {
+              console.error('Voice command parsing failed:', parseError)
+            }
+          }
+        }
+      } catch (transcribeError) {
+        console.error('Auto-transcription failed:', transcribeError)
+        // Don't fail the save if transcription fails
+      } finally {
+        setTranscribing(false)
+      }
 
       onRecordingComplete()
       onClose()
@@ -287,15 +377,17 @@ export default function AudioRecorder({ onClose, onRecordingComplete }: AudioRec
         {/* Cancel Button */}
         <button
           onClick={cancelRecording}
-          disabled={uploading}
+          disabled={uploading || transcribing}
           className="w-full glass px-6 py-3 rounded-full font-semibold hover:bg-white/10 transition-all disabled:opacity-50"
         >
-          {uploading ? 'Uploading...' : 'Cancel'}
+          {transcribing ? 'Transcribing & Processing...' : uploading ? 'Saving...' : 'Cancel'}
         </button>
 
         {/* Info Text */}
         <p className="text-center text-sm text-gray-500 mt-4">
-          Your recording will be automatically transcribed by AI
+          {transcribing
+            ? 'AI is processing your voice command...'
+            : 'Say things like "Remind me to call John tomorrow" or "Add a task to buy groceries"'}
         </p>
       </div>
     </div>

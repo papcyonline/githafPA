@@ -10,8 +10,8 @@ export default function About() {
         <div className="container mx-auto px-4 sm:px-6">
           <nav className="glass rounded-full px-4 sm:px-5 py-2 flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-2">
-              <img src="/logo.png" alt="YoMeet Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg" />
-              <span className="text-lg sm:text-xl font-black">YoMeet</span>
+              <img src="/logo.png" alt="MeetAI Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg" />
+              <span className="text-lg sm:text-xl font-black">MeetAI</span>
             </Link>
             <Link href="/" className="text-sm sm:text-base hover:text-primary transition-colors">
               Back to Home
@@ -29,18 +29,18 @@ export default function About() {
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text'
           }}>
-            About YoMeet
+            About MeetAI
           </h1>
 
           <div className="space-y-6 sm:space-y-8 text-base sm:text-lg text-gray-300 leading-relaxed">
             <p>
-              YoMeet is an AI-powered meeting recorder and note-taking app designed to help professionals capture, transcribe, and organize their meetings effortlessly.
+              MeetAI is an AI-powered meeting recorder and note-taking app designed to help professionals capture, transcribe, and organize their meetings effortlessly.
             </p>
 
             <div className="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8">
               <h2 className="text-2xl sm:text-3xl font-bold mb-4 gradient-text">Our Mission</h2>
               <p>
-                We believe that everyone deserves to focus on what matters most in their meetings - the conversation and ideas - not frantically taking notes. YoMeet transforms hours of recordings into actionable insights in seconds, powered by advanced AI technology.
+                We believe that everyone deserves to focus on what matters most in their meetings - the conversation and ideas - not frantically taking notes. MeetAI transforms hours of recordings into actionable insights in seconds, powered by advanced AI technology.
               </p>
             </div>
 
@@ -70,12 +70,6 @@ export default function About() {
               </ul>
             </div>
 
-            <div className="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8">
-              <h2 className="text-2xl sm:text-3xl font-bold mb-4 gradient-text">A Papcy Company</h2>
-              <p>
-                YoMeet is proudly developed by Papcy, a company dedicated to building innovative tools that enhance productivity and collaboration for professionals worldwide.
-              </p>
-            </div>
           </div>
         </div>
       </section>
@@ -84,8 +78,7 @@ export default function About() {
       <footer className="py-8 sm:py-10 md:py-12 px-4 sm:px-6 border-t border-white/10">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center">
-            <p className="text-gray-400">&copy; 2025 YoMeet. All rights reserved.</p>
-            <p className="text-gray-500 text-sm mt-2">A <span className="text-primary font-semibold">Papcy</span> Company</p>
+            <p className="text-gray-400">&copy; 2025 MeetAI. All rights reserved.</p>
           </div>
         </div>
       </footer>

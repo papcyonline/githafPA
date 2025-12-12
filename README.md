@@ -1,6 +1,6 @@
-# YoMeet Website
+# MeetAI Website
 
-Official landing page for YoMeet - AI-powered meeting recorder and note-taking mobile app.
+Official landing page for MeetAI - AI-powered meeting recorder and note-taking mobile app.
 
 ## Design
 
@@ -60,7 +60,7 @@ The static site will be generated in the `out/` directory.
 ## Project Structure
 
 ```
-YoMeet Web/
+MeetAI Web/
 ├── app/
 │   ├── layout.js          # Root layout
 │   ├── page.js            # Main landing page
@@ -89,4 +89,4 @@ vercel
 
 ## License
 
-All rights reserved - YoMeet 2025
+All rights reserved - MeetAI 2025
