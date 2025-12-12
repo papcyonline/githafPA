@@ -1,12 +1,15 @@
 import { google } from 'googleapis'
 
-const oauth2Client = new google.auth.OAuth2(
-  process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET,
-  process.env.GOOGLE_REDIRECT_URI || `${process.env.NEXT_PUBLIC_APP_URL}/api/google/callback`
-)
+function getOAuth2Client() {
+  return new google.auth.OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    process.env.GOOGLE_REDIRECT_URI || `${process.env.NEXT_PUBLIC_APP_URL}/api/google/callback`
+  )
+}
 
 export const getAuthUrl = () => {
+  const oauth2Client = getOAuth2Client()
   const scopes = [
     'https://www.googleapis.com/auth/calendar.events',
     'https://www.googleapis.com/auth/calendar'
@@ -20,6 +23,7 @@ export const getAuthUrl = () => {
 }
 
 export const getTokensFromCode = async (code: string) => {
+  const oauth2Client = getOAuth2Client()
   const { tokens } = await oauth2Client.getToken(code)
   return tokens
 }
@@ -35,6 +39,7 @@ export const addEventToCalendar = async (
     duration?: number // in minutes, default 30
   }
 ) => {
+  const oauth2Client = getOAuth2Client()
   oauth2Client.setCredentials({
     access_token: accessToken,
     refresh_token: refreshToken
@@ -74,6 +79,7 @@ export const addEventToCalendar = async (
 }
 
 export const refreshAccessToken = async (refreshToken: string) => {
+  const oauth2Client = getOAuth2Client()
   oauth2Client.setCredentials({
     refresh_token: refreshToken
   })
