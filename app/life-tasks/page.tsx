@@ -264,7 +264,7 @@ export default function LifeTasksPage() {
           </div>
         </div>
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
           <div className="bg-red-500/10 rounded-xl p-4 border border-red-500/20 text-center">
             <div className="text-2xl font-bold text-red-400">{tasks.filter(t => t.isOverdue).length}</div>
             <div className="text-xs text-gray-400">Overdue</div>

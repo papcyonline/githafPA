@@ -274,12 +274,12 @@ export default function FinancePage() {
           </div>
         </div>
         {/* Period Selector */}
-        <div className="flex gap-2 mb-6">
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-2 -mb-2">
           {(['week', 'month', 'quarter', 'year'] as const).map((period) => (
             <button
               key={period}
               onClick={() => setSelectedPeriod(period)}
-              className={`px-4 py-2 rounded-lg capitalize transition-colors ${
+              className={`px-3 sm:px-4 py-2 rounded-lg capitalize transition-colors text-sm sm:text-base whitespace-nowrap ${
                 selectedPeriod === period
                   ? 'bg-purple-500 text-white'
                   : 'bg-white/5 text-gray-400 hover:bg-white/10'
@@ -292,35 +292,35 @@ export default function FinancePage() {
 
         {/* Summary Cards */}
         {insights && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-            <div className="bg-green-500/10 rounded-xl p-5 border border-green-500/20">
-              <div className="text-sm text-green-400 mb-1">Total Income</div>
-              <div className="text-2xl font-bold text-green-400">{formatCurrency(insights.totalIncome)}</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6">
+            <div className="bg-green-500/10 rounded-xl p-3 sm:p-5 border border-green-500/20">
+              <div className="text-xs sm:text-sm text-green-400 mb-1">Total Income</div>
+              <div className="text-lg sm:text-2xl font-bold text-green-400">{formatCurrency(insights.totalIncome)}</div>
             </div>
-            <div className="bg-red-500/10 rounded-xl p-5 border border-red-500/20">
-              <div className="text-sm text-red-400 mb-1">Total Expenses</div>
-              <div className="text-2xl font-bold text-red-400">{formatCurrency(insights.totalExpenses)}</div>
+            <div className="bg-red-500/10 rounded-xl p-3 sm:p-5 border border-red-500/20">
+              <div className="text-xs sm:text-sm text-red-400 mb-1">Total Expenses</div>
+              <div className="text-lg sm:text-2xl font-bold text-red-400">{formatCurrency(insights.totalExpenses)}</div>
             </div>
-            <div className={`rounded-xl p-5 border ${insights.netCashflow >= 0 ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-orange-500/10 border-orange-500/20'}`}>
-              <div className={`text-sm ${insights.netCashflow >= 0 ? 'text-emerald-400' : 'text-orange-400'} mb-1`}>Net Cashflow</div>
-              <div className={`text-2xl font-bold ${insights.netCashflow >= 0 ? 'text-emerald-400' : 'text-orange-400'}`}>
+            <div className={`rounded-xl p-3 sm:p-5 border ${insights.netCashflow >= 0 ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-orange-500/10 border-orange-500/20'}`}>
+              <div className={`text-xs sm:text-sm ${insights.netCashflow >= 0 ? 'text-emerald-400' : 'text-orange-400'} mb-1`}>Net Cashflow</div>
+              <div className={`text-lg sm:text-2xl font-bold ${insights.netCashflow >= 0 ? 'text-emerald-400' : 'text-orange-400'}`}>
                 {formatCurrency(insights.netCashflow)}
               </div>
             </div>
-            <div className="bg-purple-500/10 rounded-xl p-5 border border-purple-500/20">
-              <div className="text-sm text-purple-400 mb-1">Savings Rate</div>
-              <div className="text-2xl font-bold text-purple-400">{insights.savingsRate.toFixed(1)}%</div>
+            <div className="bg-purple-500/10 rounded-xl p-3 sm:p-5 border border-purple-500/20">
+              <div className="text-xs sm:text-sm text-purple-400 mb-1">Savings Rate</div>
+              <div className="text-lg sm:text-2xl font-bold text-purple-400">{insights.savingsRate.toFixed(1)}%</div>
             </div>
           </div>
         )}
 
         {/* Tabs */}
-        <div className="flex gap-4 mb-6 border-b border-white/10">
+        <div className="flex gap-4 mb-6 border-b border-white/10 overflow-x-auto">
           {(['overview', 'transactions', 'budgets'] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`pb-3 px-2 capitalize transition-colors relative ${
+              className={`pb-3 px-2 capitalize transition-colors relative whitespace-nowrap text-sm sm:text-base ${
                 activeTab === tab ? 'text-white' : 'text-gray-400 hover:text-white'
               }`}
             >
@@ -336,9 +336,9 @@ export default function FinancePage() {
         {activeTab === 'overview' && insights && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Monthly Trend Chart */}
-            <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-              <h3 className="font-semibold mb-4">Monthly Trend</h3>
-              <ResponsiveContainer width="100%" height={250}>
+            <div className="bg-white/5 rounded-xl p-4 sm:p-6 border border-white/10">
+              <h3 className="font-semibold mb-4 text-sm sm:text-base">Monthly Trend</h3>
+              <ResponsiveContainer width="100%" height={200} className="sm:!h-[250px]">
                 <BarChart data={insights.monthlyTrend}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#333" />
                   <XAxis dataKey="month" stroke="#888" />
@@ -355,9 +355,9 @@ export default function FinancePage() {
             </div>
 
             {/* Expense Breakdown */}
-            <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-              <h3 className="font-semibold mb-4">Expense Breakdown</h3>
-              <ResponsiveContainer width="100%" height={250}>
+            <div className="bg-white/5 rounded-xl p-4 sm:p-6 border border-white/10">
+              <h3 className="font-semibold mb-4 text-sm sm:text-base">Expense Breakdown</h3>
+              <ResponsiveContainer width="100%" height={200} className="sm:!h-[250px]">
                 <PieChart>
                   <Pie
                     data={insights.topExpenseCategories}
@@ -365,8 +365,9 @@ export default function FinancePage() {
                     nameKey="category"
                     cx="50%"
                     cy="50%"
-                    outerRadius={80}
+                    outerRadius={60}
                     label={({ name, percent }: { name?: string; percent?: number }) => `${name || ''} (${((percent || 0) * 100).toFixed(0)}%)`}
+                    labelLine={false}
                   >
                     {insights.topExpenseCategories.map((_, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -382,7 +383,7 @@ export default function FinancePage() {
 
             {/* Budget Status */}
             {insights.budgetStatus.length > 0 && (
-              <div className="bg-white/5 rounded-xl p-6 border border-white/10 lg:col-span-2">
+              <div className="bg-white/5 rounded-xl p-4 sm:p-6 border border-white/10 lg:col-span-2">
                 <h3 className="font-semibold mb-4">Budget Status</h3>
                 <div className="space-y-4">
                   {insights.budgetStatus.map((budget) => (

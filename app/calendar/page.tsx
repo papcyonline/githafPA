@@ -252,8 +252,8 @@ export default function CalendarPage() {
             </button>
           </div>
 
-          {/* Calendar Grid */}
-          <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 overflow-hidden">
+          {/* Calendar Grid - Desktop */}
+          <div className="hidden md:block bg-zinc-900/50 rounded-xl border border-zinc-800 overflow-hidden">
             {/* Day Headers */}
             <div className="grid grid-cols-7 border-b border-zinc-800">
               {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
@@ -307,6 +307,107 @@ export default function CalendarPage() {
                 )
               })}
             </div>
+          </div>
+
+          {/* Calendar Grid - Mobile (List View) */}
+          <div className="md:hidden bg-zinc-900/50 rounded-xl border border-zinc-800 overflow-hidden">
+            {/* Compact Week Headers */}
+            <div className="grid grid-cols-7 border-b border-zinc-800">
+              {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, i) => (
+                <div key={i} className="p-2 text-center text-xs font-semibold text-gray-400">
+                  {day}
+                </div>
+              ))}
+            </div>
+
+            {/* Compact Calendar Days */}
+            <div className="grid grid-cols-7">
+              {calendarDays.map((date, index) => {
+                const dayEvents = getEventsForDay(date)
+                const isCurrentMonth = isSameMonth(date, currentDate)
+                const isToday = isSameDay(date, new Date())
+                const hasEvents = dayEvents.length > 0
+
+                return (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      setSelectedDate(date)
+                      if (dayEvents.length === 0) {
+                        openNewEventModal(date)
+                      }
+                    }}
+                    className={`aspect-square p-1 border-b border-r border-zinc-800 cursor-pointer hover:bg-zinc-800/50 transition-colors flex flex-col items-center justify-center ${
+                      !isCurrentMonth ? 'opacity-40' : ''
+                    }`}
+                  >
+                    <div className={`text-xs font-medium w-6 h-6 flex items-center justify-center rounded-full ${
+                      isToday ? 'bg-purple-600 text-white' : ''
+                    }`}>
+                      {format(date, 'd')}
+                    </div>
+                    {hasEvents && (
+                      <div className="flex gap-0.5 mt-1">
+                        {dayEvents.slice(0, 3).map((event, i) => (
+                          <div
+                            key={i}
+                            className="w-1.5 h-1.5 rounded-full"
+                            style={{ backgroundColor: event.color }}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Selected Day Events List */}
+            {selectedDate && (
+              <div className="border-t border-zinc-800 p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-semibold text-white">
+                    {format(selectedDate, 'EEEE, MMM d')}
+                  </h3>
+                  <button
+                    onClick={() => openNewEventModal(selectedDate)}
+                    className="text-xs bg-purple-600 hover:bg-purple-700 px-3 py-1.5 rounded-full transition-colors"
+                  >
+                    + Add
+                  </button>
+                </div>
+                {getEventsForDay(selectedDate).length > 0 ? (
+                  <div className="space-y-2">
+                    {getEventsForDay(selectedDate).map(event => (
+                      <div
+                        key={event.id}
+                        onClick={() => {
+                          if (confirm(`Delete "${event.title}"?`)) {
+                            deleteEvent(event.id)
+                          }
+                        }}
+                        className="p-3 rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
+                        style={{ backgroundColor: event.color + '20', borderLeft: `3px solid ${event.color}` }}
+                      >
+                        <div className="font-medium text-sm" style={{ color: event.color }}>
+                          {event.title}
+                        </div>
+                        {!event.all_day && (
+                          <div className="text-xs text-gray-400 mt-1">
+                            {format(new Date(event.start_time), 'h:mm a')} - {format(new Date(event.end_time), 'h:mm a')}
+                          </div>
+                        )}
+                        {event.all_day && (
+                          <div className="text-xs text-gray-400 mt-1">All day</div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-500 text-center py-4">No events for this day</p>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </main>
