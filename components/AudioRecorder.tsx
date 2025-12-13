@@ -7,6 +7,8 @@ import { supabase } from '../lib/supabase'
 interface AudioRecorderProps {
   onClose: () => void
   onRecordingComplete: () => void
+  context?: string
+  contextHint?: string
 }
 
 interface RecordingPreview {
@@ -17,7 +19,7 @@ interface RecordingPreview {
   duration: number
 }
 
-export default function AudioRecorder({ onClose, onRecordingComplete }: AudioRecorderProps) {
+export default function AudioRecorder({ onClose, onRecordingComplete, context, contextHint }: AudioRecorderProps) {
   const { user } = useAuth()
   const [isRecording, setIsRecording] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
@@ -252,7 +254,10 @@ export default function AudioRecorder({ onClose, onRecordingComplete }: AudioRec
           const parseResponse = await fetch('/api/parse-voice-command', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ transcript: preview.transcript }),
+            body: JSON.stringify({
+              transcript: preview.transcript,
+              context: context // Pass context to help AI understand intent
+            }),
           })
 
           if (parseResponse.ok) {
@@ -450,9 +455,13 @@ export default function AudioRecorder({ onClose, onRecordingComplete }: AudioRec
       <div className="glass rounded-3xl p-6 sm:p-8 w-full max-w-lg">
         <div className="text-center mb-6 sm:mb-8">
           <h2 className="text-2xl sm:text-3xl font-black mb-2">
-            <span className="gradient-text">Audio Recorder</span>
+            <span className="gradient-text">
+              {context ? `Record ${context.charAt(0).toUpperCase() + context.slice(1)}` : 'Audio Recorder'}
+            </span>
           </h2>
-          <p className="text-gray-400 text-sm">Record your audio with AI transcription</p>
+          <p className="text-gray-400 text-sm">
+            {contextHint || 'Record your audio with AI transcription'}
+          </p>
         </div>
 
         {error && (

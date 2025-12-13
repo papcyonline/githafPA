@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useAuth } from '../../lib/auth-context'
 import { notesService, remindersService, tasksService, Note, Reminder, Task } from '../../lib/notes.service'
 import FloatingAIChat from '../../components/FloatingAIChat'
+import DashboardLayout from '../../components/DashboardLayout'
 
 type TabType = 'notes' | 'reminders' | 'tasks'
 
@@ -141,133 +142,35 @@ export default function NotesPage() {
 
   if (authLoading || !user) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
+      <DashboardLayout>
+        <div className="flex items-center justify-center py-20">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+        </div>
+      </DashboardLayout>
     )
   }
 
   return (
-    <div className="flex h-screen bg-black text-white overflow-hidden">
-      {/* Sidebar - reuse from dashboard */}
-      <aside className="fixed lg:static inset-y-0 left-0 z-50 w-64 bg-black border-r border-white/10">
-        <div className="flex flex-col h-full">
-          <div className="p-6 border-b border-white/10">
-            <Link href="/dashboard" className="flex items-center space-x-3">
-              <img src="/logo.png" alt="PAssist AI" className="w-10 h-10 rounded-lg" />
-              <span className="text-2xl font-black">PAssist AI</span>
-            </Link>
-          </div>
-
-          <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
-            <Link href="/dashboard" className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition-colors">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-              </svg>
-              <span>Recordings</span>
-            </Link>
-
-            <Link href="/chats" className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition-colors">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              </svg>
-              <span>Chats</span>
-            </Link>
-
-            <Link href="/notes" className="flex items-center space-x-3 px-4 py-3 rounded-xl bg-[#A855F7]/10 text-[#A855F7] font-semibold">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              <span>Notes</span>
-            </Link>
-
-            <Link href="/chat-ai" className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition-colors">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span>Chat AI</span>
-            </Link>
-
-            <Link href="/folders" className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition-colors">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-              </svg>
-              <span>Folders</span>
-            </Link>
-
-            <Link href="/settings" className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition-colors">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              <span>Settings</span>
-            </Link>
-          </nav>
-
-          <div className="p-4 border-t border-white/10">
-            <div className="flex items-center space-x-3 px-4 py-3 rounded-xl bg-white/5">
-              <div className="w-10 h-10 rounded-full bg-[#A855F7] flex items-center justify-center font-bold">
-                {user?.email?.[0].toUpperCase()}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold truncate">{user?.email?.split('@')[0]}</p>
-                <p className="text-xs text-gray-400 truncate">{user?.email}</p>
-              </div>
-            </div>
-            <button
-              onClick={signOut}
-              className="w-full mt-3 px-4 py-3 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 border border-red-500/30 rounded-xl transition-colors flex items-center justify-center gap-2"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
-              Sign Out
-            </button>
-          </div>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 flex flex-col overflow-hidden">
-        {/* Top Bar */}
-        <header className="h-16 border-b border-white/10 flex items-center justify-between px-6 bg-black/50 backdrop-blur-lg">
-          <h1 className="text-2xl font-black">Notes & Tasks</h1>
-          <button
-            onClick={() => {
-              if (activeTab === 'notes') setShowNoteModal(true)
-              else if (activeTab === 'reminders') setShowReminderModal(true)
-              else setShowTaskModal(true)
-            }}
-            className="bg-[#A855F7] hover:bg-[#9333EA] px-6 py-2.5 rounded-full font-semibold transition-all inline-flex items-center space-x-2"
-          >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
-            <span>New {activeTab === 'notes' ? 'Note' : activeTab === 'reminders' ? 'Reminder' : 'Task'}</span>
-          </button>
-        </header>
+    <DashboardLayout>
+      <div>
+        <h1 className="text-2xl font-black mb-6">Notes & Tasks</h1>
 
         {/* Tabs */}
-        <div className="px-6 py-3 border-b border-white/10 bg-black/50 backdrop-blur-lg">
-          <div className="flex gap-2">
-            {(['notes', 'reminders', 'tasks'] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold capitalize transition-all ${
-                  activeTab === tab
-                    ? 'bg-[#A855F7] text-white'
-                    : 'bg-white/5 text-gray-400 hover:bg-white/10'
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
+        <div className="flex gap-2 mb-6">
+          {(['notes', 'reminders', 'tasks'] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`px-4 py-2 rounded-lg text-sm font-semibold capitalize transition-all ${
+                activeTab === tab
+                  ? 'bg-[#A855F7] text-white'
+                  : 'bg-white/5 text-gray-400 hover:bg-white/10'
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
         </div>
-
-        {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-6">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20">
               <div className="w-12 h-12 border-4 border-[#A855F7] border-t-transparent rounded-full animate-spin"></div>
@@ -393,8 +296,6 @@ export default function NotesPage() {
               </div>
             )
           )}
-        </div>
-      </main>
 
       {/* Note Modal */}
       {showNoteModal && (
@@ -516,6 +417,7 @@ export default function NotesPage() {
 
       {/* Floating AI Chat */}
       <FloatingAIChat />
-    </div>
+      </div>
+    </DashboardLayout>
   )
 }

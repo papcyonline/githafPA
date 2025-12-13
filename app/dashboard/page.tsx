@@ -18,6 +18,11 @@ import {
   RecentActivityFeed,
   GoalsProgressWidget,
 } from '../../components/dashboard'
+import { IntelligentSearchBar } from '../../components/dashboard/IntelligentSearchBar'
+import { RiskAlertsWidget } from '../../components/dashboard/RiskAlertsWidget'
+import { FinancialInsightsWidget } from '../../components/dashboard/FinancialInsightsWidget'
+import { PersonalEventsWidget } from '../../components/dashboard/PersonalEventsWidget'
+import { DailyCheckinWidget } from '../../components/dashboard/DailyCheckinWidget'
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -258,8 +263,8 @@ export default function DashboardPage() {
   return (
     <div className="flex h-screen bg-black text-white overflow-hidden">
       {/* Sidebar */}
-      <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-black border-r border-white/10 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
-        <div className="flex flex-col h-full">
+      <aside className={`fixed lg:sticky inset-y-0 lg:top-0 left-0 z-50 w-64 lg:h-screen bg-black border-r border-white/10 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+        <div className="flex flex-col h-full lg:h-screen">
           {/* Logo */}
           <div className="p-6 border-b border-white/10">
             <Link href="/dashboard" className="flex items-center space-x-3">
@@ -292,7 +297,7 @@ export default function DashboardPage() {
             </Link>
 
             <div className="pt-4 pb-2">
-              <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">More</p>
+              <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Productivity</p>
             </div>
 
             <Link href="/recordings" className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition-colors">
@@ -301,6 +306,49 @@ export default function DashboardPage() {
               </svg>
               <span>Recordings</span>
             </Link>
+
+            <Link href="/finance" className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition-colors">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Finance</span>
+            </Link>
+
+            <Link href="/documents" className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition-colors">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <span>Documents</span>
+            </Link>
+
+            <div className="pt-4 pb-2">
+              <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Personal</p>
+            </div>
+
+            <Link href="/checkin" className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition-colors">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Daily Check-in</span>
+            </Link>
+
+            <Link href="/personal" className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition-colors">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+              <span>Personal Events</span>
+            </Link>
+
+            <Link href="/life-tasks" className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition-colors">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+              </svg>
+              <span>Life Tasks</span>
+            </Link>
+
+            <div className="pt-4 pb-2">
+              <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">More</p>
+            </div>
 
             <Link href="/chat-ai" className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition-colors">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -345,7 +393,7 @@ export default function DashboardPage() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Top Bar */}
-        <header className="h-14 sm:h-16 border-b border-white/10 flex items-center justify-between px-3 sm:px-6 bg-black/50 backdrop-blur-lg">
+        <header className="sticky top-0 z-40 h-14 sm:h-16 border-b border-white/10 flex items-center justify-between px-3 sm:px-6 bg-black/50 backdrop-blur-lg">
           <div className="flex items-center space-x-2 sm:space-x-4">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -375,6 +423,11 @@ export default function DashboardPage() {
                 Recordings
               </button>
             </div>
+          </div>
+
+          {/* Search Bar */}
+          <div className="flex-1 max-w-md mx-4 hidden md:block">
+            <IntelligentSearchBar />
           </div>
 
           <button
@@ -418,6 +471,12 @@ export default function DashboardPage() {
                 onStartRecording={() => setShowRecorder(true)}
               />
 
+              {/* Personal Assistant Widgets Row */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                <DailyCheckinWidget />
+                <RiskAlertsWidget />
+              </div>
+
               {/* Main Grid */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                 {/* Today Overview - Takes 2 columns */}
@@ -437,6 +496,12 @@ export default function DashboardPage() {
 
                 {/* Right Column */}
                 <div className="space-y-4 sm:space-y-6">
+                  {/* Financial Insights */}
+                  <FinancialInsightsWidget />
+
+                  {/* Personal Events */}
+                  <PersonalEventsWidget />
+
                   {/* Goals Progress */}
                   {dashboardData && (
                     <GoalsProgressWidget goals={dashboardData.activeGoals} />

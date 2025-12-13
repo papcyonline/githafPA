@@ -3,7 +3,7 @@ import OpenAI from 'openai'
 
 export async function POST(request: NextRequest) {
   try {
-    const { transcript } = await request.json()
+    const { transcript, context } = await request.json()
 
     if (!transcript) {
       return NextResponse.json(
@@ -19,6 +19,27 @@ export async function POST(request: NextRequest) {
     const today = new Date()
     const todayStr = today.toISOString().split('T')[0]
 
+    // Build context-specific instructions
+    let contextInstructions = ''
+    let typeOptions = '"reminder" | "task" | "note" | "event"'
+
+    if (context === 'finance') {
+      contextInstructions = `The user is in the Finance section. Focus on extracting financial information.`
+      typeOptions = '"finance_expense" | "finance_income" | "finance_transfer" | "finance_investment"'
+    } else if (context === 'documents') {
+      contextInstructions = `The user is in the Documents section. Focus on document creation requests.`
+      typeOptions = '"document_proposal" | "document_report" | "document_sop" | "document_meeting" | "document_contract"'
+    } else if (context === 'checkin') {
+      contextInstructions = `The user is doing a daily check-in. Extract mood, energy, stress, and well-being information.`
+      typeOptions = '"checkin"'
+    } else if (context === 'personal') {
+      contextInstructions = `The user is adding a personal event. Extract event details.`
+      typeOptions = '"personal_event"'
+    } else if (context === 'life-tasks') {
+      contextInstructions = `The user is adding a life task (like insurance, appointments, etc.). Extract task details.`
+      typeOptions = '"life_task"'
+    }
+
     const response = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
@@ -26,20 +47,27 @@ export async function POST(request: NextRequest) {
           role: 'system',
           content: `You are a personal assistant that parses voice commands into structured actions.
 Today's date is ${todayStr}.
+${contextInstructions}
 
 Parse the user's voice command and return a JSON object with:
-- type: "reminder" | "task" | "note" | "event" | "none"
+- type: ${typeOptions} | "reminder" | "task" | "note" | "event" | "none"
 - title: A concise title for the item (max 50 chars)
 - description: Any additional details
 - date: The date in YYYY-MM-DD format (parse "tomorrow", "next monday", etc.)
 - time: The time in HH:MM format (24-hour). Default to "09:00" if not specified.
 - priority: "low" | "medium" | "high" for tasks
+- amount: Numeric amount (for finance entries)
+- category: Category name (for finance, life-tasks, etc.)
+
+Context-specific fields:
+${context === 'finance' ? '- amount: The transaction amount\n- category: Expense category (e.g., "Food & Dining", "Transportation")\n- entry_type: "expense" | "income"' : ''}
+${context === 'checkin' ? '- mood_score: 1-5 rating\n- energy_level: 1-5 rating\n- stress_level: 1-5 rating' : ''}
+${context === 'life-tasks' ? '- category: "health" | "finance" | "home" | "vehicle" | "documents" | "insurance"\n- recurrence: "monthly" | "quarterly" | "yearly"' : ''}
 
 Examples:
-- "Remind me to call John tomorrow at 3pm" → reminder, date=tomorrow, time=15:00
-- "Book a meeting with Sarah next Monday" → event, date=next monday
-- "I need to buy groceries" → task
-- "Note to self: the password is 1234" → note
+${context === 'finance' ? '- "Spent $50 on dinner" → type: finance_expense, amount: 50, category: "Food & Dining"' : ''}
+${context === 'checkin' ? '- "Feeling great today, lots of energy" → type: checkin, mood_score: 5, energy_level: 5' : ''}
+${!context ? '- "Remind me to call John tomorrow at 3pm" → reminder, date=tomorrow, time=15:00' : ''}
 
 Only return valid JSON, no markdown.`
         },

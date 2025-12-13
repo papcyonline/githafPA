@@ -2,9 +2,9 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
 import { useAuth } from '../../lib/auth-context'
 import { supabase } from '../../lib/supabase'
+import DashboardLayout from '@/components/DashboardLayout'
 
 function SettingsContent() {
   const router = useRouter()
@@ -112,61 +112,17 @@ function SettingsContent() {
 
   if (authLoading || !user) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
+      <DashboardLayout>
+        <div className="min-h-screen bg-black flex items-center justify-center">
+          <div className="text-white text-xl">Loading...</div>
+        </div>
+      </DashboardLayout>
     )
   }
 
   return (
-    <main className="min-h-screen bg-black text-white">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 py-3">
-        <div className="container mx-auto px-4 sm:px-6">
-          <nav className="glass rounded-full px-4 sm:px-5 py-2 flex items-center justify-between">
-            <Link href="/" className="flex items-center space-x-2">
-              <img src="/logo.png" alt="PAssist AI Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg" />
-              <span className="text-lg sm:text-xl font-black">PAssist AI</span>
-            </Link>
-
-            <ul className="hidden lg:flex items-center space-x-6 text-sm font-medium">
-              <li><Link href="/dashboard" className="hover:text-primary transition-colors">Dashboard</Link></li>
-              <li><Link href="/folders" className="hover:text-primary transition-colors">Folders</Link></li>
-              <li><Link href="/settings" className="hover:text-primary transition-colors">Settings</Link></li>
-            </ul>
-
-            <div className="flex items-center gap-3">
-              <button onClick={signOut} className="hidden sm:block text-white hover:text-primary px-4 py-2 rounded-full font-semibold text-sm transition-colors">
-                Sign Out
-              </button>
-
-              <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors">
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  {mobileMenuOpen ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  )}
-                </svg>
-              </button>
-            </div>
-          </nav>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="lg:hidden fixed top-20 left-4 right-4 glass rounded-3xl p-6">
-            <ul className="space-y-4">
-              <li><Link href="/dashboard" className="block py-3 px-4 hover:bg-white/10 rounded-xl transition-colors">Dashboard</Link></li>
-              <li><Link href="/folders" className="block py-3 px-4 hover:bg-white/10 rounded-xl transition-colors">Folders</Link></li>
-              <li><Link href="/settings" className="block py-3 px-4 hover:bg-white/10 rounded-xl transition-colors">Settings</Link></li>
-              <li><button onClick={signOut} className="block w-full text-left py-3 px-4 hover:bg-white/10 rounded-xl transition-colors">Sign Out</button></li>
-            </ul>
-          </div>
-        )}
-      </header>
-
-      <div className="container mx-auto px-4 sm:px-6 pt-28 pb-16">
-        <div className="max-w-3xl mx-auto">
+    <DashboardLayout>
+      <div className="max-w-3xl mx-auto">
           <h1 className="text-3xl sm:text-4xl font-black mb-8">
             <span className="gradient-text">Settings</span>
           </h1>
@@ -343,15 +299,8 @@ function SettingsContent() {
             <p>PAssist AI Web App v1.0.0</p>
             <p className="mt-1">© 2025 PAssist AI. All rights reserved.</p>
           </div>
-        </div>
       </div>
-
-      <footer className="py-8 border-t border-white/10">
-        <div className="container mx-auto max-w-7xl text-center">
-          <p className="text-gray-400">&copy; 2025 PAssist AI. All rights reserved.</p>
-        </div>
-      </footer>
-    </main>
+    </DashboardLayout>
   )
 }
 
