@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '../../lib/auth-context'
 import { supabase } from '../../lib/supabase'
 import DashboardLayout from '@/components/DashboardLayout'
+import { notificationsService, NotificationPermission } from '@/lib/notifications.service'
 
 function SettingsContent() {
   const router = useRouter()
@@ -18,6 +19,14 @@ function SettingsContent() {
   const [googleConnected, setGoogleConnected] = useState(false)
   const [connectingGoogle, setConnectingGoogle] = useState(false)
 
+  // Notification settings
+  const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default')
+  const [notificationsSupported, setNotificationsSupported] = useState(false)
+  const [reminderNotifications, setReminderNotifications] = useState(true)
+  const [taskNotifications, setTaskNotifications] = useState(true)
+  const [eventNotifications, setEventNotifications] = useState(true)
+  const [dailyBriefing, setDailyBriefing] = useState(true)
+
   useEffect(() => {
     if (!authLoading && !user) {
       router.push('/login')
@@ -27,6 +36,33 @@ function SettingsContent() {
       checkGoogleConnection()
     }
   }, [user, authLoading, router])
+
+  // Check notification support and permission
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const supported = notificationsService.isSupported()
+      setNotificationsSupported(supported)
+      if (supported) {
+        setNotificationPermission(notificationsService.getPermission())
+        // Register service worker
+        notificationsService.registerServiceWorker()
+      }
+    }
+  }, [])
+
+  const handleEnableNotifications = async () => {
+    const permission = await notificationsService.requestPermission()
+    setNotificationPermission(permission)
+    if (permission === 'granted') {
+      setMessage('Notifications enabled!')
+      // Show test notification
+      await notificationsService.showNotification({
+        title: 'Notifications Enabled!',
+        body: 'You will now receive reminders and updates',
+      })
+      setTimeout(() => setMessage(''), 3000)
+    }
+  }
 
   useEffect(() => {
     const connected = searchParams.get('google_connected')
@@ -197,6 +233,142 @@ function SettingsContent() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Notification Settings */}
+          <div className="glass rounded-3xl p-6 sm:p-8 mb-6">
+            <h2 className="text-2xl font-bold mb-6">Notifications</h2>
+
+            {notificationsSupported ? (
+              <div className="space-y-6">
+                {/* Permission Status */}
+                <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                      notificationPermission === 'granted'
+                        ? 'bg-green-500/20'
+                        : notificationPermission === 'denied'
+                        ? 'bg-red-500/20'
+                        : 'bg-amber-500/20'
+                    }`}>
+                      <svg className={`w-6 h-6 ${
+                        notificationPermission === 'granted'
+                          ? 'text-green-400'
+                          : notificationPermission === 'denied'
+                          ? 'text-red-400'
+                          : 'text-amber-400'
+                      }`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold">Browser Notifications</h3>
+                      <p className="text-sm text-gray-400">
+                        {notificationPermission === 'granted'
+                          ? 'Notifications are enabled'
+                          : notificationPermission === 'denied'
+                          ? 'Notifications are blocked in browser settings'
+                          : 'Enable notifications to get reminders'}
+                      </p>
+                    </div>
+                  </div>
+
+                  {notificationPermission === 'granted' ? (
+                    <span className="px-3 py-1.5 rounded-full text-sm bg-green-500/20 text-green-400 flex items-center gap-1.5">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      Enabled
+                    </span>
+                  ) : notificationPermission === 'denied' ? (
+                    <span className="px-3 py-1.5 rounded-full text-sm bg-red-500/20 text-red-400">
+                      Blocked
+                    </span>
+                  ) : (
+                    <button
+                      onClick={handleEnableNotifications}
+                      className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 px-5 py-2 rounded-full font-semibold text-sm transition-all"
+                    >
+                      Enable
+                    </button>
+                  )}
+                </div>
+
+                {notificationPermission === 'granted' && (
+                  <>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="font-semibold">Reminder Notifications</h3>
+                        <p className="text-sm text-gray-400">Get notified when reminders are due</p>
+                      </div>
+                      <div className="relative inline-block w-12 h-6">
+                        <input
+                          type="checkbox"
+                          className="sr-only peer"
+                          checked={reminderNotifications}
+                          onChange={(e) => setReminderNotifications(e.target.checked)}
+                        />
+                        <div className="w-12 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary cursor-pointer"></div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="font-semibold">Task Notifications</h3>
+                        <p className="text-sm text-gray-400">Get notified about overdue and upcoming tasks</p>
+                      </div>
+                      <div className="relative inline-block w-12 h-6">
+                        <input
+                          type="checkbox"
+                          className="sr-only peer"
+                          checked={taskNotifications}
+                          onChange={(e) => setTaskNotifications(e.target.checked)}
+                        />
+                        <div className="w-12 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary cursor-pointer"></div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="font-semibold">Event Notifications</h3>
+                        <p className="text-sm text-gray-400">Get notified 15 minutes before events</p>
+                      </div>
+                      <div className="relative inline-block w-12 h-6">
+                        <input
+                          type="checkbox"
+                          className="sr-only peer"
+                          checked={eventNotifications}
+                          onChange={(e) => setEventNotifications(e.target.checked)}
+                        />
+                        <div className="w-12 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary cursor-pointer"></div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="font-semibold">Daily Briefing</h3>
+                        <p className="text-sm text-gray-400">Get a morning summary of your day</p>
+                      </div>
+                      <div className="relative inline-block w-12 h-6">
+                        <input
+                          type="checkbox"
+                          className="sr-only peer"
+                          checked={dailyBriefing}
+                          onChange={(e) => setDailyBriefing(e.target.checked)}
+                        />
+                        <div className="w-12 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary cursor-pointer"></div>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            ) : (
+              <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl">
+                <p className="text-amber-400 text-sm">
+                  Notifications are not supported in your browser. Try using Chrome, Firefox, or Edge for notification support.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Integrations */}

@@ -1,17 +1,22 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useAuth } from '@/lib/auth-context'
+import { parseAssignmentCommand } from '@/lib/smart-assignments.service'
 
 interface Message {
   role: 'user' | 'assistant'
   content: string
+  isResearchResult?: boolean
 }
 
 export default function FloatingAIChat() {
+  const { user } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
+  const [isResearching, setIsResearching] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -23,11 +28,72 @@ export default function FloatingAIChat() {
   }
 
   const handleSend = async () => {
-    if (!input.trim() || loading) return
+    if (!input.trim() || loading || isResearching) return
 
     const userMessage: Message = { role: 'user', content: input }
     setMessages(prev => [...prev, userMessage])
+    const userInput = input
     setInput('')
+
+    // Check if this is a research/assignment request
+    const assignment = parseAssignmentCommand(userInput)
+
+    if (assignment && assignment.isResearchTask && user) {
+      // Handle as research request
+      setIsResearching(true)
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: `🔍 Researching "${assignment.searchQuery}"...\n\nI'll save the results to your ${assignment.saveAs}s${assignment.saveAs === 'reminder' ? ` and remind you on ${assignment.reminderDate}` : ''}.`,
+      }])
+
+      try {
+        const researchResponse = await fetch('/api/smart-assignment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            query: assignment.searchQuery,
+            saveAs: assignment.saveAs,
+            reminderDate: assignment.reminderDate,
+            reminderTime: assignment.reminderTime,
+            userId: user.id,
+          }),
+        })
+
+        const result = await researchResponse.json()
+
+        if (result.success) {
+          setMessages(prev => [...prev, {
+            role: 'assistant',
+            content: `✅ **Research Complete!**\n\n**${result.result?.title}**\n\n${result.result?.preview}\n\n📁 Saved to your ${assignment.saveAs}s. [View ${assignment.saveAs} →](/${assignment.saveAs}s)`,
+            isResearchResult: true,
+          }])
+
+          // Show browser notification
+          if ('Notification' in window && Notification.permission === 'granted') {
+            new Notification('Research Complete!', {
+              body: `"${result.result?.title}" saved to ${assignment.saveAs}s`,
+              icon: '/logo.png',
+            })
+          }
+        } else {
+          setMessages(prev => [...prev, {
+            role: 'assistant',
+            content: `❌ Sorry, I couldn't complete the research. ${result.error || 'Please try again.'}`,
+          }])
+        }
+      } catch (error) {
+        console.error('Research error:', error)
+        setMessages(prev => [...prev, {
+          role: 'assistant',
+          content: '❌ Sorry, something went wrong with the research. Please try again.',
+        }])
+      } finally {
+        setIsResearching(false)
+      }
+      return
+    }
+
+    // Regular chat message
     setLoading(true)
 
     try {
@@ -177,16 +243,33 @@ export default function FloatingAIChat() {
                 </div>
                 <h3 className="text-white font-bold mb-2">Hi! I'm your AI assistant</h3>
                 <p className="text-gray-400 text-sm mb-6">
-                  Ask me anything about your recordings, notes, or get help with your tasks!
+                  Ask me anything or have me research topics for you!
                 </p>
 
                 <div className="grid grid-cols-1 gap-2 w-full">
                   <button
-                    onClick={() => setInput('Summarize my recent recordings')}
-                    className="p-3 bg-white/5 hover:bg-white/10 rounded-xl text-left border border-white/10 transition-all text-sm"
+                    onClick={() => setInput('Find me the cheapest hotels in Dubai and save to notes')}
+                    className="p-3 bg-gradient-to-r from-pink-500/10 to-purple-500/10 hover:from-pink-500/20 hover:to-purple-500/20 rounded-xl text-left border border-pink-500/20 transition-all text-sm"
                   >
-                    <div className="text-white font-semibold">Summarize recordings</div>
-                    <div className="text-gray-400 text-xs">Get insights from your audio</div>
+                    <div className="text-white font-semibold flex items-center gap-2">
+                      <svg className="w-4 h-4 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                      Research hotels in Dubai
+                    </div>
+                    <div className="text-gray-400 text-xs">I'll find options and save to notes</div>
+                  </button>
+                  <button
+                    onClick={() => setInput('Search for best restaurants in NYC and remind me tomorrow')}
+                    className="p-3 bg-gradient-to-r from-amber-500/10 to-orange-500/10 hover:from-amber-500/20 hover:to-orange-500/20 rounded-xl text-left border border-amber-500/20 transition-all text-sm"
+                  >
+                    <div className="text-white font-semibold flex items-center gap-2">
+                      <svg className="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                      </svg>
+                      Research & remind me
+                    </div>
+                    <div className="text-gray-400 text-xs">Find restaurants and set a reminder</div>
                   </button>
                   <button
                     onClick={() => setInput('Help me organize my notes')}

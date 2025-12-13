@@ -1,4 +1,5 @@
 export { MorningBriefingWidget } from './MorningBriefingWidget'
+export { EnhancedBriefing } from './EnhancedBriefing'
 export { QuickActionsPanel, QuickAddModal } from './QuickActionsPanel'
 export { TodayOverviewWidget } from './TodayOverviewWidget'
 export { RecentActivityFeed } from './RecentActivityFeed'

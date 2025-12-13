@@ -11,7 +11,7 @@ import { habitsService } from '../../lib/habits.service'
 import AudioRecorder from '../../components/AudioRecorder'
 import FloatingAIChat from '../../components/FloatingAIChat'
 import {
-  MorningBriefingWidget,
+  EnhancedBriefing,
   QuickActionsPanel,
   QuickAddModal,
   TodayOverviewWidget,
@@ -23,6 +23,7 @@ import { RiskAlertsWidget } from '../../components/dashboard/RiskAlertsWidget'
 import { FinancialInsightsWidget } from '../../components/dashboard/FinancialInsightsWidget'
 import { PersonalEventsWidget } from '../../components/dashboard/PersonalEventsWidget'
 import { DailyCheckinWidget } from '../../components/dashboard/DailyCheckinWidget'
+import { SmartAssignmentWidget } from '../../components/dashboard/SmartAssignmentWidget'
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -37,6 +38,7 @@ export default function DashboardPage() {
   const [sortBy, setSortBy] = useState<'recent' | 'oldest' | 'longest' | 'shortest'>('recent')
   const [quickAddType, setQuickAddType] = useState<'task' | 'note' | 'reminder' | null>(null)
   const [activeView, setActiveView] = useState<'overview' | 'recordings'>('overview')
+  const [showSmartResearch, setShowSmartResearch] = useState(false)
 
   // Audio player state
   const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null)
@@ -451,15 +453,19 @@ export default function DashboardPage() {
           ) : activeView === 'overview' ? (
             /* Smart Dashboard View */
             <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto">
-              {/* Morning Briefing */}
+              {/* Enhanced Briefing with AI Insights */}
               {dashboardData && (
-                <MorningBriefingWidget
+                <EnhancedBriefing
                   greeting={dashboardData.greeting}
                   date={dashboardData.date}
-                  tasksCount={dashboardData.todayTasks.length}
-                  eventsCount={dashboardData.todayEvents.length}
-                  remindersCount={dashboardData.todayReminders.length}
-                  overdueCount={dashboardData.overdueTasks.length}
+                  stats={{
+                    tasksCount: dashboardData.todayTasks.length,
+                    eventsCount: dashboardData.todayEvents.length,
+                    remindersCount: dashboardData.todayReminders.length,
+                    overdueCount: dashboardData.overdueTasks.length,
+                    habitsCompleted: dashboardData.habitsProgress.completed,
+                    habitsTotal: dashboardData.habitsProgress.total,
+                  }}
                 />
               )}
 
@@ -469,6 +475,7 @@ export default function DashboardPage() {
                 onAddNote={() => setQuickAddType('note')}
                 onAddReminder={() => setQuickAddType('reminder')}
                 onStartRecording={() => setShowRecorder(true)}
+                onSmartResearch={() => setShowSmartResearch(true)}
               />
 
               {/* Personal Assistant Widgets Row */}
@@ -765,6 +772,15 @@ export default function DashboardPage() {
           onClose={() => setShowRecorder(false)}
           onRecordingComplete={fetchData}
         />
+      )}
+
+      {/* Smart Research Modal */}
+      {showSmartResearch && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="w-full max-w-lg">
+            <SmartAssignmentWidget onClose={() => setShowSmartResearch(false)} />
+          </div>
+        </div>
       )}
 
       {/* Mobile Sidebar Overlay */}

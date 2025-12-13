@@ -116,6 +116,9 @@ export interface ParsedCommand {
   energy_level?: number
   stress_level?: number
   recurrence?: string
+  // Research/assignment fields
+  search_query?: string
+  save_as?: 'note' | 'reminder' | 'task'
 }
 
 // Helper functions (private)
@@ -150,8 +153,20 @@ function buildContextPrompt(context: string | undefined, today: string): { syste
 Today's date is ${today}.
 ${contextInstructions}
 
+IMPORTANT: Detect research/search requests like:
+- "Find me the cheapest hotels in Dubai"
+- "Search for best restaurants in NYC and save to notes"
+- "Look up flight prices to Paris and remind me tomorrow"
+- "Research iPhone vs Samsung and create a task"
+
+For research requests, return type: "research" with these fields:
+- search_query: What to research/find (the actual search topic)
+- save_as: "note" | "reminder" | "task" (where to save results, default "note")
+- date: If saving as reminder, when to remind (YYYY-MM-DD format)
+- time: If saving as reminder, what time (HH:MM format, default "09:00")
+
 Parse the user's voice command and return a JSON object with:
-- type: ${typeOptions} | "reminder" | "task" | "note" | "event" | "none"
+- type: ${typeOptions} | "reminder" | "task" | "note" | "event" | "research" | "none"
 - title: A concise title for the item (max 50 chars)
 - description: Any additional details
 - date: The date in YYYY-MM-DD format (parse "tomorrow", "next monday", etc.)
@@ -159,6 +174,8 @@ Parse the user's voice command and return a JSON object with:
 - priority: "low" | "medium" | "high" for tasks
 - amount: Numeric amount (for finance entries)
 - category: Category name (for finance, life-tasks, etc.)
+- search_query: For research requests, the topic to search/research
+- save_as: For research requests, where to save ("note" | "reminder" | "task")
 
 ${context === 'finance' ? '- amount: The transaction amount\n- category: Expense category\n- entry_type: "expense" | "income"' : ''}
 ${context === 'checkin' ? '- mood_score: 1-5 rating\n- energy_level: 1-5 rating\n- stress_level: 1-5 rating' : ''}

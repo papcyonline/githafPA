@@ -8,6 +8,7 @@ interface QuickActionsPanelProps {
   onAddNote: () => void
   onAddReminder: () => void
   onStartRecording: () => void
+  onSmartResearch?: () => void
 }
 
 export function QuickActionsPanel({
@@ -15,11 +16,12 @@ export function QuickActionsPanel({
   onAddNote,
   onAddReminder,
   onStartRecording,
+  onSmartResearch,
 }: QuickActionsPanelProps) {
   return (
     <div className="bg-zinc-900/50 rounded-xl p-4 border border-zinc-800">
       <h3 className="text-sm font-medium text-gray-400 mb-3">Quick Actions</h3>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
         <button
           onClick={onAddTask}
           className="flex flex-col items-center gap-2 p-3 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20 transition-colors group"
@@ -67,6 +69,20 @@ export function QuickActionsPanel({
           </div>
           <span className="text-sm text-gray-300">Record</span>
         </button>
+
+        {onSmartResearch && (
+          <button
+            onClick={onSmartResearch}
+            className="flex flex-col items-center gap-2 p-3 rounded-lg bg-pink-500/10 hover:bg-pink-500/20 border border-pink-500/20 transition-colors group"
+          >
+            <div className="w-10 h-10 rounded-full bg-pink-500/20 flex items-center justify-center group-hover:bg-pink-500/30 transition-colors">
+              <svg className="w-5 h-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <span className="text-sm text-gray-300">Research</span>
+          </button>
+        )}
       </div>
     </div>
   )

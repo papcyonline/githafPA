@@ -303,6 +303,35 @@ export default function AudioRecorder({ onClose, onRecordingComplete, context, c
                 end_time: endDateTime,
                 recording_id: recordingData.id,
               })
+            } else if (parsed.type === 'research' && parsed.search_query) {
+              // Handle research/assignment requests via voice
+              try {
+                const researchResponse = await fetch('/api/smart-assignment', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    query: parsed.search_query,
+                    saveAs: parsed.save_as || 'note',
+                    reminderDate: parsed.date,
+                    reminderTime: parsed.time,
+                    userId: user?.id,
+                  }),
+                })
+
+                if (researchResponse.ok) {
+                  const result = await researchResponse.json()
+                  console.log('Research completed:', result)
+                  // Show browser notification
+                  if ('Notification' in window && Notification.permission === 'granted') {
+                    new Notification('Research Complete!', {
+                      body: `"${result.result?.title}" saved to ${parsed.save_as || 'notes'}`,
+                      icon: '/logo.png',
+                    })
+                  }
+                }
+              } catch (researchError) {
+                console.error('Research request failed:', researchError)
+              }
             }
           }
         } catch (parseError) {
