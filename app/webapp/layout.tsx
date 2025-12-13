@@ -48,8 +48,8 @@ function ProtectedLayout({ children }: { children: React.ReactNode }) {
         <div className="container mx-auto px-4 sm:px-6">
           <nav className="py-4 flex items-center justify-between">
             <Link href="/webapp" className="flex items-center space-x-2">
-              <img src="/logo.png" alt="MeetAI" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg" />
-              <span className="text-xl font-black">MeetAI</span>
+              <img src="/logo.png" alt="PAssist AI" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg" />
+              <span className="text-xl font-black">PAssist AI</span>
             </Link>
 
             {/* Desktop Navigation */}

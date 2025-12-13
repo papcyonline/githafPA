@@ -33,7 +33,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-black mb-2 gradient-text">Welcome Back</h1>
-          <p className="text-gray-400">Sign in to continue to MeetAI</p>
+          <p className="text-gray-400">Sign in to continue to PAssist AI</p>
         </div>
 
         <div className="glass rounded-3xl p-8">

@@ -36,8 +36,8 @@ export default function SignupPage() {
         <div className="container mx-auto px-4 sm:px-6">
           <nav className="glass rounded-full px-4 sm:px-5 py-2 flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-2">
-              <img src="/logo.png" alt="MeetAI Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg" />
-              <span className="text-lg sm:text-xl font-black">MeetAI</span>
+              <img src="/logo.png" alt="PAssist AI Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg" />
+              <span className="text-lg sm:text-xl font-black">PAssist AI</span>
             </Link>
             <Link href="/" className="text-sm sm:text-base hover:text-primary transition-colors">
               Back to Home

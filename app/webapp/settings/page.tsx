@@ -168,8 +168,8 @@ export default function SettingsPage() {
 
         {/* App Info */}
         <div className="mt-8 text-center text-gray-500 text-sm">
-          <p>MeetAI Web App v1.0.0</p>
-          <p className="mt-1">© 2025 MeetAI. All rights reserved.</p>
+          <p>PAssist AI Web App v1.0.0</p>
+          <p className="mt-1">© 2025 PAssist AI. All rights reserved.</p>
         </div>
       </div>
     </div>

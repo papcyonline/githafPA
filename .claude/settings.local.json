@@ -18,7 +18,8 @@
       "Bash(npx tsc:*)",
       "Bash(timeout:*)",
       "Bash(curl:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(copy \"c:\\Users\\papcy\\Downloads\\one (2).png\" \"C:\\Users\\papcy\\Desktop\\YoMeet Web\\public\\nine.png\")"
     ],
     "deny": [],
     "ask": []

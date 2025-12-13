@@ -10,8 +10,8 @@ export default function Privacy() {
         <div className="container mx-auto px-4 sm:px-6">
           <nav className="glass rounded-full px-4 sm:px-5 py-2 flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-2">
-              <img src="/logo.png" alt="MeetAI Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg" />
-              <span className="text-lg sm:text-xl font-black">MeetAI</span>
+              <img src="/logo.png" alt="PAssist AI Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg" />
+              <span className="text-lg sm:text-xl font-black">PAssist AI</span>
             </Link>
             <Link href="/" className="text-sm sm:text-base hover:text-primary transition-colors">
               Back to Home
@@ -38,7 +38,7 @@ export default function Privacy() {
             <div className="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8">
               <h2 className="text-2xl sm:text-3xl font-bold mb-4 gradient-text">Introduction</h2>
               <p>
-                At MeetAI, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application and services.
+                At PAssist AI, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application and services.
               </p>
             </div>
 
@@ -136,8 +136,8 @@ export default function Privacy() {
               <h2 className="text-2xl sm:text-3xl font-bold mb-4 gradient-text">Contact Us</h2>
               <p>
                 If you have questions about this Privacy Policy, please contact us at{' '}
-                <a href="mailto:privacy@meetai.app" className="text-primary hover:text-purple-400 transition-colors">
-                  privacy@meetai.app
+                <a href="mailto:privacy@passistai.app" className="text-primary hover:text-purple-400 transition-colors">
+                  privacy@passistai.app
                 </a>
               </p>
             </div>
@@ -149,7 +149,7 @@ export default function Privacy() {
       <footer className="py-8 sm:py-10 md:py-12 px-4 sm:px-6 border-t border-white/10">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center">
-            <p className="text-gray-400">&copy; 2025 MeetAI. All rights reserved.</p>
+            <p className="text-gray-400">&copy; 2025 PAssist AI. All rights reserved.</p>
           </div>
         </div>
       </footer>
