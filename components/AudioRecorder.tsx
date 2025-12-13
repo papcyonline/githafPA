@@ -312,21 +312,53 @@ export default function AudioRecorder({ onClose, onRecordingComplete, context, c
                   body: JSON.stringify({
                     query: parsed.search_query,
                     saveAs: parsed.save_as || 'note',
-                    reminderDate: parsed.date,
-                    reminderTime: parsed.time,
-                    userId: user?.id,
                   }),
                 })
 
                 if (researchResponse.ok) {
                   const result = await researchResponse.json()
-                  console.log('Research completed:', result)
-                  // Show browser notification
-                  if ('Notification' in window && Notification.permission === 'granted') {
-                    new Notification('Research Complete!', {
-                      body: `"${result.result?.title}" saved to ${parsed.save_as || 'notes'}`,
-                      icon: '/logo.png',
-                    })
+
+                  if (result.success && result.content) {
+                    // Save to database based on save_as type
+                    const saveAs = parsed.save_as || 'note'
+                    let savedSuccessfully = false
+
+                    if (saveAs === 'note') {
+                      const { error } = await supabase.from('notes').insert({
+                        user_id: user?.id,
+                        title: result.title,
+                        content: result.content,
+                      })
+                      savedSuccessfully = !error
+                    } else if (saveAs === 'reminder') {
+                      const { error } = await supabase.from('reminders').insert({
+                        user_id: user?.id,
+                        title: result.title,
+                        description: result.content,
+                        reminder_date: parsed.date || new Date().toISOString().split('T')[0],
+                        reminder_time: parsed.time || '09:00',
+                      })
+                      savedSuccessfully = !error
+                    } else if (saveAs === 'task') {
+                      const { error } = await supabase.from('tasks').insert({
+                        user_id: user?.id,
+                        title: result.title,
+                        description: result.content,
+                        priority: 'medium',
+                        completed: false,
+                      })
+                      savedSuccessfully = !error
+                    }
+
+                    // Show browser notification
+                    if ('Notification' in window && Notification.permission === 'granted') {
+                      new Notification('Research Complete!', {
+                        body: savedSuccessfully
+                          ? `"${result.title}" saved to ${saveAs}s`
+                          : `Research complete but couldn't save to ${saveAs}s`,
+                        icon: '/logo.png',
+                      })
+                    }
                   }
                 }
               } catch (researchError) {

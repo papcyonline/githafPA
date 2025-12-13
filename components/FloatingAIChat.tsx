@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '@/lib/auth-context'
 import { parseAssignmentCommand } from '@/lib/smart-assignments.service'
+import { supabase } from '@/lib/supabase'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -61,19 +62,67 @@ export default function FloatingAIChat() {
 
         const result = await researchResponse.json()
 
-        if (result.success) {
-          setMessages(prev => [...prev, {
-            role: 'assistant',
-            content: `✅ **Research Complete!**\n\n**${result.result?.title}**\n\n${result.result?.preview}\n\n📁 Saved to your ${assignment.saveAs}s. [View ${assignment.saveAs} →](/${assignment.saveAs}s)`,
-            isResearchResult: true,
-          }])
+        if (result.success && result.content) {
+          // Save to database based on saveAs type
+          let savedSuccessfully = false
+          const saveAs = assignment.saveAs || 'note'
 
-          // Show browser notification
-          if ('Notification' in window && Notification.permission === 'granted') {
-            new Notification('Research Complete!', {
-              body: `"${result.result?.title}" saved to ${assignment.saveAs}s`,
-              icon: '/logo.png',
-            })
+          try {
+            if (saveAs === 'note') {
+              const { error } = await supabase.from('notes').insert({
+                user_id: user.id,
+                title: result.title,
+                content: result.content,
+              })
+              savedSuccessfully = !error
+            } else if (saveAs === 'reminder') {
+              const { error } = await supabase.from('reminders').insert({
+                user_id: user.id,
+                title: result.title,
+                description: result.content,
+                reminder_date: assignment.reminderDate || new Date().toISOString().split('T')[0],
+                reminder_time: assignment.reminderTime || '09:00',
+              })
+              savedSuccessfully = !error
+            } else if (saveAs === 'task') {
+              const { error } = await supabase.from('tasks').insert({
+                user_id: user.id,
+                title: result.title,
+                description: result.content,
+                priority: 'medium',
+                completed: false,
+              })
+              savedSuccessfully = !error
+            }
+
+            if (savedSuccessfully) {
+              setMessages(prev => [...prev, {
+                role: 'assistant',
+                content: `✅ **Research Complete!**\n\n**${result.title}**\n\n${result.content.substring(0, 300)}${result.content.length > 300 ? '...' : ''}\n\n📁 Saved to your ${saveAs}s. [View ${saveAs} →](/${saveAs}s)`,
+                isResearchResult: true,
+              }])
+
+              // Show browser notification
+              if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification('Research Complete!', {
+                  body: `"${result.title}" saved to ${saveAs}s`,
+                  icon: '/logo.png',
+                })
+              }
+            } else {
+              setMessages(prev => [...prev, {
+                role: 'assistant',
+                content: `✅ **Research Complete!**\n\n**${result.title}**\n\n${result.content.substring(0, 300)}${result.content.length > 300 ? '...' : ''}\n\n⚠️ Could not save to ${saveAs}s automatically.`,
+                isResearchResult: true,
+              }])
+            }
+          } catch (saveError) {
+            console.error('Save error:', saveError)
+            setMessages(prev => [...prev, {
+              role: 'assistant',
+              content: `✅ **Research Complete!**\n\n**${result.title}**\n\n${result.content}\n\n⚠️ Could not save automatically. Please copy the results.`,
+              isResearchResult: true,
+            }])
           }
         } else {
           setMessages(prev => [...prev, {

@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { useAuth } from '@/lib/auth-context'
-import { parseAssignmentCommand } from '@/lib/smart-assignments.service'
 import { notificationsService } from '@/lib/notifications.service'
+import { supabase } from '@/lib/supabase'
 
 interface SmartAssignmentWidgetProps {
   onClose?: () => void
@@ -49,20 +49,66 @@ export function SmartAssignmentWidget({ onClose, initialQuery = '' }: SmartAssig
 
       const data = await response.json()
 
-      if (data.success) {
-        setResult({
-          success: true,
-          message: data.message,
-          title: data.result?.title,
-          preview: data.result?.preview,
-        })
+      if (data.success && data.content) {
+        // Save to database based on saveAs type
+        let savedSuccessfully = false
+        let saveError = null
 
-        // Send notification
-        if (notificationsService.getPermission() === 'granted') {
-          await notificationsService.showNotification({
-            title: 'Research Complete!',
-            body: `"${data.result?.title}" saved to ${saveAs}s`,
-            tag: 'assignment-complete',
+        try {
+          if (saveAs === 'note') {
+            const { error } = await supabase.from('notes').insert({
+              user_id: user.id,
+              title: data.title,
+              content: data.content,
+            })
+            saveError = error
+            savedSuccessfully = !error
+          } else if (saveAs === 'reminder') {
+            const { error } = await supabase.from('reminders').insert({
+              user_id: user.id,
+              title: data.title,
+              description: data.content,
+              reminder_date: reminderDate,
+              reminder_time: reminderTime,
+            })
+            saveError = error
+            savedSuccessfully = !error
+          } else if (saveAs === 'task') {
+            const { error } = await supabase.from('tasks').insert({
+              user_id: user.id,
+              title: data.title,
+              description: data.content,
+              priority: 'medium',
+              completed: false,
+            })
+            saveError = error
+            savedSuccessfully = !error
+          }
+        } catch (err) {
+          console.error('Save error:', err)
+          savedSuccessfully = false
+        }
+
+        if (savedSuccessfully) {
+          setResult({
+            success: true,
+            message: `Research saved to your ${saveAs}s!`,
+            title: data.title,
+            preview: data.content.substring(0, 200) + (data.content.length > 200 ? '...' : ''),
+          })
+
+          // Send notification
+          if (notificationsService.getPermission() === 'granted') {
+            await notificationsService.showNotification({
+              title: 'Research Complete!',
+              body: `"${data.title}" saved to ${saveAs}s`,
+              tag: 'assignment-complete',
+            })
+          }
+        } else {
+          setResult({
+            success: false,
+            message: saveError?.message || 'Failed to save research results',
           })
         }
       } else {
