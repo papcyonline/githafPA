@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 
-// Simple SVG Icons - No external dependencies needed
+// Simple SVG Icons
 const MicrophoneIcon = ({ className }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
@@ -15,46 +15,51 @@ const SparklesIcon = ({ className }) => (
   </svg>
 )
 
-const DocumentTextIcon = ({ className }) => (
+const BellIcon = ({ className }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
   </svg>
 )
 
-const ChatBubbleLeftRightIcon = ({ className }) => (
+const WalletIcon = ({ className }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+)
+
+const HeartIcon = ({ className }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+  </svg>
+)
+
+const ClipboardIcon = ({ className }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+  </svg>
+)
+
+const CalendarIcon = ({ className }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+  </svg>
+)
+
+const ChatIcon = ({ className }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
   </svg>
 )
 
-const DocumentArrowDownIcon = ({ className }) => (
+const DocumentIcon = ({ className }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11v6m0 0l-2-2m2 2l2-2" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
   </svg>
 )
 
-const GlobeAltIcon = ({ className }) => (
+const SmileIcon = ({ className }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-  </svg>
-)
-
-const UsersIcon = ({ className }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-  </svg>
-)
-
-const MagnifyingGlassIcon = ({ className }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-  </svg>
-)
-
-const CpuChipIcon = ({ className }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
   </svg>
 )
 
@@ -113,24 +118,25 @@ const CloseIcon = ({ className }) => (
   </svg>
 )
 
+const ArrowRightIcon = ({ className }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+  </svg>
+)
+
 export default function Home() {
   const [scrolled, setScrolled] = useState(false)
-  const [lineVisible, setLineVisible] = useState(false)
-  const [flareVisible, setFlareVisible] = useState(false)
   const [visibleSections, setVisibleSections] = useState(new Set())
-  const [scrollY, setScrollY] = useState(0)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50)
-      setScrollY(window.scrollY)
     }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Close mobile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (mobileMenuOpen && !event.target.closest('nav') && !event.target.closest('[role="menu"]')) {
@@ -144,55 +150,6 @@ export default function Home() {
     }
   }, [mobileMenuOpen])
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setLineVisible(true)
-          }
-        })
-      },
-      { threshold: 0.3 }
-    )
-
-    const section = document.getElementById('recording-section')
-    if (section) {
-      observer.observe(section)
-    }
-
-    return () => {
-      if (section) {
-        observer.unobserve(section)
-      }
-    }
-  }, [])
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setFlareVisible(true)
-          }
-        })
-      },
-      { threshold: 0.5 }
-    )
-
-    const flareSection = document.getElementById('horizontal-flare')
-    if (flareSection) {
-      observer.observe(flareSection)
-    }
-
-    return () => {
-      if (flareSection) {
-        observer.unobserve(flareSection)
-      }
-    }
-  }, [])
-
-  // Scroll animations for sections
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -213,6 +170,65 @@ export default function Home() {
     }
   }, [])
 
+  const features = [
+    {
+      icon: MicrophoneIcon,
+      title: 'Voice First',
+      description: 'Tap and talk from anywhere. Your voice becomes reminders, notes, and tasks instantly.',
+      color: '#8B5CF6',
+      gradient: 'from-purple-500 to-purple-600'
+    },
+    {
+      icon: BellIcon,
+      title: 'Smart Reminders',
+      description: 'Never forget anything. AI understands context and sets perfect reminders.',
+      color: '#10B981',
+      gradient: 'from-emerald-500 to-emerald-600'
+    },
+    {
+      icon: WalletIcon,
+      title: 'Finance Tracking',
+      description: 'Track expenses by voice. Get insights on spending and manage budgets effortlessly.',
+      color: '#F59E0B',
+      gradient: 'from-amber-500 to-amber-600'
+    },
+    {
+      icon: ClipboardIcon,
+      title: 'Life Tasks',
+      description: 'Insurance renewals, appointments, maintenance - never miss important life admin.',
+      color: '#3B82F6',
+      gradient: 'from-blue-500 to-blue-600'
+    },
+    {
+      icon: HeartIcon,
+      title: 'Personal Events',
+      description: 'Birthdays, anniversaries, special dates. Get reminded with gift ideas.',
+      color: '#EC4899',
+      gradient: 'from-pink-500 to-pink-600'
+    },
+    {
+      icon: SmileIcon,
+      title: 'Daily Check-in',
+      description: 'Track your mood, energy, and wellness. Build better habits with AI insights.',
+      color: '#06B6D4',
+      gradient: 'from-cyan-500 to-cyan-600'
+    },
+    {
+      icon: DocumentIcon,
+      title: 'Smart Documents',
+      description: 'Generate proposals, reports, and documents from templates with AI assistance.',
+      color: '#6366F1',
+      gradient: 'from-indigo-500 to-indigo-600'
+    },
+    {
+      icon: ChatIcon,
+      title: 'AI Assistant',
+      description: 'Chat with your personal AI about anything. Get help, advice, and answers.',
+      color: '#EF4444',
+      gradient: 'from-red-500 to-red-600'
+    }
+  ]
+
   return (
     <main className="min-h-screen overflow-x-hidden">
       {/* Floating Header */}
@@ -224,31 +240,23 @@ export default function Home() {
               <span className="text-lg sm:text-xl font-black">PAssist AI</span>
             </div>
             <ul className="hidden lg:flex items-center space-x-6 xl:space-x-8 text-sm font-medium">
-              <li><a href="#recording-section" className="hover:text-primary transition-colors">Record</a></li>
-              <li><a href="#transcription-section" className="hover:text-primary transition-colors">Transcript</a></li>
-              <li><a href="#summaries-section" className="hover:text-primary transition-colors">AI Actions</a></li>
-              <li><a href="#folders-section" className="hover:text-primary transition-colors">Organize</a></li>
-              <li><a href="#ai-chat-section" className="hover:text-primary transition-colors">AI Chat</a></li>
-              <li><a href="#chat-friends-section" className="hover:text-primary transition-colors">Share</a></li>
+              <li><a href="#features" className="hover:text-primary transition-colors">Features</a></li>
+              <li><a href="#how-it-works" className="hover:text-primary transition-colors">How It Works</a></li>
+              <li><a href="#pricing" className="hover:text-primary transition-colors">Pricing</a></li>
             </ul>
             <div className="flex items-center gap-3">
               <a href="/login" className="hidden sm:block text-white hover:text-primary px-4 py-2 rounded-full font-semibold text-sm transition-colors">
                 Login
               </a>
               <a href="/signup" className="hidden sm:block bg-gradient-to-r from-primary to-secondary hover:opacity-90 px-4 py-2 sm:px-6 sm:py-3 rounded-full font-semibold text-sm sm:text-base transition-all btn-hover-effect">
-                Sign Up
+                Get Started
               </a>
-              {/* Mobile menu button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="lg:hidden w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
                 aria-label="Toggle menu"
               >
-                {mobileMenuOpen ? (
-                  <CloseIcon className="w-6 h-6" />
-                ) : (
-                  <MenuIcon className="w-6 h-6" />
-                )}
+                {mobileMenuOpen ? <CloseIcon className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
               </button>
             </div>
           </nav>
@@ -258,1077 +266,488 @@ export default function Home() {
         {mobileMenuOpen && (
           <div role="menu" className="lg:hidden fixed top-20 left-4 right-4 glass rounded-3xl p-6 animate-fadeInUp">
             <ul className="space-y-4">
-              <li>
-                <a
-                  href="#recording-section"
-                  className="block py-3 px-4 hover:bg-white/10 rounded-xl transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Record
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#transcription-section"
-                  className="block py-3 px-4 hover:bg-white/10 rounded-xl transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Transcript
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#summaries-section"
-                  className="block py-3 px-4 hover:bg-white/10 rounded-xl transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  AI Actions
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#folders-section"
-                  className="block py-3 px-4 hover:bg-white/10 rounded-xl transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Organize
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#ai-chat-section"
-                  className="block py-3 px-4 hover:bg-white/10 rounded-xl transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  AI Chat
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#chat-friends-section"
-                  className="block py-3 px-4 hover:bg-white/10 rounded-xl transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Share
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/login"
-                  className="block py-3 px-4 hover:bg-white/10 rounded-xl transition-colors text-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Login
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/signup"
-                  className="block bg-gradient-to-r from-primary to-secondary hover:opacity-90 px-6 py-3 rounded-full font-semibold text-center transition-all"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Sign Up
-                </a>
-              </li>
+              <li><a href="#features" className="block py-3 px-4 hover:bg-white/10 rounded-xl transition-colors" onClick={() => setMobileMenuOpen(false)}>Features</a></li>
+              <li><a href="#how-it-works" className="block py-3 px-4 hover:bg-white/10 rounded-xl transition-colors" onClick={() => setMobileMenuOpen(false)}>How It Works</a></li>
+              <li><a href="#pricing" className="block py-3 px-4 hover:bg-white/10 rounded-xl transition-colors" onClick={() => setMobileMenuOpen(false)}>Pricing</a></li>
+              <li><a href="/login" className="block py-3 px-4 hover:bg-white/10 rounded-xl transition-colors text-center" onClick={() => setMobileMenuOpen(false)}>Login</a></li>
+              <li><a href="/signup" className="block bg-gradient-to-r from-primary to-secondary hover:opacity-90 px-6 py-3 rounded-full font-semibold text-center transition-all" onClick={() => setMobileMenuOpen(false)}>Get Started</a></li>
             </ul>
           </div>
         )}
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-28 sm:pt-32 md:pt-40 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 overflow-hidden max-w-full">
-        {/* Bottom Gradient Fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-48 md:h-64 bg-gradient-to-t from-black via-black/80 to-transparent z-20 pointer-events-none"></div>
+      <section className="relative pt-28 sm:pt-32 md:pt-40 pb-12 sm:pb-20 px-4 sm:px-6 overflow-hidden">
+        {/* Background Gradient */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] sm:w-[1000px] sm:h-[1000px] bg-purple-500/20 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/3 left-1/3 w-[400px] h-[400px] sm:w-[600px] sm:h-[600px] bg-pink-500/10 rounded-full blur-3xl"></div>
+        </div>
 
         <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="text-center space-y-4 sm:space-y-6 md:space-y-8 animate-fadeInUp">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight max-w-5xl mx-auto px-2">
-              Never Miss a <br className="hidden sm:block" />
-              <span className="gradient-text">Meeting Detail</span> Again
+          <div className="text-center space-y-6 sm:space-y-8 animate-fadeInUp">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm">
+              <SparklesIcon className="w-4 h-4 text-purple-400" />
+              <span className="text-gray-300">Your AI-Powered Life Assistant</span>
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight max-w-5xl mx-auto">
+              Just <span className="gradient-text">Talk</span> and Let AI<br className="hidden sm:block" />
+              Handle the Rest
             </h1>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-400 max-w-3xl mx-auto px-2">
-              Record, transcribe, and summarize your meetings with AI. PAssist AI turns hours of recordings into actionable notes in seconds.
+
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto">
+              Your personal assistant that turns voice into action. Reminders, finances, life tasks, wellness tracking - all managed by simply speaking.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-2 sm:pt-4 px-2">
-              <a href="#download" className="w-full sm:w-auto bg-primary hover:bg-purple-600 px-8 py-3.5 sm:px-8 sm:py-4 rounded-full font-semibold text-base sm:text-lg transition-all btn-hover-effect text-center min-h-[48px] flex items-center justify-center">
-                Download App
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <a href="/signup" className="w-full sm:w-auto bg-gradient-to-r from-primary to-secondary hover:opacity-90 px-8 py-4 rounded-full font-semibold text-lg transition-all btn-hover-effect flex items-center justify-center gap-2">
+                Start Free Trial
+                <ArrowRightIcon className="w-5 h-5" />
               </a>
-              <a href="#how-it-works" className="w-full sm:w-auto glass px-8 py-3.5 sm:px-8 sm:py-4 rounded-full font-semibold text-base sm:text-lg transition-all btn-hover-effect flex items-center justify-center gap-2 min-h-[48px]">
-                <PlayCircleIcon className="w-5 h-5 sm:w-6 sm:h-6" />
-                Watch Video
+              <a href="#how-it-works" className="w-full sm:w-auto glass px-8 py-4 rounded-full font-semibold text-lg transition-all btn-hover-effect flex items-center justify-center gap-2">
+                <PlayCircleIcon className="w-6 h-6" />
+                Watch Demo
               </a>
+            </div>
+
+            {/* Trust Indicators */}
+            <div className="flex flex-wrap items-center justify-center gap-6 pt-8 text-gray-400 text-sm">
+              <div className="flex items-center gap-2">
+                <CheckIcon className="w-5 h-5 text-green-400" />
+                <span>No credit card required</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckIcon className="w-5 h-5 text-green-400" />
+                <span>14-day free trial</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckIcon className="w-5 h-5 text-green-400" />
+                <span>Cancel anytime</span>
+              </div>
             </div>
           </div>
 
-          {/* Hero Image */}
-          <div className="mt-8 sm:mt-12 md:mt-20 flex justify-center relative">
-            {/* Parallax Flares Behind Hand */}
-            <div className="absolute inset-0 pointer-events-none flex items-center justify-center -translate-y-[120px] sm:-translate-y-[180px]">
-              <div className="absolute w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] bg-primary rounded-full opacity-40 blur-3xl"></div>
-              <div className="absolute w-[250px] h-[250px] sm:w-[500px] sm:h-[500px] bg-secondary rounded-full opacity-35 blur-3xl"></div>
+          {/* Hero Visual - App Preview */}
+          <div className="mt-12 sm:mt-20 relative">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-[500px] h-[500px] sm:w-[800px] sm:h-[800px] bg-gradient-to-r from-purple-500/30 to-pink-500/30 rounded-full blur-3xl"></div>
             </div>
 
-            <div className="relative max-w-xs sm:max-w-lg md:max-w-2xl w-full z-10 px-4">
-              <img
-                src="/one.png"
-                alt="App Screen"
-                className="absolute top-[2%] left-[37%] md:left-[36.5%] transform -translate-x-[50%] w-[42%] h-auto z-0"
-                loading="eager"
-              />
-              <img
-                src="/hand.webp"
-                alt="PAssist AI App"
-                className="w-full h-auto relative z-10"
-                loading="eager"
-              />
+            <div className="relative max-w-4xl mx-auto">
+              {/* Browser Frame */}
+              <div className="glass rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-purple-500/10">
+                {/* Browser Header */}
+                <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-black/50">
+                  <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  </div>
+                  <div className="flex-1 flex justify-center">
+                    <div className="bg-white/5 rounded-full px-4 py-1 text-sm text-gray-400">
+                      app.passist.ai
+                    </div>
+                  </div>
+                </div>
+                {/* Dashboard Preview */}
+                <div className="relative aspect-[16/10] bg-gradient-to-br from-gray-900 to-black p-4 sm:p-8">
+                  {/* Simplified Dashboard UI */}
+                  <div className="grid grid-cols-12 gap-4 h-full">
+                    {/* Sidebar */}
+                    <div className="col-span-3 hidden sm:block bg-white/5 rounded-xl p-4 space-y-3">
+                      <div className="w-8 h-8 rounded-lg bg-purple-500 flex items-center justify-center">
+                        <SparklesIcon className="w-5 h-5" />
+                      </div>
+                      <div className="space-y-2 pt-4">
+                        {[1,2,3,4,5].map(i => (
+                          <div key={i} className={`h-8 rounded-lg ${i === 1 ? 'bg-purple-500/20' : 'bg-white/5'}`}></div>
+                        ))}
+                      </div>
+                    </div>
+                    {/* Main Content */}
+                    <div className="col-span-12 sm:col-span-9 space-y-4">
+                      {/* Header with Record Button */}
+                      <div className="flex items-center justify-between">
+                        <div className="h-6 w-32 bg-white/10 rounded"></div>
+                        <div className="bg-purple-500 rounded-full px-4 py-2 flex items-center gap-2">
+                          <MicrophoneIcon className="w-4 h-4" />
+                          <span className="text-sm font-medium hidden sm:inline">Record</span>
+                        </div>
+                      </div>
+                      {/* Stats Cards */}
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        {[
+                          { color: 'bg-purple-500/20', icon: BellIcon },
+                          { color: 'bg-green-500/20', icon: WalletIcon },
+                          { color: 'bg-blue-500/20', icon: ClipboardIcon },
+                          { color: 'bg-pink-500/20', icon: HeartIcon }
+                        ].map((card, i) => (
+                          <div key={i} className={`${card.color} rounded-xl p-3 sm:p-4`}>
+                            <card.icon className="w-5 h-5 mb-2" />
+                            <div className="h-4 w-12 bg-white/20 rounded"></div>
+                          </div>
+                        ))}
+                      </div>
+                      {/* Content Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 flex-1">
+                        <div className="bg-white/5 rounded-xl p-4">
+                          <div className="h-4 w-24 bg-white/10 rounded mb-3"></div>
+                          <div className="space-y-2">
+                            {[1,2,3].map(i => (
+                              <div key={i} className="h-10 bg-white/5 rounded-lg"></div>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="bg-white/5 rounded-xl p-4">
+                          <div className="h-4 w-24 bg-white/10 rounded mb-3"></div>
+                          <div className="space-y-2">
+                            {[1,2,3].map(i => (
+                              <div key={i} className="h-10 bg-white/5 rounded-lg"></div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section id="stats-section" data-animate className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 overflow-x-hidden">
-        <div className="container mx-auto max-w-7xl">
-          <div className={`flex flex-wrap items-center justify-center gap-3 sm:gap-8 md:gap-12 lg:gap-20 ${visibleSections.has('stats-section') ? 'animate-fadeIn' : 'opacity-0'}`}>
-            <div className="text-left md:text-center flex-shrink-0">
-              <div className="text-3xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black" style={{
-                background: 'linear-gradient(135deg, #FFFFFF 0%, #4B5563 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>10K+</div>
-              <div className="text-gray-400 mt-1 sm:mt-3 md:mt-4 text-xs sm:text-lg md:text-xl lg:text-2xl xl:text-3xl whitespace-nowrap">Active Users</div>
-            </div>
-            <div className="hidden sm:block h-16 md:h-20 lg:h-32 w-px bg-gray-700 flex-shrink-0"></div>
-            <div className="text-left md:text-center flex-shrink-0">
-              <div className="text-3xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black" style={{
-                background: 'linear-gradient(135deg, #FFFFFF 0%, #4B5563 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>100K+</div>
-              <div className="text-gray-400 mt-1 sm:mt-3 md:mt-4 text-xs sm:text-lg md:text-xl lg:text-2xl xl:text-3xl whitespace-nowrap">Meetings Recorded</div>
-            </div>
-            <div className="hidden sm:block h-16 md:h-20 lg:h-32 w-px bg-gray-700 flex-shrink-0"></div>
-            <div className="text-left md:text-center flex-shrink-0">
-              <div className="text-3xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black" style={{
-                background: 'linear-gradient(135deg, #FFFFFF 0%, #4B5563 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>12</div>
-              <div className="text-gray-400 mt-1 sm:mt-3 md:mt-4 text-xs sm:text-lg md:text-xl lg:text-2xl xl:text-3xl whitespace-nowrap">Languages</div>
-            </div>
+      <section id="stats" data-animate className="py-16 sm:py-24 px-4 sm:px-6">
+        <div className="container mx-auto max-w-6xl">
+          <div className={`grid grid-cols-2 md:grid-cols-4 gap-8 ${visibleSections.has('stats') ? 'animate-fadeIn' : 'opacity-0'}`}>
+            {[
+              { value: '50K+', label: 'Active Users' },
+              { value: '2M+', label: 'Tasks Created' },
+              { value: '500K+', label: 'Voice Commands' },
+              { value: '99.9%', label: 'Uptime' }
+            ].map((stat, i) => (
+              <div key={i} className="text-center">
+                <div className="text-3xl sm:text-5xl md:text-6xl font-black gradient-text">{stat.value}</div>
+                <div className="text-gray-400 mt-2 text-sm sm:text-base">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* How It Works Title Section */}
-      <section id="how-it-works-title" data-animate className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
+      {/* Features Grid Section */}
+      <section id="features" data-animate className="py-16 sm:py-24 px-4 sm:px-6">
         <div className="container mx-auto max-w-7xl">
-          <div className={`text-center space-y-3 sm:space-y-4 ${visibleSections.has('how-it-works-title') ? 'animate-fadeIn' : 'opacity-0'}`}>
+          <div className={`text-center mb-12 sm:mb-16 space-y-4 ${visibleSections.has('features') ? 'animate-fadeIn' : 'opacity-0'}`}>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black">
+              Everything You Need,<br className="hidden sm:block" />
+              <span className="gradient-text">Voice Powered</span>
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto">
+              One app to manage your entire life. Just speak and watch the magic happen.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:bg-white/10 transition-all group cursor-pointer border border-white/5 hover:border-white/20"
+              >
+                <div
+                  className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform`}
+                >
+                  <feature.icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">{feature.title}</h3>
+                <p className="text-gray-400 text-sm sm:text-base leading-relaxed">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section id="how-it-works" data-animate className="py-16 sm:py-24 px-4 sm:px-6">
+        <div className="container mx-auto max-w-6xl">
+          <div className={`text-center mb-12 sm:mb-16 space-y-4 ${visibleSections.has('how-it-works') ? 'animate-fadeIn' : 'opacity-0'}`}>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black">
               <span className="gradient-text">How It Works</span>
             </h2>
-            <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto">Your journey from recording to insights</p>
+            <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto">
+              Three simple steps to transform how you manage your life
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 sm:gap-12">
+            {[
+              {
+                step: '01',
+                title: 'Tap & Speak',
+                description: 'Hit the record button from anywhere in the app and speak naturally. "Remind me to call mom tomorrow" or "Add $50 groceries expense".',
+                icon: MicrophoneIcon,
+                color: '#8B5CF6'
+              },
+              {
+                step: '02',
+                title: 'AI Understands',
+                description: 'Our AI instantly understands your intent, extracts the details, and categorizes everything automatically.',
+                icon: SparklesIcon,
+                color: '#10B981'
+              },
+              {
+                step: '03',
+                title: 'Done!',
+                description: 'Your reminder is set, expense is logged, or task is created. Get notifications when things are due.',
+                icon: CheckIcon,
+                color: '#3B82F6'
+              }
+            ].map((item, index) => (
+              <div key={index} className="relative">
+                {index < 2 && (
+                  <div className="hidden md:block absolute top-12 left-full w-full h-0.5 bg-gradient-to-r from-white/20 to-transparent -translate-x-1/2"></div>
+                )}
+                <div className="text-center space-y-4">
+                  <div className="inline-flex items-center justify-center w-24 h-24 rounded-3xl glass border border-white/10" style={{ boxShadow: `0 0 60px ${item.color}30` }}>
+                    <item.icon className="w-10 h-10" style={{ color: item.color }} />
+                  </div>
+                  <div className="text-5xl font-black text-white/10">{item.step}</div>
+                  <h3 className="text-xl sm:text-2xl font-bold">{item.title}</h3>
+                  <p className="text-gray-400 leading-relaxed">{item.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Recording Screen Section */}
-      <section id="recording-section" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-2 items-center relative">
-            <div className="flex justify-center relative order-2 md:order-1 md:ml-[40%]">
-              {/* Oval Flare */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] h-[400px] sm:w-[500px] sm:h-[700px] rounded-full opacity-40 blur-3xl z-0"
-                style={{
-                  background: 'radial-gradient(ellipse, #8B5CF6, transparent 70%)'
-                }}
-              ></div>
-
-              <img
-                src="/nine.png"
-                alt="App Screen"
-                className="w-full max-w-[220px] sm:max-w-[280px] h-auto relative z-10 mx-auto"
-                loading="lazy"
-              />
+      {/* Voice Demo Section */}
+      <section data-animate className="py-16 sm:py-24 px-4 sm:px-6">
+        <div className="container mx-auto max-w-6xl">
+          <div className="glass rounded-3xl p-8 sm:p-12 border border-white/10 relative overflow-hidden">
+            {/* Background Glow */}
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-3xl"></div>
             </div>
 
-            {/* Animated Gradient Line */}
-            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5">
-              <div
-                className={`w-full h-80 transition-transform duration-2000 ease-out ${
-                  lineVisible ? 'scale-y-100' : 'scale-y-0'
-                }`}
-                style={{
-                  transformOrigin: 'top',
-                  background: 'linear-gradient(to bottom, transparent, #8B5CF6, transparent)'
-                }}
-              ></div>
+            <div className="relative z-10 text-center space-y-6">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black">Try Saying...</h2>
+
+              <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+                {[
+                  '"Remind me to take medicine at 9am"',
+                  '"Add $45 for lunch"',
+                  '"Mom\'s birthday is March 15"',
+                  '"Schedule dentist next week"',
+                  '"How am I feeling today?"'
+                ].map((phrase, i) => (
+                  <div key={i} className="bg-white/5 border border-white/10 rounded-full px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base text-gray-300 hover:bg-white/10 transition-colors cursor-pointer">
+                    {phrase}
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-6">
+                <a href="/signup" className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-secondary hover:opacity-90 px-8 py-4 rounded-full font-semibold text-lg transition-all">
+                  <MicrophoneIcon className="w-5 h-5" />
+                  Try It Now - Free
+                </a>
+              </div>
             </div>
-
-            <div className="space-y-4 sm:space-y-6 text-center md:text-left order-1 md:order-2 md:ml-8">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight" style={{
-                background: 'linear-gradient(135deg, #FFFFFF 0%, #4B5563 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>
-                Record Audio
-              </h2>
-              <p className="text-lg sm:text-xl text-gray-400 leading-relaxed">
-                Start recording with one tap. Capture every word.
-              </p>
-              <ul className="space-y-3 sm:space-y-4 flex flex-col items-center md:items-start">
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#8B5CF6' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">One tap recording</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#8B5CF6' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">High quality audio</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#8B5CF6' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Unlimited length</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* AI Transcription Section */}
-      <section id="transcription-section" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-2 items-center relative">
-            <div className="space-y-4 sm:space-y-6 text-center md:text-right order-1 md:mr-8">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight" style={{
-                background: 'linear-gradient(135deg, #FFFFFF 0%, #4B5563 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>
-                Get Transcript
-              </h2>
-              <p className="text-lg sm:text-xl text-gray-400 leading-relaxed">
-                Audio automatically transcribed to text.
-              </p>
-              <ul className="space-y-3 sm:space-y-4 flex flex-col items-center md:items-end">
-                <li className="flex items-start gap-3 md:flex-row-reverse">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#10B981' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Instant transcription</span>
-                </li>
-                <li className="flex items-start gap-3 md:flex-row-reverse">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#10B981' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">12 languages</span>
-                </li>
-                <li className="flex items-start gap-3 md:flex-row-reverse">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#10B981' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">High accuracy</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Animated Gradient Line */}
-            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5">
-              <div
-                className="w-full h-80 transition-transform duration-2000 ease-out scale-y-100"
-                style={{
-                  transformOrigin: 'top',
-                  background: 'linear-gradient(to bottom, transparent, #10B981, transparent)'
-                }}
-              ></div>
-            </div>
-
-            <div className="flex justify-center relative order-2 md:mr-[40%]">
-              {/* Oval Flare */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] h-[400px] sm:w-[500px] sm:h-[700px] rounded-full opacity-40 blur-3xl z-0"
-                style={{
-                  background: 'radial-gradient(ellipse, #10B981, transparent 70%)'
-                }}
-              ></div>
-
-              <img
-                src="/seven.png"
-                alt="App Screen"
-                className="w-full max-w-[220px] sm:max-w-[280px] h-auto relative z-10 mx-auto"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Smart Summaries Section */}
-      <section id="summaries-section" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-2 items-center relative">
-            <div className="flex justify-center relative order-2 md:order-1 md:ml-[40%]">
-              {/* Oval Flare */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] h-[400px] sm:w-[500px] sm:h-[700px] rounded-full opacity-40 blur-3xl z-0"
-                style={{
-                  background: 'radial-gradient(ellipse, #3B82F6, transparent 70%)'
-                }}
-              ></div>
-
-              <img
-                src="/six.png"
-                alt="App Screen"
-                className="w-full max-w-[220px] sm:max-w-[280px] h-auto relative z-10 mx-auto"
-                loading="lazy"
-              />
-            </div>
-
-            {/* Animated Gradient Line */}
-            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5">
-              <div
-                className="w-full h-80 transition-transform duration-2000 ease-out scale-y-100"
-                style={{
-                  transformOrigin: 'top',
-                  background: 'linear-gradient(to bottom, transparent, #3B82F6, transparent)'
-                }}
-              ></div>
-            </div>
-
-            <div className="space-y-4 sm:space-y-6 text-center md:text-left order-1 md:order-2 md:ml-8">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight" style={{
-                background: 'linear-gradient(135deg, #FFFFFF 0%, #4B5563 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>
-                AI Actions
-              </h2>
-              <p className="text-lg sm:text-xl text-gray-400 leading-relaxed">
-                Transform transcripts with powerful AI tools.
-              </p>
-              <ul className="space-y-3 sm:space-y-4 flex flex-col items-center md:items-start">
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#3B82F6' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Summarize</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#3B82F6' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Extract main points</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#3B82F6' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Generate to do list</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#3B82F6' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Translate</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Save Section */}
-      <section id="save-section" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-2 items-center relative">
-            <div className="space-y-4 sm:space-y-6 text-center md:text-right order-1 md:mr-8">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight" style={{
-                background: 'linear-gradient(135deg, #FFFFFF 0%, #4B5563 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>
-                Save & Organize
-              </h2>
-              <p className="text-lg sm:text-xl text-gray-400 leading-relaxed">
-                Save your transcripts the way you work.
-              </p>
-              <ul className="space-y-3 sm:space-y-4 flex flex-col items-center md:items-end">
-                <li className="flex items-start gap-3 md:flex-row-reverse">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#F59E0B' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Save as reminder</span>
-                </li>
-                <li className="flex items-start gap-3 md:flex-row-reverse">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#F59E0B' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Save as note</span>
-                </li>
-                <li className="flex items-start gap-3 md:flex-row-reverse">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#F59E0B' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Save as task</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Animated Gradient Line */}
-            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5">
-              <div
-                className="w-full h-80 transition-transform duration-2000 ease-out scale-y-100"
-                style={{
-                  transformOrigin: 'top',
-                  background: 'linear-gradient(to bottom, transparent, #F59E0B, transparent)'
-                }}
-              ></div>
-            </div>
-
-            <div className="flex justify-center relative order-2 md:mr-[40%]">
-              {/* Oval Flare */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] h-[400px] sm:w-[500px] sm:h-[700px] rounded-full opacity-40 blur-3xl z-0"
-                style={{
-                  background: 'radial-gradient(ellipse, #F59E0B, transparent 70%)'
-                }}
-              ></div>
-
-              <img
-                src="/save.png"
-                alt="App Screen"
-                className="w-full max-w-[220px] sm:max-w-[280px] h-auto relative z-10 mx-auto"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Folders Section */}
-      <section id="folders-section" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-2 items-center relative">
-            <div className="flex justify-center relative order-2 md:order-1 md:ml-[40%]">
-              {/* Oval Flare */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] h-[400px] sm:w-[500px] sm:h-[700px] rounded-full opacity-40 blur-3xl z-0"
-                style={{
-                  background: 'radial-gradient(ellipse, #EF4444, transparent 70%)'
-                }}
-              ></div>
-
-              <img
-                src="/folder.png"
-                alt="App Screen"
-                className="w-full max-w-[220px] sm:max-w-[280px] h-auto relative z-10 mx-auto"
-                loading="lazy"
-              />
-            </div>
-
-            {/* Animated Gradient Line */}
-            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5">
-              <div
-                className="w-full h-80 transition-transform duration-2000 ease-out scale-y-100"
-                style={{
-                  transformOrigin: 'top',
-                  background: 'linear-gradient(to bottom, transparent, #EF4444, transparent)'
-                }}
-              ></div>
-            </div>
-
-            <div className="space-y-4 sm:space-y-6 text-center md:text-left order-1 md:order-2 md:ml-8">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight" style={{
-                background: 'linear-gradient(135deg, #FFFFFF 0%, #4B5563 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>
-                Organize in Folders
-              </h2>
-              <p className="text-lg sm:text-xl text-gray-400 leading-relaxed">
-                Keep your recordings organized and easy to find.
-              </p>
-              <ul className="space-y-3 sm:space-y-4 flex flex-col items-center md:items-start">
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#EF4444' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Create folders</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#EF4444' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Sort recordings</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#EF4444' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Quick access</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* AI Chat Section */}
-      <section id="ai-chat-section" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-2 items-center relative">
-            <div className="space-y-4 sm:space-y-6 text-center md:text-right order-1 md:mr-8">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight" style={{
-                background: 'linear-gradient(135deg, #FFFFFF 0%, #4B5563 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>
-                Chat with AI
-              </h2>
-              <p className="text-lg sm:text-xl text-gray-400 leading-relaxed">
-                Ask questions about your recordings anytime.
-              </p>
-              <ul className="space-y-3 sm:space-y-4 flex flex-col items-center md:items-end">
-                <li className="flex items-start gap-3 md:flex-row-reverse">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#06B6D4' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Ask questions</span>
-                </li>
-                <li className="flex items-start gap-3 md:flex-row-reverse">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#06B6D4' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Get insights</span>
-                </li>
-                <li className="flex items-start gap-3 md:flex-row-reverse">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#06B6D4' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Instant answers</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Animated Gradient Line */}
-            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5">
-              <div
-                className="w-full h-80 transition-transform duration-2000 ease-out scale-y-100"
-                style={{
-                  transformOrigin: 'top',
-                  background: 'linear-gradient(to bottom, transparent, #06B6D4, transparent)'
-                }}
-              ></div>
-            </div>
-
-            <div className="flex justify-center relative order-2 md:mr-[40%]">
-              {/* Oval Flare */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] h-[400px] sm:w-[500px] sm:h-[700px] rounded-full opacity-40 blur-3xl z-0"
-                style={{
-                  background: 'radial-gradient(ellipse, #06B6D4, transparent 70%)'
-                }}
-              ></div>
-
-              <img
-                src="/four.png"
-                alt="App Screen"
-                className="w-full max-w-[220px] sm:max-w-[280px] h-auto relative z-10 mx-auto"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Share Contacts Section */}
-      <section id="share-contacts-section" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-2 items-center relative">
-            <div className="flex justify-center relative order-2 md:order-1 md:ml-[40%]">
-              {/* Oval Flare */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] h-[400px] sm:w-[500px] sm:h-[700px] rounded-full opacity-40 blur-3xl z-0"
-                style={{
-                  background: 'radial-gradient(ellipse, #EC4899, transparent 70%)'
-                }}
-              ></div>
-
-              <img
-                src="/five.png"
-                alt="App Screen"
-                className="w-full max-w-[220px] sm:max-w-[280px] h-auto relative z-10 mx-auto"
-                loading="lazy"
-              />
-            </div>
-
-            {/* Animated Gradient Line */}
-            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5">
-              <div
-                className="w-full h-80 transition-transform duration-2000 ease-out scale-y-100"
-                style={{
-                  transformOrigin: 'top',
-                  background: 'linear-gradient(to bottom, transparent, #EC4899, transparent)'
-                }}
-              ></div>
-            </div>
-
-            <div className="space-y-4 sm:space-y-6 text-center md:text-left order-1 md:order-2 md:ml-8">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight" style={{
-                background: 'linear-gradient(135deg, #FFFFFF 0%, #4B5563 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>
-                Share with QR Code
-              </h2>
-              <p className="text-lg sm:text-xl text-gray-400 leading-relaxed">
-                Share contacts easily by scanning QR codes.
-              </p>
-              <ul className="space-y-3 sm:space-y-4 flex flex-col items-center md:items-start">
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#EC4899' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Generate QR code</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#EC4899' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Scan to connect</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#EC4899' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Instant sharing</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Chat with Friends Section */}
-      <section id="chat-friends-section" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-2 items-center relative">
-            <div className="space-y-4 sm:space-y-6 text-center md:text-right order-1 md:mr-8">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight" style={{
-                background: 'linear-gradient(135deg, #FFFFFF 0%, #4B5563 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>
-                Chat with Friends
-              </h2>
-              <p className="text-lg sm:text-xl text-gray-400 leading-relaxed">
-                Share recordings and chat seamlessly.
-              </p>
-              <ul className="space-y-3 sm:space-y-4 flex flex-col items-center md:items-end">
-                <li className="flex items-start gap-3 md:flex-row-reverse">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#6366F1' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Direct messaging</span>
-                </li>
-                <li className="flex items-start gap-3 md:flex-row-reverse">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#6366F1' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Share recordings</span>
-                </li>
-                <li className="flex items-start gap-3 md:flex-row-reverse">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#6366F1' }}>
-                    <CheckIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-base sm:text-lg text-gray-300">Real-time chat</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Animated Gradient Line */}
-            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5">
-              <div
-                className="w-full h-80 transition-transform duration-2000 ease-out scale-y-100"
-                style={{
-                  transformOrigin: 'top',
-                  background: 'linear-gradient(to bottom, transparent, #6366F1, transparent)'
-                }}
-              ></div>
-            </div>
-
-            <div className="flex justify-center relative order-2 md:mr-[40%]">
-              {/* Oval Flare */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] h-[400px] sm:w-[500px] sm:h-[700px] rounded-full opacity-40 blur-3xl z-0"
-                style={{
-                  background: 'radial-gradient(ellipse, #6366F1, transparent 70%)'
-                }}
-              ></div>
-
-              <img
-                src="/eight.png"
-                alt="App Screen"
-                className="w-full max-w-[220px] sm:max-w-[280px] h-auto relative z-10 mx-auto"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Horizontal Flare Separator */}
-      <section id="horizontal-flare" className="py-20 px-6">
-        <div className="container mx-auto max-w-7xl flex justify-center items-center">
-          <div className="w-full h-1 relative">
-            <div
-              className={`h-full w-full transition-all duration-3000 ease-out ${
-                flareVisible ? 'scale-x-100 opacity-100' : 'scale-x-0 opacity-0'
-              }`}
-              style={{
-                transformOrigin: 'center',
-                background: 'linear-gradient(to right, transparent, #8B5CF6 20%, #10B981 50%, #8B5CF6 80%, transparent)'
-              }}
-            ></div>
           </div>
         </div>
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" data-animate className="py-16 sm:py-24 md:py-32 px-4 sm:px-6">
-        <div className="container mx-auto max-w-7xl">
-          <div className={`text-center mb-12 sm:mb-16 md:mb-20 space-y-3 sm:space-y-4 ${visibleSections.has('pricing') ? 'animate-fadeIn' : 'opacity-0'}`}>
+      <section id="pricing" data-animate className="py-16 sm:py-24 px-4 sm:px-6">
+        <div className="container mx-auto max-w-6xl">
+          <div className={`text-center mb-12 sm:mb-16 space-y-4 ${visibleSections.has('pricing') ? 'animate-fadeIn' : 'opacity-0'}`}>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black">
-              <span className="gradient-text">Pricing</span>
+              <span className="gradient-text">Simple Pricing</span>
             </h2>
-            <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto">Choose the perfect plan for your needs</p>
+            <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto">Start free, upgrade when you need more</p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto">
-            {/* Individual Plan */}
-            <div className="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 hover:bg-white/10 transition-all relative overflow-hidden">
-              <div className="relative z-10">
-                <h3 className="text-2xl sm:text-3xl font-black mb-2">Individual</h3>
-                <p className="text-gray-400 mb-6 sm:mb-8">Your personal AI meeting assistant.</p>
-
-                <div className="mb-6 sm:mb-8">
-                  <div className="flex items-baseline gap-2 mb-3">
-                    <span className="text-3xl sm:text-4xl md:text-5xl font-black" style={{
-                      background: 'linear-gradient(135deg, #FFFFFF 0%, #4B5563 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text'
-                    }}>$14.99</span>
-                    <span className="text-gray-400">per month</span>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-gray-500 line-through text-lg sm:text-xl">$199</span>
-                    <span className="text-2xl sm:text-3xl md:text-4xl font-black" style={{
-                      background: 'linear-gradient(135deg, #FFFFFF 0%, #4B5563 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text'
-                    }}>$99.99</span>
-                    <span className="text-gray-400">per year</span>
-                  </div>
-                </div>
-
-                <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
-                  <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#8B5CF6' }}>
-                      <CheckIcon className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-base sm:text-lg text-gray-300">Unlimited recordings & transcripts</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#8B5CF6' }}>
-                      <CheckIcon className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-base sm:text-lg text-gray-300">AI summaries & actions</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#8B5CF6' }}>
-                      <CheckIcon className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-base sm:text-lg text-gray-300">Works on mobile, desktop & tablet</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#8B5CF6' }}>
-                      <CheckIcon className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-base sm:text-lg text-gray-300">12 language support</span>
-                  </li>
-                </ul>
-
-                <a href="#download" className="block w-full bg-primary hover:bg-purple-600 px-6 py-3.5 sm:px-8 sm:py-4 rounded-full font-semibold text-base sm:text-lg transition-all btn-hover-effect text-center">
-                  Get Started
-                </a>
+          <div className="grid md:grid-cols-3 gap-6 sm:gap-8">
+            {/* Free Plan */}
+            <div className="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-white/10 hover:border-white/20 transition-all">
+              <h3 className="text-xl sm:text-2xl font-bold mb-2">Free</h3>
+              <p className="text-gray-400 mb-6">Perfect for getting started</p>
+              <div className="mb-6">
+                <span className="text-4xl sm:text-5xl font-black">$0</span>
+                <span className="text-gray-400">/month</span>
               </div>
+              <ul className="space-y-3 mb-8">
+                {['50 voice commands/month', 'Basic reminders', 'Notes & tasks', 'Mobile app access'].map((feature, i) => (
+                  <li key={i} className="flex items-center gap-3 text-gray-300">
+                    <CheckIcon className="w-5 h-5 text-green-400 flex-shrink-0" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href="/signup" className="block w-full glass border border-white/10 hover:bg-white/10 px-6 py-3 rounded-full font-semibold text-center transition-all">
+                Get Started
+              </a>
             </div>
 
-            {/* Teams Plan */}
-            <div className="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 hover:bg-white/10 transition-all relative overflow-hidden border-2 border-primary">
-              {/* Launch Offer Badge */}
-              <div className="absolute top-4 right-4 bg-gradient-to-r from-primary to-secondary px-3 py-1 rounded-full text-xs sm:text-sm font-bold">
-                Limited Launch Offer
+            {/* Pro Plan */}
+            <div className="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 border-2 border-primary relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary to-secondary px-4 py-1 rounded-full text-sm font-bold">
+                Most Popular
               </div>
-
-              <div className="relative z-10">
-                <h3 className="text-2xl sm:text-3xl font-black mb-2">Teams</h3>
-                <p className="text-gray-400 mb-6 sm:mb-8">Give your team the gift of memory.</p>
-
-                <div className="mb-6 sm:mb-8">
-                  <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-gray-500 line-through text-xl sm:text-2xl">$299</span>
-                    <span className="text-4xl sm:text-5xl md:text-6xl font-black" style={{
-                      background: 'linear-gradient(135deg, #FFFFFF 0%, #4B5563 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text'
-                    }}>$99</span>
-                    <span className="text-gray-400">per month</span>
-                  </div>
-                  <p className="text-sm sm:text-base text-gray-500">for the entire team</p>
-                </div>
-
-                <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
-                  <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#10B981' }}>
-                      <CheckIcon className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-base sm:text-lg text-gray-300">Add unlimited users. No per-user pricing</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#10B981' }}>
-                      <CheckIcon className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-base sm:text-lg text-gray-300">Share & collaborate on recordings</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#10B981' }}>
-                      <CheckIcon className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-base sm:text-lg text-gray-300">Build your company knowledge base</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#10B981' }}>
-                      <CheckIcon className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-base sm:text-lg text-gray-300">Up to 10,000 minutes. Add-ons available</span>
-                  </li>
-                </ul>
-
-                <a href="#download" className="block w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 px-6 py-3.5 sm:px-8 sm:py-4 rounded-full font-semibold text-base sm:text-lg transition-all btn-hover-effect text-center">
-                  Get Started
-                </a>
+              <h3 className="text-xl sm:text-2xl font-bold mb-2">Pro</h3>
+              <p className="text-gray-400 mb-6">For power users</p>
+              <div className="mb-6">
+                <span className="text-4xl sm:text-5xl font-black">$9.99</span>
+                <span className="text-gray-400">/month</span>
               </div>
+              <ul className="space-y-3 mb-8">
+                {['Unlimited voice commands', 'All features unlocked', 'Finance tracking', 'Life tasks & events', 'Daily check-ins', 'Priority support'].map((feature, i) => (
+                  <li key={i} className="flex items-center gap-3 text-gray-300">
+                    <CheckIcon className="w-5 h-5 text-green-400 flex-shrink-0" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href="/signup" className="block w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 px-6 py-3 rounded-full font-semibold text-center transition-all">
+                Start Free Trial
+              </a>
+            </div>
+
+            {/* Team Plan */}
+            <div className="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-white/10 hover:border-white/20 transition-all">
+              <h3 className="text-xl sm:text-2xl font-bold mb-2">Team</h3>
+              <p className="text-gray-400 mb-6">For families & teams</p>
+              <div className="mb-6">
+                <span className="text-4xl sm:text-5xl font-black">$24.99</span>
+                <span className="text-gray-400">/month</span>
+              </div>
+              <ul className="space-y-3 mb-8">
+                {['Up to 5 users', 'Everything in Pro', 'Shared calendars', 'Family events', 'Collaborative tasks', 'Admin dashboard'].map((feature, i) => (
+                  <li key={i} className="flex items-center gap-3 text-gray-300">
+                    <CheckIcon className="w-5 h-5 text-green-400 flex-shrink-0" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href="/signup" className="block w-full glass border border-white/10 hover:bg-white/10 px-6 py-3 rounded-full font-semibold text-center transition-all">
+                Contact Sales
+              </a>
             </div>
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials-section" data-animate className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-        <div className="container mx-auto max-w-7xl">
-          <div className={`text-center mb-8 sm:mb-12 md:mb-16 space-y-3 sm:space-y-4 ${visibleSections.has('testimonials-section') ? 'animate-slideInUp' : 'opacity-0'}`}>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold px-2">Trusted by Professionals Worldwide</h2>
-            <p className="text-lg sm:text-xl text-gray-400 px-2">See what our users are saying</p>
+      <section id="testimonials" data-animate className="py-16 sm:py-24 px-4 sm:px-6">
+        <div className="container mx-auto max-w-6xl">
+          <div className={`text-center mb-12 sm:mb-16 space-y-4 ${visibleSections.has('testimonials') ? 'animate-fadeIn' : 'opacity-0'}`}>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black">Loved by Thousands</h2>
+            <p className="text-lg sm:text-xl text-gray-400">See what our users are saying</p>
           </div>
-          <div className="relative">
-            {/* Top Gradient Overlay */}
-            <div className="absolute top-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none"></div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              {
-                name: 'Carlos Fernández',
-                role: 'Product Manager',
-                country: 'Madrid, Spain',
-                text: 'PAssist AI has completely changed how I run meetings. The AI summaries save me hours every week.'
-              },
-              {
-                name: 'Emily Watson',
-                role: 'Marketing Director',
-                country: 'London, UK',
-                text: 'The transcription accuracy is incredible. I can finally focus on the conversation instead of taking notes.'
-              },
-              {
-                name: 'Lukas Schmidt',
-                role: 'Software Engineer',
-                country: 'Berlin, Germany',
-                text: 'Being able to chat with AI about my recordings is a game changer. It finds details I would have missed.'
-              },
-              {
-                name: 'Giulia Bianchi',
-                role: 'Business Consultant',
-                country: 'Rome, Italy',
-                text: 'The multilingual support is perfect for my international clients. PAssist AI understands every conversation.'
-              },
-              {
-                name: 'Michael Chen',
-                role: 'Startup Founder',
-                country: 'San Francisco, US',
-                text: 'Our whole team uses PAssist AI. Sharing recordings and collaborating has never been easier.'
-              },
-              {
-                name: 'Sophie Dubois',
-                role: 'Project Manager',
-                country: 'Paris, France',
-                text: 'The folder organization keeps all my client meetings perfectly structured. Simple and powerful.'
-              },
-              {
-                name: 'Raj Patel',
-                role: 'Sales Manager',
-                country: 'Mumbai, India',
-                text: 'Recording client calls and getting instant summaries helps me close deals faster. Incredible tool.'
-              },
-              {
-                name: 'Yuki Tanaka',
-                role: 'UX Designer',
-                country: 'Tokyo, Japan',
-                text: 'The AI chat feature helps me find exact moments in user interviews. Saves so much time.'
-              },
-              {
-                name: 'Maria Silva',
-                role: 'HR Director',
-                country: 'Lisbon, Portugal',
-                text: 'Perfect for recording interviews and team meetings. The transcripts are always accurate.'
-              },
-              {
-                name: 'Henrik Andersen',
-                role: 'Architect',
-                country: 'Copenhagen, Denmark',
-                text: 'I use PAssist AI for all client consultations. The search feature makes finding old discussions effortless.'
-              },
-              {
-                name: 'Isabella Rossi',
-                role: 'Journalist',
-                country: 'Milan, Italy',
-                text: 'As a journalist, accurate transcriptions are crucial. PAssist AI delivers every single time.'
-              },
-              {
-                name: 'James O\'Brien',
-                role: 'Legal Advisor',
-                country: 'Dublin, Ireland',
-                text: 'The security and accuracy of PAssist AI make it perfect for legal consultations. Highly recommend.'
-              }
-            ].map((testimonial, index) => (
-              <div key={index} className="glass rounded-3xl p-6 testimonial-card">
+              { name: 'Sarah M.', role: 'Entrepreneur', text: 'PAssist AI has completely changed how I manage my day. I just talk and everything gets organized. It\'s like having a personal secretary.' },
+              { name: 'David K.', role: 'Software Engineer', text: 'The voice-to-finance feature is incredible. I track all expenses by just speaking. My budgeting has never been easier.' },
+              { name: 'Emily R.', role: 'Working Mom', text: 'Between work and kids, I was always forgetting things. Now I just tell PAssist and it handles reminders, birthdays, everything!' },
+              { name: 'Michael T.', role: 'Freelancer', text: 'The AI understands context so well. I can say "remind me about the Johnson project" and it knows exactly what I mean.' },
+              { name: 'Lisa P.', role: 'Health Coach', text: 'I love the daily check-in feature. Tracking my clients\' wellness by voice is so much faster than typing everything.' },
+              { name: 'James W.', role: 'Retiree', text: 'At my age, remembering medications and appointments was tough. PAssist makes it simple - I just talk to it!' }
+            ].map((testimonial, i) => (
+              <div key={i} className="glass rounded-2xl p-6 border border-white/5">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-sm font-bold">
                     {testimonial.name.split(' ').map(n => n[0]).join('')}
                   </div>
                   <div>
-                    <h3 className="font-bold text-base">{testimonial.name}</h3>
-                    <p className="text-xs text-gray-400">{testimonial.role}</p>
-                    <p className="text-xs text-gray-500">{testimonial.country}</p>
+                    <div className="font-semibold">{testimonial.name}</div>
+                    <div className="text-sm text-gray-400">{testimonial.role}</div>
                   </div>
                 </div>
-                <p className="text-gray-300 text-sm leading-relaxed">{testimonial.text}</p>
+                <p className="text-gray-300 leading-relaxed">{testimonial.text}</p>
               </div>
             ))}
-            </div>
-
-            {/* Bottom Gradient Overlay */}
-            <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none"></div>
           </div>
         </div>
       </section>
 
-      {/* Download Section */}
-      <section id="download" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-        <div className="container mx-auto max-w-5xl">
-          <div className="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 text-center space-y-4 sm:space-y-6 md:space-y-8">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold px-2">Ready to Transform Your Meetings?</h2>
-            <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto px-2">
-              Download PAssist AI now and start recording smarter meetings today. Available on iOS and Android.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 pt-2 sm:pt-4">
-              <a href="#" className="hover:opacity-80 transition-opacity w-full sm:w-auto flex justify-center">
-                <img
-                  src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
-                  alt="Download on App Store"
-                  className="h-12 sm:h-14"
-                />
-              </a>
-              <a href="#" className="hover:opacity-80 transition-opacity w-full sm:w-auto flex justify-center">
-                <img
-                  src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-                  alt="Get it on Google Play"
-                  className="h-16 sm:h-20"
-                />
-              </a>
+      {/* CTA Section */}
+      <section className="py-16 sm:py-24 px-4 sm:px-6">
+        <div className="container mx-auto max-w-4xl">
+          <div className="glass rounded-3xl p-8 sm:p-12 text-center space-y-6 border border-white/10 relative overflow-hidden">
+            {/* Background Glow */}
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-b from-purple-500/20 to-transparent"></div>
+            </div>
+
+            <div className="relative z-10">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
+                Ready to Simplify Your Life?
+              </h2>
+              <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-8">
+                Join thousands of users who have transformed how they manage their daily life. Start your free trial today.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="/signup" className="w-full sm:w-auto bg-gradient-to-r from-primary to-secondary hover:opacity-90 px-8 py-4 rounded-full font-semibold text-lg transition-all flex items-center justify-center gap-2">
+                  Start Free Trial
+                  <ArrowRightIcon className="w-5 h-5" />
+                </a>
+                <a href="#" className="w-full sm:w-auto text-gray-400 hover:text-white px-8 py-4 font-semibold transition-colors">
+                  Schedule a Demo
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-8 sm:py-10 md:py-12 px-4 sm:px-6 border-t border-white/10">
+      <footer className="py-12 px-4 sm:px-6 border-t border-white/10">
         <div className="container mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 md:gap-12 mb-8 sm:mb-10 md:mb-12">
-            <div className="space-y-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+            <div className="col-span-2 md:col-span-1 space-y-4">
               <div className="flex items-center space-x-3">
                 <img src="/logo.png" alt="PAssist AI Logo" className="w-10 h-10 rounded-lg" />
-                <span className="text-2xl font-bold">PAssist AI</span>
+                <span className="text-xl font-bold">PAssist AI</span>
               </div>
-              <p className="text-gray-400">AI-powered meeting recorder that helps you focus on what matters.</p>
+              <p className="text-gray-400 text-sm">Your AI-powered personal assistant for a simpler life.</p>
             </div>
             <div>
-              <h4 className="font-bold mb-4 text-lg">Product</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#how-it-works" className="hover:text-primary transition-colors">How It Works</a></li>
-                <li><a href="#download" className="hover:text-primary transition-colors">Download</a></li>
+              <h4 className="font-bold mb-4">Product</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li><a href="#features" className="hover:text-primary transition-colors">Features</a></li>
+                <li><a href="#pricing" className="hover:text-primary transition-colors">Pricing</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Download</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold mb-4 text-lg">Resources</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="/help" className="hover:text-primary transition-colors">Help Center</a></li>
-                <li><a href="/docs" className="hover:text-primary transition-colors">Documentation</a></li>
-                <li><a href="/tutorials" className="hover:text-primary transition-colors">Tutorials</a></li>
+              <h4 className="font-bold mb-4">Resources</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li><a href="#" className="hover:text-primary transition-colors">Help Center</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Blog</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">API Docs</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold mb-4 text-lg">Company</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="/about" className="hover:text-primary transition-colors">About</a></li>
-                <li><a href="/contact" className="hover:text-primary transition-colors">Contact</a></li>
-                <li><a href="/privacy" className="hover:text-primary transition-colors">Privacy</a></li>
-                <li><a href="/terms" className="hover:text-primary transition-colors">Terms of Service</a></li>
+              <h4 className="font-bold mb-4">Company</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li><a href="#" className="hover:text-primary transition-colors">About</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Privacy</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Terms</a></li>
               </ul>
             </div>
           </div>
-          <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex flex-col items-center md:items-start gap-2">
-              <p className="text-gray-400">&copy; 2025 PAssist AI. All rights reserved.</p>
-            </div>
-            <div className="flex items-center gap-6">
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors" aria-label="Facebook">
-                <FacebookIcon className="w-6 h-6" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors" aria-label="Instagram">
-                <InstagramIcon className="w-6 h-6" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors" aria-label="X">
-                <XIcon className="w-6 h-6" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors" aria-label="LinkedIn">
-                <LinkedInIcon className="w-6 h-6" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors" aria-label="YouTube">
-                <YouTubeIcon className="w-6 h-6" />
-              </a>
+          <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-gray-400 text-sm">&copy; 2025 PAssist AI. All rights reserved.</p>
+            <div className="flex items-center gap-4">
+              <a href="#" className="text-gray-400 hover:text-primary transition-colors"><FacebookIcon className="w-5 h-5" /></a>
+              <a href="#" className="text-gray-400 hover:text-primary transition-colors"><InstagramIcon className="w-5 h-5" /></a>
+              <a href="#" className="text-gray-400 hover:text-primary transition-colors"><XIcon className="w-5 h-5" /></a>
+              <a href="#" className="text-gray-400 hover:text-primary transition-colors"><LinkedInIcon className="w-5 h-5" /></a>
+              <a href="#" className="text-gray-400 hover:text-primary transition-colors"><YouTubeIcon className="w-5 h-5" /></a>
             </div>
           </div>
         </div>
