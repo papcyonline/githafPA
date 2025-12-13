@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/lib/auth-context'
 import { format, startOfMonth, endOfMonth } from 'date-fns'
@@ -10,6 +10,8 @@ import {
 } from 'recharts'
 import DashboardLayout from '@/components/DashboardLayout'
 import AudioRecorder from '@/components/AudioRecorder'
+import { Skeleton, SkeletonStats, SkeletonChart, SkeletonTable } from '@/components/ui/Skeleton'
+import { useToast } from '@/components/ui/Toast'
 
 interface FinancialEntry {
   id: string
@@ -47,6 +49,7 @@ const COLORS = ['#8B5CF6', '#10B981', '#F59E0B', '#EF4444', '#3B82F6', '#EC4899'
 export default function FinancePage() {
   const router = useRouter()
   const { user, loading: authLoading } = useAuth()
+  const toast = useToast()
   const [entries, setEntries] = useState<FinancialEntry[]>([])
   const [insights, setInsights] = useState<FinancialInsights | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -65,6 +68,11 @@ export default function FinancePage() {
     date: format(new Date(), 'yyyy-MM-dd'),
     recurring: false,
   })
+
+  // AI input state
+  const [aiInput, setAiInput] = useState('')
+  const [aiLoading, setAiLoading] = useState(false)
+  const [aiError, setAiError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -119,19 +127,94 @@ export default function FinancePage() {
           recurring: false,
         })
         fetchData()
+        toast.success(`${formData.entry_type === 'income' ? 'Income' : 'Expense'} entry added successfully`)
+      } else {
+        toast.error('Failed to add entry. Please try again.')
       }
     } catch (error) {
       console.error('Failed to add entry:', error)
+      toast.error('Failed to add entry. Please try again.')
     }
   }
 
   const handleDelete = async (id: string) => {
     if (!confirm('Delete this entry?')) return
     try {
-      await fetch(`/api/financial/entries?id=${id}`, { method: 'DELETE' })
-      fetchData()
+      const response = await fetch(`/api/financial/entries?id=${id}`, { method: 'DELETE' })
+      if (response.ok) {
+        fetchData()
+        toast.success('Entry deleted successfully')
+      } else {
+        toast.error('Failed to delete entry')
+      }
     } catch (error) {
       console.error('Failed to delete entry:', error)
+      toast.error('Failed to delete entry')
+    }
+  }
+
+  const handleAISubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!aiInput.trim()) return
+
+    setAiLoading(true)
+    setAiError(null)
+
+    try {
+      // First, parse the voice command using AI
+      const parseResponse = await fetch('/api/parse-voice-command', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          transcript: aiInput,
+          context: 'finance',
+        }),
+      })
+
+      if (!parseResponse.ok) {
+        throw new Error('Failed to parse your input')
+      }
+
+      const parsed = await parseResponse.json()
+
+      // Check if we got valid financial data
+      if (!parsed.amount || parsed.amount <= 0) {
+        throw new Error('Could not detect a valid amount. Please include an amount like "$50" or "50 dollars".')
+      }
+
+      // Determine entry type from parsed response
+      const entryType = parsed.entry_type ||
+        (parsed.type?.includes('income') ? 'income' : 'expense')
+
+      // Create the financial entry
+      const createResponse = await fetch('/api/financial/entries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          entry_type: entryType,
+          amount: parsed.amount,
+          category: parsed.category || (entryType === 'income' ? 'Other' : 'Other'),
+          description: parsed.title || parsed.description || aiInput,
+          date: parsed.date || format(new Date(), 'yyyy-MM-dd'),
+          recurring: false,
+          user_id: user?.id,
+        }),
+      })
+
+      if (!createResponse.ok) {
+        throw new Error('Failed to create entry')
+      }
+
+      // Success - close modal and refresh
+      setShowAIPrompt(false)
+      setAiInput('')
+      fetchData()
+      toast.success('Entry created from your description!')
+    } catch (error) {
+      console.error('AI input error:', error)
+      setAiError(error instanceof Error ? error.message : 'Something went wrong. Please try again.')
+    } finally {
+      setAiLoading(false)
     }
   }
 
@@ -493,51 +576,95 @@ export default function FinancePage() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold">Add Financial Entry with AI</h2>
               <button
-                onClick={() => setShowAIPrompt(false)}
+                onClick={() => {
+                  setShowAIPrompt(false)
+                  setAiInput('')
+                  setAiError(null)
+                }}
                 className="text-gray-400 hover:text-white transition-colors"
+                disabled={aiLoading}
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
-            <form onSubmit={async (e) => {
-              e.preventDefault()
-              const formElement = e.target as HTMLFormElement
-              const input = (formElement.elements.namedItem('aiInput') as HTMLInputElement).value
-
-              // TODO: Send to AI service to parse and create entry
-              console.log('AI Input:', input)
-              setShowAIPrompt(false)
-              fetchData()
-            }}>
+            <form onSubmit={handleAISubmit}>
               <div className="mb-4">
                 <label className="block text-sm text-gray-400 mb-2">
                   Describe your transaction in natural language
                 </label>
                 <textarea
-                  name="aiInput"
+                  value={aiInput}
+                  onChange={(e) => setAiInput(e.target.value)}
                   placeholder="e.g., 'Spent $45 on dinner at the restaurant' or 'Got paid $2000 for freelance work'"
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
                   required
+                  disabled={aiLoading}
                 />
                 <p className="text-xs text-gray-500 mt-2">
                   The AI will automatically extract the amount, category, and type
                 </p>
               </div>
+
+              {/* Error message */}
+              {aiError && (
+                <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                  <p className="text-sm text-red-400">{aiError}</p>
+                </div>
+              )}
+
+              {/* Example prompts */}
+              <div className="mb-4">
+                <p className="text-xs text-gray-500 mb-2">Try these examples:</p>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    'Paid $50 for groceries',
+                    'Received $3000 salary',
+                    'Spent $120 on electricity bill',
+                  ].map((example) => (
+                    <button
+                      key={example}
+                      type="button"
+                      onClick={() => setAiInput(example)}
+                      className="text-xs px-2 py-1 bg-white/5 hover:bg-white/10 rounded-full text-gray-400 hover:text-white transition-colors"
+                      disabled={aiLoading}
+                    >
+                      {example}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div className="flex gap-3">
                 <button
                   type="button"
-                  onClick={() => setShowAIPrompt(false)}
-                  className="flex-1 bg-white/5 py-2 rounded-lg hover:bg-white/10 transition-colors"
+                  onClick={() => {
+                    setShowAIPrompt(false)
+                    setAiInput('')
+                    setAiError(null)
+                  }}
+                  className="flex-1 bg-white/5 py-2 rounded-lg hover:bg-white/10 transition-colors disabled:opacity-50"
+                  disabled={aiLoading}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-purple-500 py-2 rounded-lg hover:bg-purple-600 transition-colors"
+                  className="flex-1 bg-purple-500 py-2 rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                  disabled={aiLoading || !aiInput.trim()}
                 >
-                  Create Entry
+                  {aiLoading ? (
+                    <>
+                      <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      Processing...
+                    </>
+                  ) : (
+                    'Create Entry'
+                  )}
                 </button>
               </div>
             </form>

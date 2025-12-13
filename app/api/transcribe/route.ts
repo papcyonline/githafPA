@@ -1,43 +1,61 @@
-import { NextRequest, NextResponse } from 'next/server'
-import OpenAI from 'openai'
+/**
+ * Audio Transcription API Route
+ * Uses server-side OpenAI client (secure)
+ */
+
+import { NextRequest } from 'next/server'
+import { transcribeAudio } from '@/lib/api/openai'
+import {
+  transcribeRequestSchema,
+  safeValidateRequest,
+  formatValidationErrors
+} from '@/lib/api/validation'
+import {
+  successResponse,
+  validationError,
+  withErrorHandling
+} from '@/lib/api/response'
+import { withRateLimit, rateLimitConfigs } from '@/lib/api/rate-limit'
 
 export async function POST(request: NextRequest) {
-  try {
-    const { audioUrl } = await request.json()
+  // Apply rate limiting for AI endpoints (more restrictive)
+  const rateLimitResponse = withRateLimit(request, undefined, rateLimitConfigs.ai)
+  if (rateLimitResponse) {
+    return rateLimitResponse
+  }
 
-    if (!audioUrl) {
-      return NextResponse.json(
-        { error: 'Audio URL is required' },
-        { status: 400 }
+  return withErrorHandling(async () => {
+    const body = await request.json()
+
+    // Validate request
+    const validation = safeValidateRequest(transcribeRequestSchema, body)
+    if (!validation.success) {
+      const { error } = validation as { success: false; error: import('zod').ZodError }
+      return validationError(
+        'Invalid request',
+        formatValidationErrors(error)
       )
     }
 
-    const openai = new OpenAI({
-      apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY || process.env.OPENAI_API_KEY,
-    })
+    const { audioUrl, language } = validation.data
 
     // Download audio file
     const audioResponse = await fetch(audioUrl)
+    if (!audioResponse.ok) {
+      return validationError('Failed to fetch audio file')
+    }
+
     const audioBlob = await audioResponse.blob()
 
-    // Convert blob to File object for OpenAI
-    const audioFile = new File([audioBlob], 'audio.webm', { type: 'audio/webm' })
+    // Validate file size (max 25MB for Whisper)
+    const maxSize = 25 * 1024 * 1024
+    if (audioBlob.size > maxSize) {
+      return validationError('Audio file too large (max 25MB)')
+    }
 
-    // Transcribe using Whisper
-    const transcription = await openai.audio.transcriptions.create({
-      file: audioFile,
-      model: 'whisper-1',
-      language: 'en',
-    })
+    // Transcribe using server-side OpenAI client
+    const transcript = await transcribeAudio(audioBlob, { language })
 
-    return NextResponse.json({
-      transcript: transcription.text,
-    })
-  } catch (error: any) {
-    console.error('Transcription error:', error)
-    return NextResponse.json(
-      { error: 'Failed to transcribe audio', details: error.message },
-      { status: 500 }
-    )
-  }
+    return successResponse({ transcript })
+  })
 }
