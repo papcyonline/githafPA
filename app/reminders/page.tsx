@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, Suspense, useRef, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/lib/auth-context'
@@ -18,12 +18,119 @@ function RemindersContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [googleConnected, setGoogleConnected] = useState(false)
   const [notification, setNotification] = useState<{ type: 'success' | 'error', message: string } | null>(null)
+  const [activeReminders, setActiveReminders] = useState<Reminder[]>([])
+  const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default')
+  const audioContextRef = useRef<AudioContext | null>(null)
+  const notifiedRemindersRef = useRef<Set<string>>(new Set())
 
   // Form state
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [date, setDate] = useState('')
   const [time, setTime] = useState('09:00')
+
+  // Play notification sound using Web Audio API
+  const playNotificationSound = useCallback(() => {
+    try {
+      if (!audioContextRef.current) {
+        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)()
+      }
+      const ctx = audioContextRef.current
+
+      // Create a pleasant notification chime
+      const playTone = (freq: number, startTime: number, duration: number) => {
+        const oscillator = ctx.createOscillator()
+        const gainNode = ctx.createGain()
+
+        oscillator.connect(gainNode)
+        gainNode.connect(ctx.destination)
+
+        oscillator.frequency.value = freq
+        oscillator.type = 'sine'
+
+        gainNode.gain.setValueAtTime(0, ctx.currentTime + startTime)
+        gainNode.gain.linearRampToValueAtTime(0.3, ctx.currentTime + startTime + 0.05)
+        gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + startTime + duration)
+
+        oscillator.start(ctx.currentTime + startTime)
+        oscillator.stop(ctx.currentTime + startTime + duration)
+      }
+
+      // Play a pleasant three-tone chime
+      playTone(523.25, 0, 0.2)    // C5
+      playTone(659.25, 0.15, 0.2) // E5
+      playTone(783.99, 0.3, 0.3)  // G5
+    } catch (error) {
+      console.error('Error playing notification sound:', error)
+    }
+  }, [])
+
+  // Request notification permission
+  useEffect(() => {
+    if ('Notification' in window) {
+      setNotificationPermission(Notification.permission)
+      if (Notification.permission === 'default') {
+        Notification.requestPermission().then(permission => {
+          setNotificationPermission(permission)
+        })
+      }
+    }
+  }, [])
+
+  // Check for due reminders
+  useEffect(() => {
+    if (!reminders.length) return
+
+    const checkReminders = () => {
+      const now = new Date()
+      const currentDate = now.toISOString().split('T')[0]
+      const currentTime = now.toTimeString().slice(0, 5)
+
+      const dueReminders = reminders.filter(reminder => {
+        const reminderKey = `${reminder.id}-${reminder.reminder_date}-${reminder.reminder_time}`
+        if (notifiedRemindersRef.current.has(reminderKey)) return false
+
+        if (reminder.reminder_date === currentDate) {
+          // Check if time matches (within 1 minute window)
+          const [remHour, remMin] = reminder.reminder_time.split(':').map(Number)
+          const [curHour, curMin] = currentTime.split(':').map(Number)
+
+          if (remHour === curHour && Math.abs(remMin - curMin) <= 1) {
+            notifiedRemindersRef.current.add(reminderKey)
+            return true
+          }
+        }
+        return false
+      })
+
+      if (dueReminders.length > 0) {
+        setActiveReminders(dueReminders)
+        playNotificationSound()
+
+        // Show browser notification
+        if (notificationPermission === 'granted') {
+          dueReminders.forEach(reminder => {
+            new Notification('PAssist AI Reminder', {
+              body: reminder.title,
+              icon: '/logo.png',
+              tag: reminder.id,
+            })
+          })
+        }
+      }
+    }
+
+    // Check every 30 seconds
+    checkReminders()
+    const interval = setInterval(checkReminders, 30000)
+
+    return () => clearInterval(interval)
+  }, [reminders, notificationPermission, playNotificationSound])
+
+  // Dismiss active reminder
+  const dismissReminder = (id: string) => {
+    setActiveReminders(prev => prev.filter(r => r.id !== id))
+  }
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -252,26 +359,104 @@ function RemindersContent() {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
-        <header className="h-16 border-b border-white/10 flex items-center justify-between px-6 bg-black/50 backdrop-blur-lg">
-          <div className="flex items-center space-x-4">
+        <header className="h-14 sm:h-16 border-b border-white/10 flex items-center justify-between px-3 sm:px-6 bg-black/50 backdrop-blur-lg">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden p-2 hover:bg-white/10 rounded-lg transition-colors">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            <h1 className="text-2xl font-black">Reminders</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-xl sm:text-2xl font-black">Reminders</h1>
+              {todayReminders.length > 0 && (
+                <div className="relative">
+                  <svg className="w-5 h-5 text-amber-400 animate-bell-ring" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                  </svg>
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-amber-500 rounded-full text-[10px] font-bold flex items-center justify-center text-black">
+                    {todayReminders.length}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
 
-          <button
-            onClick={() => setShowModal(true)}
-            className="bg-[#A855F7] hover:bg-[#9333EA] px-6 py-2.5 rounded-full font-semibold transition-all inline-flex items-center space-x-2"
-          >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
-            <span>New Reminder</span>
-          </button>
+          <div className="flex items-center gap-2">
+            {/* Test Sound Button */}
+            <button
+              onClick={playNotificationSound}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors text-gray-400 hover:text-white"
+              title="Test notification sound"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              </svg>
+            </button>
+
+            <button
+              onClick={() => setShowModal(true)}
+              className="bg-[#A855F7] hover:bg-[#9333EA] px-3 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold transition-all inline-flex items-center space-x-1 sm:space-x-2 text-sm sm:text-base"
+            >
+              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              <span className="hidden sm:inline">New Reminder</span>
+            </button>
+          </div>
         </header>
+
+        {/* Active Reminder Popup */}
+        {activeReminders.length > 0 && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-zinc-900 rounded-2xl p-6 w-full max-w-sm border border-amber-500/50 shadow-2xl shadow-amber-500/20 animate-pulse-slow">
+              {/* Ringing Bell Animation */}
+              <div className="flex justify-center mb-4">
+                <div className="relative">
+                  <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center animate-ping absolute inset-0"></div>
+                  <div className="w-16 h-16 rounded-full bg-amber-500/30 flex items-center justify-center relative">
+                    <svg className="w-8 h-8 text-amber-400 animate-bell-ring" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div className="text-center mb-4">
+                <p className="text-amber-400 text-sm font-semibold uppercase tracking-wider mb-2">Reminder</p>
+                <h3 className="text-xl font-bold text-white">{activeReminders[0].title}</h3>
+                {activeReminders[0].description && (
+                  <p className="text-gray-400 mt-2 text-sm">{activeReminders[0].description}</p>
+                )}
+                <p className="text-gray-500 mt-2 text-sm">
+                  {activeReminders[0].reminder_time}
+                </p>
+              </div>
+
+              <div className="flex gap-2">
+                <button
+                  onClick={() => {
+                    playNotificationSound()
+                  }}
+                  className="flex-1 px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-gray-300 rounded-xl transition-colors text-sm font-medium"
+                >
+                  Snooze 5min
+                </button>
+                <button
+                  onClick={() => dismissReminder(activeReminders[0].id)}
+                  className="flex-1 px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-black rounded-xl transition-colors text-sm font-bold"
+                >
+                  Dismiss
+                </button>
+              </div>
+
+              {activeReminders.length > 1 && (
+                <p className="text-center text-gray-500 text-xs mt-3">
+                  +{activeReminders.length - 1} more reminder{activeReminders.length > 2 ? 's' : ''}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Notification Banner */}
         {notification && (
@@ -291,7 +476,7 @@ function RemindersContent() {
           </div>
         )}
 
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-6">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20">
               <div className="w-12 h-12 border-4 border-[#A855F7] border-t-transparent rounded-full animate-spin"></div>
@@ -453,12 +638,41 @@ function ReminderCard({ reminder, onDelete, onAddToCalendar, googleConnected, fo
     setAdding(false)
   }
 
+  // Check if reminder is due within the hour
+  const isDueSoon = () => {
+    if (isPast) return false
+    const now = new Date()
+    const today = now.toISOString().split('T')[0]
+    if (reminder.reminder_date !== today) return false
+
+    const [remHour, remMin] = reminder.reminder_time.split(':').map(Number)
+    const [curHour, curMin] = [now.getHours(), now.getMinutes()]
+
+    const reminderMinutes = remHour * 60 + remMin
+    const currentMinutes = curHour * 60 + curMin
+    const diff = reminderMinutes - currentMinutes
+
+    return diff >= 0 && diff <= 60
+  }
+
+  const dueSoon = isDueSoon()
+
   return (
-    <div className={`bg-zinc-900/50 rounded-xl border p-4 ${isPast ? 'border-zinc-800' : 'border-amber-500/30 bg-amber-500/5'}`}>
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <h3 className="font-semibold text-white">{reminder.title}</h3>
+    <div className={`bg-zinc-900/50 rounded-xl border p-3 sm:p-4 transition-all ${
+      isPast ? 'border-zinc-800' : dueSoon ? 'border-amber-500 bg-amber-500/10 shadow-lg shadow-amber-500/10' : 'border-amber-500/30 bg-amber-500/5'
+    }`}>
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            {dueSoon && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-amber-500 text-black">
+                <svg className="w-3 h-3 animate-bell-ring" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+                Due Soon
+              </span>
+            )}
+            <h3 className="font-semibold text-white text-sm sm:text-base truncate">{reminder.title}</h3>
             {reminder.synced_to_google && (
               <span className="px-1.5 py-0.5 rounded text-xs bg-blue-500/20 text-blue-400 flex items-center gap-1">
                 <svg className="w-3 h-3" viewBox="0 0 24 24">
@@ -469,24 +683,24 @@ function ReminderCard({ reminder, onDelete, onAddToCalendar, googleConnected, fo
             )}
           </div>
           {reminder.description && (
-            <p className="text-sm text-gray-400 mt-1">{reminder.description}</p>
+            <p className="text-xs sm:text-sm text-gray-400 mt-1 line-clamp-2">{reminder.description}</p>
           )}
-          <div className="flex items-center gap-3 mt-2 text-sm text-gray-500">
+          <div className="flex items-center gap-2 sm:gap-3 mt-2 text-xs sm:text-sm text-gray-500">
             <span className="flex items-center gap-1">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               {formatDate ? formatDate(reminder.reminder_date) : 'Today'}
             </span>
             <span className="flex items-center gap-1">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               {reminder.reminder_time}
             </span>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
           {!isPast && !reminder.synced_to_google && (
             <button
               onClick={handleAddToCalendar}

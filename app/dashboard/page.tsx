@@ -345,22 +345,22 @@ export default function DashboardPage() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Top Bar */}
-        <header className="h-16 border-b border-white/10 flex items-center justify-between px-6 bg-black/50 backdrop-blur-lg">
-          <div className="flex items-center space-x-4">
+        <header className="h-14 sm:h-16 border-b border-white/10 flex items-center justify-between px-3 sm:px-6 bg-black/50 backdrop-blur-lg">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="lg:hidden p-2 hover:bg-white/10 rounded-lg transition-colors"
             >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
 
             {/* View Toggle */}
-            <div className="flex bg-zinc-900 rounded-lg p-1">
+            <div className="flex bg-zinc-900 rounded-lg p-0.5 sm:p-1">
               <button
                 onClick={() => setActiveView('overview')}
-                className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                className={`px-2 sm:px-4 py-1 sm:py-1.5 rounded-md text-xs sm:text-sm font-medium transition-colors ${
                   activeView === 'overview' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'
                 }`}
               >
@@ -368,7 +368,7 @@ export default function DashboardPage() {
               </button>
               <button
                 onClick={() => setActiveView('recordings')}
-                className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                className={`px-2 sm:px-4 py-1 sm:py-1.5 rounded-md text-xs sm:text-sm font-medium transition-colors ${
                   activeView === 'recordings' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'
                 }`}
               >
@@ -379,9 +379,9 @@ export default function DashboardPage() {
 
           <button
             onClick={() => setShowRecorder(true)}
-            className="bg-[#A855F7] hover:bg-[#9333EA] px-6 py-2.5 rounded-full font-semibold transition-all inline-flex items-center space-x-2"
+            className="bg-[#A855F7] hover:bg-[#9333EA] px-3 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold transition-all inline-flex items-center space-x-1 sm:space-x-2 text-sm sm:text-base"
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
             </svg>
             <span className="hidden sm:inline">New Recording</span>
@@ -389,7 +389,7 @@ export default function DashboardPage() {
         </header>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-6">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20">
               <div className="w-12 h-12 border-4 border-[#A855F7] border-t-transparent rounded-full animate-spin"></div>
@@ -397,7 +397,7 @@ export default function DashboardPage() {
             </div>
           ) : activeView === 'overview' ? (
             /* Smart Dashboard View */
-            <div className="space-y-6 max-w-7xl mx-auto">
+            <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto">
               {/* Morning Briefing */}
               {dashboardData && (
                 <MorningBriefingWidget
@@ -419,7 +419,7 @@ export default function DashboardPage() {
               />
 
               {/* Main Grid */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                 {/* Today Overview - Takes 2 columns */}
                 <div className="lg:col-span-2">
                   {dashboardData && (
@@ -436,7 +436,7 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Right Column */}
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   {/* Goals Progress */}
                   {dashboardData && (
                     <GoalsProgressWidget goals={dashboardData.activeGoals} />
@@ -451,7 +451,7 @@ export default function DashboardPage() {
 
               {/* Recent Recordings Section */}
               {recordings.length > 0 && (
-                <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 p-4">
+                <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 p-3 sm:p-4">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-sm font-medium text-gray-400">Recent Recordings</h3>
                     <button
@@ -466,23 +466,30 @@ export default function DashboardPage() {
                       <Link
                         key={recording.id}
                         href={`/recording/${recording.id}`}
-                        className="flex items-center gap-3 p-3 rounded-lg bg-zinc-800/50 hover:bg-zinc-800 transition-colors"
+                        className="block p-3 rounded-lg bg-zinc-800/50 hover:bg-zinc-800 transition-colors"
                       >
-                        <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
-                          <svg className="w-5 h-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                          </svg>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="font-medium text-white truncate">{recording.title}</p>
-                          <p className="text-xs text-gray-500">
-                            {formatDuration(recording.duration)} - {formatDate(recording.created_at)}
-                          </p>
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                            <svg className="w-5 h-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                            </svg>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-white truncate">{recording.title}</p>
+                            <p className="text-xs text-gray-500">
+                              {formatDuration(recording.duration)} - {formatDate(recording.created_at)}
+                            </p>
+                          </div>
+                          {recording.transcript && (
+                            <span className="px-2 py-0.5 bg-green-500/20 text-green-400 rounded-full text-xs flex-shrink-0">
+                              Transcribed
+                            </span>
+                          )}
                         </div>
                         {recording.transcript && (
-                          <span className="px-2 py-0.5 bg-green-500/20 text-green-400 rounded-full text-xs">
-                            Transcribed
-                          </span>
+                          <p className="mt-2 text-xs text-gray-400 line-clamp-1 pl-[52px]">
+                            "{recording.transcript}"
+                          </p>
                         )}
                       </Link>
                     ))}
@@ -494,9 +501,9 @@ export default function DashboardPage() {
             /* Recordings View */
             <div className="space-y-4 max-w-5xl">
               {/* Search and Filters */}
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-4">
                 {/* Search Bar */}
-                <div className="flex-1 relative max-w-md">
+                <div className="flex-1 relative sm:max-w-md">
                   <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
@@ -509,13 +516,13 @@ export default function DashboardPage() {
                   />
                 </div>
 
-                {/* Filter Buttons */}
-                <div className="hidden md:flex gap-2">
+                {/* Filter and Sort Row */}
+                <div className="flex gap-2 overflow-x-auto pb-1 sm:pb-0">
                   {(['all', 'today', 'week', 'month'] as const).map((filter) => (
                     <button
                       key={filter}
                       onClick={() => setSelectedFilter(filter)}
-                      className={`px-3 py-2 rounded-lg text-sm font-semibold whitespace-nowrap transition-all ${
+                      className={`px-3 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition-all flex-shrink-0 ${
                         selectedFilter === filter
                           ? 'bg-[#A855F7] text-white'
                           : 'bg-white/5 text-gray-400 hover:bg-white/10'
@@ -524,19 +531,19 @@ export default function DashboardPage() {
                       {filter === 'all' ? 'All' : filter === 'today' ? 'Today' : filter === 'week' ? 'Week' : 'Month'}
                     </button>
                   ))}
-                </div>
 
-                {/* Sort Dropdown */}
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-                  className="px-3 py-2 text-sm bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A855F7] font-semibold cursor-pointer"
-                >
-                  <option value="recent">Recent</option>
-                  <option value="oldest">Oldest</option>
-                  <option value="longest">Longest</option>
-                  <option value="shortest">Shortest</option>
-                </select>
+                  {/* Sort Dropdown */}
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+                    className="px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A855F7] font-semibold cursor-pointer flex-shrink-0"
+                  >
+                    <option value="recent">Recent</option>
+                    <option value="oldest">Oldest</option>
+                    <option value="longest">Longest</option>
+                    <option value="shortest">Shortest</option>
+                  </select>
+                </div>
               </div>
 
               {/* Recordings List */}
@@ -564,23 +571,23 @@ export default function DashboardPage() {
                     return (
                       <div
                         key={recording.id}
-                        className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-all group"
+                        className="bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl p-3 sm:p-5 hover:bg-white/10 transition-all group"
                       >
-                        <div className="flex items-start gap-4">
+                        <div className="flex items-start gap-3 sm:gap-4">
                           {/* Play Button */}
                           <button
                             onClick={(e) => {
                               e.preventDefault()
                               togglePlayPause(recording.id, recording.audio_url)
                             }}
-                            className="w-12 h-12 flex-shrink-0 rounded-full bg-[#A855F7] hover:bg-[#9333EA] flex items-center justify-center transition-all"
+                            className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 rounded-full bg-[#A855F7] hover:bg-[#9333EA] flex items-center justify-center transition-all"
                           >
                             {isPlaying ? (
-                              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
                               </svg>
                             ) : (
-                              <svg className="w-6 h-6 ml-0.5" fill="currentColor" viewBox="0 0 20 20">
+                              <svg className="w-5 h-5 sm:w-6 sm:h-6 ml-0.5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
                               </svg>
                             )}
@@ -589,9 +596,9 @@ export default function DashboardPage() {
                           {/* Recording Info */}
                           <div className="flex-1 min-w-0">
                             <Link href={`/recording/${recording.id}`} className="block group-hover:text-[#A855F7] transition-colors">
-                              <div className="flex items-start justify-between gap-4 mb-2">
+                              <div className="flex items-start justify-between gap-2 sm:gap-4 mb-2">
                                 <div className="flex items-center gap-2 min-w-0">
-                                  <h3 className="text-lg font-bold truncate">{recording.title}</h3>
+                                  <h3 className="text-base sm:text-lg font-bold truncate">{recording.title}</h3>
                                   {recording.is_favorite && (
                                     <svg className="w-5 h-5 text-yellow-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -631,15 +638,17 @@ export default function DashboardPage() {
                                 )}
                               </div>
 
-                              {/* Transcript Preview */}
-                              {recording.summary && (
-                                <p className="text-sm text-gray-400 line-clamp-2">{recording.summary}</p>
+                              {/* Transcript/Summary Preview */}
+                              {(recording.transcript || recording.summary) && (
+                                <p className="text-xs sm:text-sm text-gray-400 line-clamp-2">
+                                  {recording.summary || `"${recording.transcript}"`}
+                                </p>
                               )}
                             </Link>
                           </div>
 
                           {/* Action Buttons */}
-                          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="flex items-center gap-1 sm:gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                             <button
                               onClick={(e) => {
                                 e.preventDefault()
