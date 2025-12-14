@@ -164,7 +164,7 @@ export default function NotesPage() {
               className={`px-4 py-2 rounded-lg text-sm font-semibold capitalize transition-all ${
                 activeTab === tab
                   ? 'bg-[#A855F7] text-white'
-                  : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
               {tab}
@@ -179,7 +179,7 @@ export default function NotesPage() {
           ) : activeTab === 'notes' ? (
             notes.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20">
-                <svg className="w-20 h-20 text-gray-700 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-20 h-20 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
                 <h3 className="text-2xl font-bold mb-2">No notes yet</h3>
@@ -194,7 +194,7 @@ export default function NotesPage() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl">
                 {notes.map((note) => (
-                  <div key={note.id} className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-all group">
+                  <div key={note.id} className="bg-white border border-gray-200 rounded-2xl p-5 hover:bg-gray-50 transition-all group shadow-sm">
                     <div className="flex items-start justify-between gap-2 mb-3">
                       <h3 className="text-lg font-bold flex-1">{note.title}</h3>
                       <button
@@ -215,7 +215,7 @@ export default function NotesPage() {
           ) : activeTab === 'reminders' ? (
             reminders.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20">
-                <svg className="w-20 h-20 text-gray-700 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-20 h-20 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
                 <h3 className="text-2xl font-bold mb-2">No reminders yet</h3>
@@ -230,7 +230,7 @@ export default function NotesPage() {
             ) : (
               <div className="space-y-3 max-w-3xl">
                 {reminders.map((reminder) => (
-                  <div key={reminder.id} className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-all group">
+                  <div key={reminder.id} className="bg-white border border-gray-200 rounded-2xl p-5 hover:bg-gray-50 transition-all group shadow-sm">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
                         <h3 className="text-lg font-bold mb-2">{reminder.title}</h3>
@@ -258,7 +258,7 @@ export default function NotesPage() {
           ) : (
             tasks.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20">
-                <svg className="w-20 h-20 text-gray-700 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-20 h-20 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                 </svg>
                 <h3 className="text-2xl font-bold mb-2">No tasks yet</h3>
@@ -273,7 +273,7 @@ export default function NotesPage() {
             ) : (
               <div className="space-y-2 max-w-2xl">
                 {tasks.map((task) => (
-                  <div key={task.id} className="bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 transition-all group flex items-center gap-3">
+                  <div key={task.id} className="bg-white border border-gray-200 rounded-xl p-4 hover:bg-gray-50 transition-all group flex items-center gap-3 shadow-sm">
                     <input
                       type="checkbox"
                       checked={task.completed}
@@ -299,33 +299,33 @@ export default function NotesPage() {
 
       {/* Note Modal */}
       {showNoteModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-8 w-full max-w-2xl">
-            <h2 className="text-2xl font-black mb-6">Create Note</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm p-4">
+          <div className="bg-white border border-gray-200 rounded-3xl p-8 w-full max-w-2xl shadow-xl">
+            <h2 className="text-2xl font-black mb-6 text-gray-900">Create Note</h2>
             <input
               type="text"
               placeholder="Note title"
               value={noteTitle}
               onChange={(e) => setNoteTitle(e.target.value)}
-              className="w-full mb-4 px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A855F7]"
+              className="w-full mb-4 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A855F7] text-gray-900"
             />
             <textarea
               placeholder="Note content"
               value={noteContent}
               onChange={(e) => setNoteContent(e.target.value)}
               rows={6}
-              className="w-full mb-6 px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A855F7] resize-none"
+              className="w-full mb-6 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A855F7] resize-none text-gray-900"
             />
             <div className="flex gap-3">
               <button
                 onClick={handleCreateNote}
-                className="flex-1 bg-[#A855F7] hover:bg-[#9333EA] px-6 py-3 rounded-full font-semibold transition-all"
+                className="flex-1 bg-[#A855F7] hover:bg-[#9333EA] px-6 py-3 rounded-full font-semibold transition-all text-white"
               >
                 Create
               </button>
               <button
                 onClick={() => setShowNoteModal(false)}
-                className="px-6 py-3 bg-white/5 hover:bg-white/10 rounded-full font-semibold transition-all"
+                className="px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-full font-semibold transition-all text-gray-700"
               >
                 Cancel
               </button>
@@ -336,47 +336,47 @@ export default function NotesPage() {
 
       {/* Reminder Modal */}
       {showReminderModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-8 w-full max-w-2xl">
-            <h2 className="text-2xl font-black mb-6">Create Reminder</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm p-4">
+          <div className="bg-white border border-gray-200 rounded-3xl p-8 w-full max-w-2xl shadow-xl">
+            <h2 className="text-2xl font-black mb-6 text-gray-900">Create Reminder</h2>
             <input
               type="text"
               placeholder="Reminder title"
               value={reminderTitle}
               onChange={(e) => setReminderTitle(e.target.value)}
-              className="w-full mb-4 px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A855F7]"
+              className="w-full mb-4 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A855F7] text-gray-900"
             />
             <textarea
               placeholder="Description"
               value={reminderDescription}
               onChange={(e) => setReminderDescription(e.target.value)}
               rows={3}
-              className="w-full mb-4 px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A855F7] resize-none"
+              className="w-full mb-4 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A855F7] resize-none text-gray-900"
             />
             <div className="grid grid-cols-2 gap-4 mb-6">
               <input
                 type="date"
                 value={reminderDate}
                 onChange={(e) => setReminderDate(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A855F7]"
+                className="px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A855F7] text-gray-900"
               />
               <input
                 type="time"
                 value={reminderTime}
                 onChange={(e) => setReminderTime(e.target.value)}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A855F7]"
+                className="px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A855F7] text-gray-900"
               />
             </div>
             <div className="flex gap-3">
               <button
                 onClick={handleCreateReminder}
-                className="flex-1 bg-[#A855F7] hover:bg-[#9333EA] px-6 py-3 rounded-full font-semibold transition-all"
+                className="flex-1 bg-[#A855F7] hover:bg-[#9333EA] px-6 py-3 rounded-full font-semibold transition-all text-white"
               >
                 Create
               </button>
               <button
                 onClick={() => setShowReminderModal(false)}
-                className="px-6 py-3 bg-white/5 hover:bg-white/10 rounded-full font-semibold transition-all"
+                className="px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-full font-semibold transition-all text-gray-700"
               >
                 Cancel
               </button>
@@ -387,26 +387,26 @@ export default function NotesPage() {
 
       {/* Task Modal */}
       {showTaskModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-8 w-full max-w-lg">
-            <h2 className="text-2xl font-black mb-6">Create Task</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm p-4">
+          <div className="bg-white border border-gray-200 rounded-3xl p-8 w-full max-w-lg shadow-xl">
+            <h2 className="text-2xl font-black mb-6 text-gray-900">Create Task</h2>
             <input
               type="text"
               placeholder="Task title"
               value={taskTitle}
               onChange={(e) => setTaskTitle(e.target.value)}
-              className="w-full mb-6 px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A855F7]"
+              className="w-full mb-6 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A855F7] text-gray-900"
             />
             <div className="flex gap-3">
               <button
                 onClick={handleCreateTask}
-                className="flex-1 bg-[#A855F7] hover:bg-[#9333EA] px-6 py-3 rounded-full font-semibold transition-all"
+                className="flex-1 bg-[#A855F7] hover:bg-[#9333EA] px-6 py-3 rounded-full font-semibold transition-all text-white"
               >
                 Create
               </button>
               <button
                 onClick={() => setShowTaskModal(false)}
-                className="px-6 py-3 bg-white/5 hover:bg-white/10 rounded-full font-semibold transition-all"
+                className="px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-full font-semibold transition-all text-gray-700"
               >
                 Cancel
               </button>

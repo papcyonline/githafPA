@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '@/lib/auth-context'
 import { parseAssignmentCommand } from '@/lib/smart-assignments.service'
 import { supabase } from '@/lib/supabase'
+import { ENABLE_MOCK_DATA } from '@/lib/mock-data'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -36,15 +37,15 @@ export default function FloatingAIChat() {
     const userInput = input
     setInput('')
 
-    // Check if this is a research/assignment request
-    const assignment = parseAssignmentCommand(userInput)
+    // Check if this is a research/assignment request (skip in demo mode)
+    const assignment = !ENABLE_MOCK_DATA ? parseAssignmentCommand(userInput) : null
 
     if (assignment && assignment.isResearchTask && user) {
       // Handle as research request
       setIsResearching(true)
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: `🔍 Researching "${assignment.searchQuery}"...\n\nI'll save the results to your ${assignment.saveAs}s${assignment.saveAs === 'reminder' ? ` and remind you on ${assignment.reminderDate}` : ''}.`,
+        content: `Researching "${assignment.searchQuery}"...\n\nI'll save the results to your ${assignment.saveAs}s${assignment.saveAs === 'reminder' ? ` and remind you on ${assignment.reminderDate}` : ''}.`,
       }])
 
       try {
@@ -98,7 +99,7 @@ export default function FloatingAIChat() {
             if (savedSuccessfully) {
               setMessages(prev => [...prev, {
                 role: 'assistant',
-                content: `✅ **Research Complete!**\n\n**${result.title}**\n\n${result.content.substring(0, 300)}${result.content.length > 300 ? '...' : ''}\n\n📁 Saved to your ${saveAs}s. [View ${saveAs} →](/${saveAs}s)`,
+                content: `**Research Complete!**\n\n**${result.title}**\n\n${result.content.substring(0, 300)}${result.content.length > 300 ? '...' : ''}\n\nSaved to your ${saveAs}s. [View ${saveAs} →](/${saveAs}s)`,
                 isResearchResult: true,
               }])
 
@@ -112,7 +113,7 @@ export default function FloatingAIChat() {
             } else {
               setMessages(prev => [...prev, {
                 role: 'assistant',
-                content: `✅ **Research Complete!**\n\n**${result.title}**\n\n${result.content.substring(0, 300)}${result.content.length > 300 ? '...' : ''}\n\n⚠️ Could not save to ${saveAs}s automatically.`,
+                content: `**Research Complete!**\n\n**${result.title}**\n\n${result.content.substring(0, 300)}${result.content.length > 300 ? '...' : ''}\n\nCould not save to ${saveAs}s automatically.`,
                 isResearchResult: true,
               }])
             }
@@ -120,21 +121,21 @@ export default function FloatingAIChat() {
             console.error('Save error:', saveError)
             setMessages(prev => [...prev, {
               role: 'assistant',
-              content: `✅ **Research Complete!**\n\n**${result.title}**\n\n${result.content}\n\n⚠️ Could not save automatically. Please copy the results.`,
+              content: `**Research Complete!**\n\n**${result.title}**\n\n${result.content}\n\nCould not save automatically. Please copy the results.`,
               isResearchResult: true,
             }])
           }
         } else {
           setMessages(prev => [...prev, {
             role: 'assistant',
-            content: `❌ Sorry, I couldn't complete the research. ${result.error || 'Please try again.'}`,
+            content: `Sorry, I couldn't complete the research. ${result.error || 'Please try again.'}`,
           }])
         }
       } catch (error) {
         console.error('Research error:', error)
         setMessages(prev => [...prev, {
           role: 'assistant',
-          content: '❌ Sorry, something went wrong with the research. Please try again.',
+          content: 'Sorry, something went wrong with the research. Please try again.',
         }])
       } finally {
         setIsResearching(false)
@@ -193,7 +194,7 @@ export default function FloatingAIChat() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-br from-[#A855F7] to-[#10B981] rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center group"
+          className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center group"
           title="Chat with AI"
         >
           <svg
@@ -215,9 +216,9 @@ export default function FloatingAIChat() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 z-50 w-96 h-[600px] bg-[#1a1a1a] border border-white/10 rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+        <div className="fixed bottom-6 right-6 z-50 w-96 h-[600px] bg-white border border-gray-200 rounded-3xl shadow-2xl flex flex-col overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-br from-[#A855F7] to-[#10B981] p-4 flex items-center justify-between">
+          <div className="bg-gradient-to-br from-purple-500 to-purple-700 p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
                 <svg
@@ -273,10 +274,10 @@ export default function FloatingAIChat() {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-black">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
             {messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center px-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#A855F7] to-[#10B981] flex items-center justify-center mb-4">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center mb-4">
                   <svg
                     className="w-8 h-8 text-white"
                     fill="none"
@@ -291,54 +292,54 @@ export default function FloatingAIChat() {
                     />
                   </svg>
                 </div>
-                <h3 className="text-white font-bold mb-2">Hi! I'm PAssist</h3>
-                <p className="text-gray-400 text-sm mb-6">
+                <h3 className="text-gray-900 font-bold mb-2">Hi! I'm PAssist</h3>
+                <p className="text-gray-500 text-sm mb-6">
                   Your personal assistant with access to all your data. Ask me anything!
                 </p>
 
                 <div className="grid grid-cols-1 gap-2 w-full">
                   <button
                     onClick={() => setInput('What recordings do I have?')}
-                    className="p-3 bg-gradient-to-r from-purple-500/10 to-blue-500/10 hover:from-purple-500/20 hover:to-blue-500/20 rounded-xl text-left border border-purple-500/20 transition-all text-sm"
+                    className="p-3 bg-purple-50 hover:bg-purple-100 rounded-xl text-left border border-purple-200 transition-all text-sm"
                   >
-                    <div className="text-white font-semibold flex items-center gap-2">
-                      <svg className="w-4 h-4 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="text-gray-900 font-semibold flex items-center gap-2">
+                      <svg className="w-4 h-4 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
                       </svg>
                       View my recordings
                     </div>
-                    <div className="text-gray-400 text-xs">See all your audio notes</div>
+                    <div className="text-gray-500 text-xs">See all your audio notes</div>
                   </button>
                   <button
                     onClick={() => setInput('What are my upcoming tasks and reminders?')}
-                    className="p-3 bg-gradient-to-r from-green-500/10 to-teal-500/10 hover:from-green-500/20 hover:to-teal-500/20 rounded-xl text-left border border-green-500/20 transition-all text-sm"
+                    className="p-3 bg-green-50 hover:bg-green-100 rounded-xl text-left border border-green-200 transition-all text-sm"
                   >
-                    <div className="text-white font-semibold flex items-center gap-2">
-                      <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="text-gray-900 font-semibold flex items-center gap-2">
+                      <svg className="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                       </svg>
                       Check my schedule
                     </div>
-                    <div className="text-gray-400 text-xs">Tasks, reminders & events</div>
+                    <div className="text-gray-500 text-xs">Tasks, reminders & events</div>
                   </button>
                   <button
                     onClick={() => setInput('How am I doing financially?')}
-                    className="p-3 bg-gradient-to-r from-amber-500/10 to-orange-500/10 hover:from-amber-500/20 hover:to-orange-500/20 rounded-xl text-left border border-amber-500/20 transition-all text-sm"
+                    className="p-3 bg-amber-50 hover:bg-amber-100 rounded-xl text-left border border-amber-200 transition-all text-sm"
                   >
-                    <div className="text-white font-semibold flex items-center gap-2">
-                      <svg className="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="text-gray-900 font-semibold flex items-center gap-2">
+                      <svg className="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       Financial overview
                     </div>
-                    <div className="text-gray-400 text-xs">Income, expenses & budgets</div>
+                    <div className="text-gray-500 text-xs">Income, expenses & budgets</div>
                   </button>
                   <button
                     onClick={() => setInput('Find me the cheapest hotels in Dubai and save to notes')}
-                    className="p-3 bg-white/5 hover:bg-white/10 rounded-xl text-left border border-white/10 transition-all text-sm"
+                    className="p-3 bg-gray-100 hover:bg-gray-200 rounded-xl text-left border border-gray-200 transition-all text-sm"
                   >
-                    <div className="text-white font-semibold">Research anything</div>
-                    <div className="text-gray-400 text-xs">I'll find info and save it for you</div>
+                    <div className="text-gray-900 font-semibold">Research anything</div>
+                    <div className="text-gray-500 text-xs">I'll find info and save it for you</div>
                   </button>
                 </div>
               </div>
@@ -352,7 +353,7 @@ export default function FloatingAIChat() {
                     }`}
                   >
                     {message.role === 'assistant' && (
-                      <div className="w-8 h-8 flex-shrink-0 rounded-full bg-gradient-to-br from-[#A855F7] to-[#10B981] flex items-center justify-center">
+                      <div className="w-8 h-8 flex-shrink-0 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center">
                         <svg
                           className="w-4 h-4 text-white"
                           fill="none"
@@ -371,8 +372,8 @@ export default function FloatingAIChat() {
                     <div
                       className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm ${
                         message.role === 'user'
-                          ? 'bg-[#A855F7] text-white'
-                          : 'bg-white/5 border border-white/10 text-gray-200'
+                          ? 'bg-purple-600 text-white'
+                          : 'bg-white border border-gray-200 text-gray-800 shadow-sm'
                       }`}
                     >
                       <p className="whitespace-pre-wrap leading-relaxed">{message.content}</p>
@@ -381,7 +382,7 @@ export default function FloatingAIChat() {
                 ))}
                 {loading && (
                   <div className="flex gap-2 justify-start">
-                    <div className="w-8 h-8 flex-shrink-0 rounded-full bg-gradient-to-br from-[#A855F7] to-[#10B981] flex items-center justify-center">
+                    <div className="w-8 h-8 flex-shrink-0 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center">
                       <svg
                         className="w-4 h-4 text-white"
                         fill="none"
@@ -396,18 +397,18 @@ export default function FloatingAIChat() {
                         />
                       </svg>
                     </div>
-                    <div className="bg-white/5 border border-white/10 px-4 py-2.5 rounded-2xl">
+                    <div className="bg-white border border-gray-200 px-4 py-2.5 rounded-2xl shadow-sm">
                       <div className="flex gap-1">
                         <div
-                          className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"
+                          className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
                           style={{ animationDelay: '0ms' }}
                         ></div>
                         <div
-                          className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"
+                          className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
                           style={{ animationDelay: '150ms' }}
                         ></div>
                         <div
-                          className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"
+                          className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
                           style={{ animationDelay: '300ms' }}
                         ></div>
                       </div>
@@ -420,7 +421,7 @@ export default function FloatingAIChat() {
           </div>
 
           {/* Input */}
-          <div className="p-4 border-t border-white/10 bg-black">
+          <div className="p-4 border-t border-gray-200 bg-white">
             <div className="flex gap-2">
               <input
                 type="text"
@@ -429,12 +430,12 @@ export default function FloatingAIChat() {
                 onKeyPress={handleKeyPress}
                 placeholder="Ask me anything..."
                 disabled={loading}
-                className="flex-1 px-4 py-2.5 bg-white/5 border border-white/10 rounded-full focus:outline-none focus:ring-2 focus:ring-[#A855F7] disabled:opacity-50 text-white placeholder-gray-500 text-sm"
+                className="flex-1 px-4 py-2.5 bg-gray-100 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50 text-gray-900 placeholder-gray-500 text-sm"
               />
               <button
                 onClick={handleSend}
                 disabled={!input.trim() || loading}
-                className="px-4 py-2.5 bg-[#A855F7] hover:bg-[#9333EA] rounded-full font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-full font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path

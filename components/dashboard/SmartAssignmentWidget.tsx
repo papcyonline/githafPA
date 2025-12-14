@@ -136,7 +136,7 @@ export function SmartAssignmentWidget({ onClose, initialQuery = '' }: SmartAssig
   ]
 
   return (
-    <div className="bg-zinc-900 rounded-2xl border border-zinc-800 p-6">
+    <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
@@ -145,14 +145,14 @@ export function SmartAssignmentWidget({ onClose, initialQuery = '' }: SmartAssig
             </svg>
           </div>
           <div>
-            <h3 className="font-bold text-white">Smart Assignment</h3>
-            <p className="text-sm text-gray-400">Ask me to research anything</p>
+            <h3 className="font-bold text-gray-900">Smart Assignment</h3>
+            <p className="text-sm text-gray-500">Ask me to research anything</p>
           </div>
         </div>
         {onClose && (
           <button
             onClick={onClose}
-            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
             <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -164,14 +164,14 @@ export function SmartAssignmentWidget({ onClose, initialQuery = '' }: SmartAssig
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Query Input */}
         <div>
-          <label className="block text-sm font-medium text-gray-400 mb-2">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             What would you like me to research?
           </label>
           <textarea
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="e.g., Find me the cheapest hotels in Dubai..."
-            className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white placeholder-gray-500 resize-none"
+            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 placeholder-gray-400 resize-none"
             rows={3}
             disabled={isLoading}
           />
@@ -185,7 +185,7 @@ export function SmartAssignmentWidget({ onClose, initialQuery = '' }: SmartAssig
                 key={i}
                 type="button"
                 onClick={() => setQuery(example)}
-                className="px-3 py-1.5 text-xs bg-zinc-800 hover:bg-zinc-700 text-gray-400 rounded-full transition-colors"
+                className="px-3 py-1.5 text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-full transition-colors"
               >
                 {example}
               </button>
@@ -195,7 +195,7 @@ export function SmartAssignmentWidget({ onClose, initialQuery = '' }: SmartAssig
 
         {/* Save As Options */}
         <div>
-          <label className="block text-sm font-medium text-gray-400 mb-2">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             Save results as
           </label>
           <div className="flex gap-2">
@@ -207,7 +207,7 @@ export function SmartAssignmentWidget({ onClose, initialQuery = '' }: SmartAssig
                 className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                   saveAs === option
                     ? 'bg-purple-600 text-white'
-                    : 'bg-zinc-800 text-gray-400 hover:bg-zinc-700'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
                 disabled={isLoading}
               >
@@ -238,26 +238,26 @@ export function SmartAssignmentWidget({ onClose, initialQuery = '' }: SmartAssig
         {saveAs === 'reminder' && (
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Remind me on
               </label>
               <input
                 type="date"
                 value={reminderDate}
                 onChange={(e) => setReminderDate(e.target.value)}
-                className="w-full px-4 py-2.5 bg-zinc-800 border border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900"
                 disabled={isLoading}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 At
               </label>
               <input
                 type="time"
                 value={reminderTime}
                 onChange={(e) => setReminderTime(e.target.value)}
-                className="w-full px-4 py-2.5 bg-zinc-800 border border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900"
                 disabled={isLoading}
               />
             </div>
@@ -293,25 +293,25 @@ export function SmartAssignmentWidget({ onClose, initialQuery = '' }: SmartAssig
       {result && (
         <div className={`mt-4 p-4 rounded-xl ${
           result.success
-            ? 'bg-green-500/10 border border-green-500/20'
-            : 'bg-red-500/10 border border-red-500/20'
+            ? 'bg-green-50 border border-green-200'
+            : 'bg-red-50 border border-red-200'
         }`}>
           <div className="flex items-start gap-3">
             {result.success ? (
-              <svg className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             ) : (
-              <svg className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             )}
             <div className="flex-1 min-w-0">
-              <p className={`font-medium ${result.success ? 'text-green-400' : 'text-red-400'}`}>
+              <p className={`font-medium ${result.success ? 'text-green-700' : 'text-red-700'}`}>
                 {result.message}
               </p>
               {result.title && (
-                <p className="text-sm text-gray-400 mt-1">
+                <p className="text-sm text-gray-600 mt-1">
                   <span className="font-medium">Title:</span> {result.title}
                 </p>
               )}
@@ -323,9 +323,9 @@ export function SmartAssignmentWidget({ onClose, initialQuery = '' }: SmartAssig
               {result.success && (
                 <a
                   href={saveAs === 'note' ? '/notes' : saveAs === 'reminder' ? '/reminders' : '/dashboard'}
-                  className="inline-block mt-3 text-sm text-purple-400 hover:text-purple-300 transition-colors"
+                  className="inline-block mt-3 text-sm text-purple-600 hover:text-purple-700 transition-colors"
                 >
-                  View {saveAs} →
+                  View {saveAs}
                 </a>
               )}
             </div>

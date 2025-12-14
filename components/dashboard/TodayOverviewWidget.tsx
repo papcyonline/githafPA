@@ -37,36 +37,41 @@ export function TodayOverviewWidget({
   ]
 
   const priorityColors = {
-    low: 'text-gray-400',
-    medium: 'text-blue-400',
-    high: 'text-orange-400',
-    urgent: 'text-red-400',
+    low: 'text-gray-500',
+    medium: 'text-blue-600',
+    high: 'text-orange-600',
+    urgent: 'text-red-600',
   }
 
   const priorityBg = {
-    low: 'bg-gray-500/20',
-    medium: 'bg-blue-500/20',
-    high: 'bg-orange-500/20',
-    urgent: 'bg-red-500/20',
+    low: 'bg-gray-100',
+    medium: 'bg-blue-100',
+    high: 'bg-orange-100',
+    urgent: 'bg-red-100',
   }
 
   return (
-    <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 overflow-hidden">
+    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
       {/* Tabs */}
-      <div className="flex border-b border-zinc-800 overflow-x-auto">
+      <div className="flex border-b border-gray-200 overflow-x-auto bg-gray-50">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors whitespace-nowrap ${
+            className={`flex items-center gap-2 px-5 py-4 text-sm font-medium transition-colors whitespace-nowrap ${
               activeTab === tab.id
-                ? 'text-white border-b-2 border-purple-500 bg-zinc-800/50'
-                : 'text-gray-400 hover:text-gray-300'
+                ? 'text-purple-600 border-b-2 border-purple-600 bg-white'
+                : 'text-gray-500 hover:text-gray-700'
             }`}
           >
             {tab.label}
             {tab.count > 0 && (
-              <span className={`px-1.5 py-0.5 text-xs rounded-full bg-${tab.color}-500/20 text-${tab.color}-400`}>
+              <span className={`px-2 py-0.5 text-xs rounded-full ${
+                tab.color === 'purple' ? 'bg-purple-100 text-purple-600' :
+                tab.color === 'blue' ? 'bg-blue-100 text-blue-600' :
+                tab.color === 'amber' ? 'bg-amber-100 text-amber-600' :
+                'bg-green-100 text-green-600'
+              }`}>
                 {tab.count}
               </span>
             )}
@@ -81,7 +86,7 @@ export function TodayOverviewWidget({
           <div className="space-y-2">
             {overdueTasks.length > 0 && (
               <div className="mb-4">
-                <h4 className="text-xs font-medium text-red-400 uppercase tracking-wide mb-2">Overdue</h4>
+                <h4 className="text-xs font-semibold text-red-600 uppercase tracking-wide mb-2">Overdue</h4>
                 {overdueTasks.map((task) => (
                   <TaskItem key={task.id} task={task} onToggle={onToggleTask} priorityColors={priorityColors} priorityBg={priorityBg} isOverdue />
                 ))}
@@ -104,21 +109,21 @@ export function TodayOverviewWidget({
               events.map((event) => (
                 <div
                   key={event.id}
-                  className="flex items-start gap-3 p-3 rounded-lg bg-zinc-800/50 hover:bg-zinc-800 transition-colors"
+                  className="flex items-start gap-3 p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors border border-gray-100"
                 >
                   <div
                     className="w-1 h-full min-h-[40px] rounded-full"
                     style={{ backgroundColor: event.color }}
                   />
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-white truncate">{event.title}</p>
-                    <p className="text-sm text-gray-400">
+                    <p className="font-medium text-gray-900 truncate">{event.title}</p>
+                    <p className="text-sm text-gray-500">
                       {event.all_day
                         ? 'All day'
                         : `${format(parseISO(event.start_time), 'h:mm a')} - ${format(parseISO(event.end_time), 'h:mm a')}`}
                     </p>
                     {event.location && (
-                      <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                      <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
                         <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -142,18 +147,18 @@ export function TodayOverviewWidget({
               reminders.map((reminder) => (
                 <div
                   key={reminder.id}
-                  className="flex items-start gap-3 p-3 rounded-lg bg-zinc-800/50 hover:bg-zinc-800 transition-colors"
+                  className="flex items-start gap-3 p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors border border-gray-100"
                 >
-                  <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                     </svg>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-white truncate">{reminder.title}</p>
-                    <p className="text-sm text-gray-400">{reminder.reminder_time}</p>
+                    <p className="font-medium text-gray-900 truncate">{reminder.title}</p>
+                    <p className="text-sm text-gray-500">{reminder.reminder_time}</p>
                     {reminder.description && (
-                      <p className="text-xs text-gray-500 mt-1 line-clamp-2">{reminder.description}</p>
+                      <p className="text-xs text-gray-400 mt-1 line-clamp-2">{reminder.description}</p>
                     )}
                   </div>
                 </div>
@@ -171,14 +176,14 @@ export function TodayOverviewWidget({
               habits.map((habit) => (
                 <div
                   key={habit.id}
-                  className="flex items-center gap-3 p-3 rounded-lg bg-zinc-800/50 hover:bg-zinc-800 transition-colors"
+                  className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors border border-gray-100"
                 >
                   <button
                     onClick={() => onToggleHabit(habit.id)}
-                    className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
+                    className={`w-7 h-7 rounded-full border-2 flex items-center justify-center transition-colors ${
                       habit.completedToday
                         ? 'bg-green-500 border-green-500'
-                        : 'border-gray-600 hover:border-green-500'
+                        : 'border-gray-300 hover:border-green-500'
                     }`}
                   >
                     {habit.completedToday && (
@@ -188,15 +193,15 @@ export function TodayOverviewWidget({
                     )}
                   </button>
                   <div className="flex-1 min-w-0">
-                    <p className={`font-medium ${habit.completedToday ? 'text-gray-400' : 'text-white'}`}>
+                    <p className={`font-medium ${habit.completedToday ? 'text-gray-400' : 'text-gray-900'}`}>
                       {habit.title}
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-400">
                       {habit.current_streak > 0 ? `${habit.current_streak} day streak` : 'Start your streak!'}
                     </p>
                   </div>
                   <div
-                    className="w-2 h-2 rounded-full"
+                    className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: habit.color }}
                   />
                 </div>
@@ -226,33 +231,33 @@ function TaskItem({
 }) {
   return (
     <div
-      className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${
-        isOverdue ? 'bg-red-500/10 hover:bg-red-500/20' : 'bg-zinc-800/50 hover:bg-zinc-800'
+      className={`flex items-center gap-3 p-4 rounded-xl transition-colors border ${
+        isOverdue ? 'bg-red-50 hover:bg-red-100 border-red-200' : 'bg-gray-50 hover:bg-gray-100 border-gray-100'
       }`}
     >
       <button
         onClick={() => onToggle(task.id, !task.completed)}
-        className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
+        className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-colors ${
           task.completed
             ? 'bg-purple-500 border-purple-500'
-            : 'border-gray-600 hover:border-purple-500'
+            : 'border-gray-300 hover:border-purple-500'
         }`}
       >
         {task.completed && (
-          <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         )}
       </button>
       <div className="flex-1 min-w-0">
-        <p className={`font-medium truncate ${task.completed ? 'text-gray-500 line-through' : 'text-white'}`}>
+        <p className={`font-medium truncate ${task.completed ? 'text-gray-400 line-through' : 'text-gray-900'}`}>
           {task.title}
         </p>
         {task.due_time && (
-          <p className="text-xs text-gray-500">{task.due_time}</p>
+          <p className="text-xs text-gray-400">{task.due_time}</p>
         )}
       </div>
-      <span className={`text-xs px-2 py-0.5 rounded ${priorityBg[task.priority]} ${priorityColors[task.priority]}`}>
+      <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${priorityBg[task.priority]} ${priorityColors[task.priority]}`}>
         {task.priority}
       </span>
     </div>
@@ -276,7 +281,7 @@ function EmptyState({ message, icon }: { message: string; icon: string }) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center py-8 text-gray-500">
+    <div className="flex flex-col items-center justify-center py-8 text-gray-400">
       <svg className="w-12 h-12 mb-2 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         {icons[icon as keyof typeof icons]}
       </svg>

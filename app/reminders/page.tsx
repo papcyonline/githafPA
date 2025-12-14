@@ -354,7 +354,7 @@ function RemindersContent() {
             {/* Test Sound Button */}
             <button
               onClick={playNotificationSound}
-              className="p-2 hover:bg-white/10 rounded-lg transition-colors text-gray-400 hover:text-white"
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500 hover:text-gray-700"
               title="Test notification sound"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -388,8 +388,8 @@ function RemindersContent() {
 
         {/* Active Reminder Popup */}
         {activeReminders.length > 0 && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-zinc-900 rounded-2xl p-6 w-full max-w-sm border border-amber-500/50 shadow-2xl shadow-amber-500/20 animate-pulse-slow">
+          <div className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-2xl p-6 w-full max-w-sm border border-amber-500/50 shadow-2xl shadow-amber-500/20 animate-pulse-slow">
               {/* Ringing Bell Animation */}
               <div className="flex justify-center mb-4">
                 <div className="relative">
@@ -403,12 +403,12 @@ function RemindersContent() {
               </div>
 
               <div className="text-center mb-4">
-                <p className="text-amber-400 text-sm font-semibold uppercase tracking-wider mb-2">Reminder</p>
-                <h3 className="text-xl font-bold text-white">{activeReminders[0].title}</h3>
+                <p className="text-amber-600 text-sm font-semibold uppercase tracking-wider mb-2">Reminder</p>
+                <h3 className="text-xl font-bold text-gray-900">{activeReminders[0].title}</h3>
                 {activeReminders[0].description && (
-                  <p className="text-gray-400 mt-2 text-sm">{activeReminders[0].description}</p>
+                  <p className="text-gray-500 mt-2 text-sm">{activeReminders[0].description}</p>
                 )}
-                <p className="text-gray-500 mt-2 text-sm">
+                <p className="text-gray-400 mt-2 text-sm">
                   {activeReminders[0].reminder_time}
                 </p>
               </div>
@@ -416,20 +416,20 @@ function RemindersContent() {
               <div className="flex gap-2">
                 <button
                   onClick={() => snoozeReminder(activeReminders[0])}
-                  className="flex-1 px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-gray-300 rounded-xl transition-colors text-sm font-medium"
+                  className="flex-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-colors text-sm font-medium"
                 >
                   Snooze 5min
                 </button>
                 <button
                   onClick={() => dismissReminder(activeReminders[0].id)}
-                  className="flex-1 px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-black rounded-xl transition-colors text-sm font-bold"
+                  className="flex-1 px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl transition-colors text-sm font-bold"
                 >
                   Dismiss
                 </button>
               </div>
 
               {activeReminders.length > 1 && (
-                <p className="text-center text-gray-500 text-xs mt-3">
+                <p className="text-center text-gray-400 text-xs mt-3">
                   +{activeReminders.length - 1} more reminder{activeReminders.length > 2 ? 's' : ''}
                 </p>
               )}
@@ -524,11 +524,11 @@ function RemindersContent() {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-zinc-900 rounded-xl p-6 w-full max-w-md border border-zinc-800">
+        <div className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl p-6 w-full max-w-md border border-gray-200 shadow-xl">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-white">New Reminder</h2>
-              <button onClick={() => { setShowModal(false); resetForm() }} className="text-gray-400 hover:text-white">
+              <h2 className="text-lg font-semibold text-gray-900">New Reminder</h2>
+              <button onClick={() => { setShowModal(false); resetForm() }} className="text-gray-400 hover:text-gray-600">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -537,22 +537,22 @@ function RemindersContent() {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm text-gray-400 mb-1">Title</label>
+                <label className="block text-sm text-gray-600 mb-1">Title</label>
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-gray-900 focus:outline-none focus:border-purple-500"
                   placeholder="Remind me to..."
                 />
               </div>
 
               <div>
-                <label className="block text-sm text-gray-400 mb-1">Description (optional)</label>
+                <label className="block text-sm text-gray-600 mb-1">Description (optional)</label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 resize-none"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-gray-900 focus:outline-none focus:border-purple-500 resize-none"
                   rows={2}
                   placeholder="Add details..."
                 />
@@ -560,27 +560,27 @@ function RemindersContent() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm text-gray-400 mb-1">Date</label>
+                  <label className="block text-sm text-gray-600 mb-1">Date</label>
                   <input
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-gray-900 focus:outline-none focus:border-purple-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-400 mb-1">Time</label>
+                  <label className="block text-sm text-gray-600 mb-1">Time</label>
                   <input
                     type="time"
                     value={time}
                     onChange={(e) => setTime(e.target.value)}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-gray-900 focus:outline-none focus:border-purple-500"
                   />
                 </div>
               </div>
 
               <div className="flex gap-2 pt-2">
-                <button onClick={() => { setShowModal(false); resetForm() }} className="flex-1 px-4 py-2 text-gray-400 hover:text-white transition-colors">
+                <button onClick={() => { setShowModal(false); resetForm() }} className="flex-1 px-4 py-2 text-gray-500 hover:text-gray-700 transition-colors">
                   Cancel
                 </button>
                 <button
@@ -648,21 +648,21 @@ function ReminderCard({ reminder, onDelete, onAddToCalendar, googleConnected, fo
   const dueSoon = isDueSoon()
 
   return (
-    <div className={`bg-zinc-900/50 rounded-xl border p-3 sm:p-4 transition-all ${
-      isPast ? 'border-zinc-800' : dueSoon ? 'border-amber-500 bg-amber-500/10 shadow-lg shadow-amber-500/10' : 'border-amber-500/30 bg-amber-500/5'
+    <div className={`bg-white rounded-xl border p-3 sm:p-4 transition-all shadow-sm ${
+      isPast ? 'border-gray-200' : dueSoon ? 'border-amber-500 bg-amber-50 shadow-lg shadow-amber-500/10' : 'border-amber-200 bg-amber-50/50'
     }`}>
       <div className="flex items-start justify-between gap-2">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             {dueSoon && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-amber-500 text-black">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-amber-500 text-white">
                 <svg className="w-3 h-3 animate-bell-ring" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
                 Due Soon
               </span>
             )}
-            <h3 className="font-semibold text-white text-sm sm:text-base truncate">{reminder.title}</h3>
+            <h3 className="font-semibold text-gray-900 text-sm sm:text-base truncate">{reminder.title}</h3>
             {reminder.synced_to_google && (
               <span className="px-1.5 py-0.5 rounded text-xs bg-blue-500/20 text-blue-400 flex items-center gap-1">
                 <svg className="w-3 h-3" viewBox="0 0 24 24">
@@ -727,7 +727,7 @@ function ReminderCard({ reminder, onDelete, onAddToCalendar, googleConnected, fo
 
 export default function RemindersPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center"><div className="text-white">Loading...</div></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center"><div className="text-gray-900">Loading...</div></div>}>
       <RemindersContent />
     </Suspense>
   )

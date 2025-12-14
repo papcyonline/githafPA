@@ -106,7 +106,7 @@ export default function RecordingsPage() {
     return (
       <DashboardLayout>
         <div className="flex items-center justify-center py-20">
-          <div className="text-white text-xl">Loading...</div>
+          <div className="text-gray-600 text-xl">Loading...</div>
         </div>
       </DashboardLayout>
     )
@@ -143,7 +143,7 @@ export default function RecordingsPage() {
               placeholder="Search recordings..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-sm bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A855F7] placeholder-gray-500"
+              className="w-full pl-9 pr-3 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A855F7] placeholder-gray-500 text-gray-900"
             />
           </div>
         </div>
@@ -155,11 +155,11 @@ export default function RecordingsPage() {
             </div>
           ) : filteredRecordings.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20">
-              <svg className="w-20 h-20 text-gray-700 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-20 h-20 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
               </svg>
-              <h3 className="text-2xl font-bold mb-2">No recordings yet</h3>
-              <p className="text-gray-400 mb-6">Record your first voice note</p>
+              <h3 className="text-2xl font-bold mb-2 text-gray-900">No recordings yet</h3>
+              <p className="text-gray-600 mb-6">Record your first voice note</p>
               <button onClick={() => setShowRecorder(true)} className="bg-[#A855F7] hover:bg-[#9333EA] px-6 py-3 rounded-full font-semibold transition-all">
                 Start Recording
               </button>
@@ -172,7 +172,7 @@ export default function RecordingsPage() {
                 const progressPercent = recording.duration > 0 ? (progress / recording.duration) * 100 : 0
 
                 return (
-                  <div key={recording.id} className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 hover:bg-zinc-900 transition-all group">
+                  <div key={recording.id} className="bg-white border border-gray-200 rounded-xl p-4 hover:bg-gray-50 transition-all group shadow-sm">
                     <div className="flex items-start gap-4">
                       <button
                         onClick={() => togglePlayPause(recording.id, recording.audio_url)}
@@ -192,7 +192,7 @@ export default function RecordingsPage() {
                       <div className="flex-1 min-w-0">
                         <Link href={`/recording/${recording.id}`} className="block hover:text-[#A855F7] transition-colors">
                           <h3 className="font-semibold truncate">{recording.title}</h3>
-                          <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden mt-2 mb-2">
+                          <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden mt-2 mb-2">
                             <div className="h-full bg-[#A855F7] rounded-full transition-all" style={{ width: `${progressPercent}%` }} />
                           </div>
                           <div className="flex items-center gap-3 text-sm text-gray-500">

@@ -282,7 +282,7 @@ export default function FinancePage() {
               className={`px-3 sm:px-4 py-2 rounded-lg capitalize transition-colors text-sm sm:text-base whitespace-nowrap ${
                 selectedPeriod === period
                   ? 'bg-purple-500 text-white'
-                  : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
               {period}
@@ -315,7 +315,7 @@ export default function FinancePage() {
         )}
 
         {/* Tabs */}
-        <div className="flex gap-4 mb-6 border-b border-white/10 overflow-x-auto">
+        <div className="flex gap-4 mb-6 border-b border-gray-200 overflow-x-auto">
           {(['overview', 'transactions', 'budgets'] as const).map((tab) => (
             <button
               key={tab}
@@ -336,8 +336,8 @@ export default function FinancePage() {
         {activeTab === 'overview' && insights && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Monthly Trend Chart */}
-            <div className="bg-white/5 rounded-xl p-4 sm:p-6 border border-white/10">
-              <h3 className="font-semibold mb-4 text-sm sm:text-base">Monthly Trend</h3>
+            <div className="bg-white rounded-xl p-4 sm:p-6 border border-gray-200 shadow-sm">
+              <h3 className="font-semibold mb-4 text-sm sm:text-base text-gray-900">Monthly Trend</h3>
               <ResponsiveContainer width="100%" height={200} className="sm:!h-[250px]">
                 <BarChart data={insights.monthlyTrend}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#333" />
@@ -355,8 +355,8 @@ export default function FinancePage() {
             </div>
 
             {/* Expense Breakdown */}
-            <div className="bg-white/5 rounded-xl p-4 sm:p-6 border border-white/10">
-              <h3 className="font-semibold mb-4 text-sm sm:text-base">Expense Breakdown</h3>
+            <div className="bg-white rounded-xl p-4 sm:p-6 border border-gray-200 shadow-sm">
+              <h3 className="font-semibold mb-4 text-sm sm:text-base text-gray-900">Expense Breakdown</h3>
               <ResponsiveContainer width="100%" height={200} className="sm:!h-[250px]">
                 <PieChart>
                   <Pie
@@ -383,8 +383,8 @@ export default function FinancePage() {
 
             {/* Budget Status */}
             {insights.budgetStatus.length > 0 && (
-              <div className="bg-white/5 rounded-xl p-4 sm:p-6 border border-white/10 lg:col-span-2">
-                <h3 className="font-semibold mb-4">Budget Status</h3>
+              <div className="bg-white rounded-xl p-4 sm:p-6 border border-gray-200 shadow-sm lg:col-span-2">
+                <h3 className="font-semibold mb-4 text-gray-900">Budget Status</h3>
                 <div className="space-y-4">
                   {insights.budgetStatus.map((budget) => (
                     <div key={budget.category}>
@@ -394,7 +394,7 @@ export default function FinancePage() {
                           {formatCurrency(budget.spent)} / {formatCurrency(budget.budget)}
                         </span>
                       </div>
-                      <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
                         <div
                           className={`h-full transition-all ${budget.percentage >= 100 ? 'bg-red-500' : budget.percentage >= 80 ? 'bg-orange-500' : 'bg-green-500'}`}
                           style={{ width: `${Math.min(budget.percentage, 100)}%` }}
@@ -410,28 +410,28 @@ export default function FinancePage() {
 
         {/* Transactions Tab */}
         {activeTab === 'transactions' && (
-          <div className="bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-white/10">
-                    <th className="text-left p-4 text-gray-400 font-medium">Date</th>
-                    <th className="text-left p-4 text-gray-400 font-medium">Category</th>
-                    <th className="text-left p-4 text-gray-400 font-medium">Description</th>
-                    <th className="text-right p-4 text-gray-400 font-medium">Amount</th>
-                    <th className="text-right p-4 text-gray-400 font-medium">Actions</th>
+                  <tr className="border-b border-gray-200">
+                    <th className="text-left p-4 text-gray-600 font-medium">Date</th>
+                    <th className="text-left p-4 text-gray-600 font-medium">Category</th>
+                    <th className="text-left p-4 text-gray-600 font-medium">Description</th>
+                    <th className="text-right p-4 text-gray-600 font-medium">Amount</th>
+                    <th className="text-right p-4 text-gray-600 font-medium">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {entries.map((entry) => (
-                    <tr key={entry.id} className="border-b border-white/5 hover:bg-white/5">
+                    <tr key={entry.id} className="border-b border-gray-100 hover:bg-gray-50">
                       <td className="p-4">{format(new Date(entry.date), 'MMM d, yyyy')}</td>
                       <td className="p-4">
                         <span className={`px-2 py-1 rounded text-xs ${entry.entry_type === 'income' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
                           {entry.category}
                         </span>
                       </td>
-                      <td className="p-4 text-gray-400">{entry.description || '-'}</td>
+                      <td className="p-4 text-gray-600">{entry.description || '-'}</td>
                       <td className={`p-4 text-right font-medium ${entry.entry_type === 'income' ? 'text-green-400' : 'text-red-400'}`}>
                         {entry.entry_type === 'income' ? '+' : '-'}{formatCurrency(entry.amount)}
                       </td>
@@ -451,7 +451,7 @@ export default function FinancePage() {
               </table>
             </div>
             {entries.length === 0 && (
-              <div className="text-center py-12 text-gray-400">
+              <div className="text-center py-12 text-gray-600">
                 No transactions yet. Add your first entry!
               </div>
             )}
@@ -460,7 +460,7 @@ export default function FinancePage() {
 
         {/* Budgets Tab */}
         {activeTab === 'budgets' && (
-          <div className="text-center py-12 text-gray-400">
+          <div className="text-center py-12 text-gray-600">
             Budget management coming soon...
           </div>
         )}
@@ -469,47 +469,47 @@ export default function FinancePage() {
 
       {/* Add Entry Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-          <div className="bg-gray-900 rounded-xl p-6 w-full max-w-md mx-4 border border-white/10">
-            <h2 className="text-xl font-bold mb-4">Add Entry</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-md mx-4 border border-gray-200 shadow-xl">
+            <h2 className="text-xl font-bold mb-4 text-gray-900">Add Entry</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="flex gap-2">
                 <button
                   type="button"
                   onClick={() => setFormData(d => ({ ...d, entry_type: 'expense', category: '' }))}
-                  className={`flex-1 py-2 rounded-lg transition-colors ${formData.entry_type === 'expense' ? 'bg-red-500/20 text-red-400' : 'bg-white/5 text-gray-400'}`}
+                  className={`flex-1 py-2 rounded-lg transition-colors ${formData.entry_type === 'expense' ? 'bg-red-500/20 text-red-600' : 'bg-gray-100 text-gray-600'}`}
                 >
                   Expense
                 </button>
                 <button
                   type="button"
                   onClick={() => setFormData(d => ({ ...d, entry_type: 'income', category: '' }))}
-                  className={`flex-1 py-2 rounded-lg transition-colors ${formData.entry_type === 'income' ? 'bg-green-500/20 text-green-400' : 'bg-white/5 text-gray-400'}`}
+                  className={`flex-1 py-2 rounded-lg transition-colors ${formData.entry_type === 'income' ? 'bg-green-500/20 text-green-600' : 'bg-gray-100 text-gray-600'}`}
                 >
                   Income
                 </button>
               </div>
 
               <div>
-                <label className="block text-sm text-gray-400 mb-1">Amount</label>
+                <label className="block text-sm text-gray-600 mb-1">Amount</label>
                 <input
                   type="number"
                   step="0.01"
                   required
                   value={formData.amount}
                   onChange={(e) => setFormData(d => ({ ...d, amount: e.target.value }))}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900"
                   placeholder="0.00"
                 />
               </div>
 
               <div>
-                <label className="block text-sm text-gray-400 mb-1">Category</label>
+                <label className="block text-sm text-gray-600 mb-1">Category</label>
                 <select
                   required
                   value={formData.category}
                   onChange={(e) => setFormData(d => ({ ...d, category: e.target.value }))}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900"
                 >
                   <option value="">Select category</option>
                   {(formData.entry_type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES).map((cat) => (
@@ -519,24 +519,24 @@ export default function FinancePage() {
               </div>
 
               <div>
-                <label className="block text-sm text-gray-400 mb-1">Description</label>
+                <label className="block text-sm text-gray-600 mb-1">Description</label>
                 <input
                   type="text"
                   value={formData.description}
                   onChange={(e) => setFormData(d => ({ ...d, description: e.target.value }))}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900"
                   placeholder="Optional description"
                 />
               </div>
 
               <div>
-                <label className="block text-sm text-gray-400 mb-1">Date</label>
+                <label className="block text-sm text-gray-600 mb-1">Date</label>
                 <input
                   type="date"
                   required
                   value={formData.date}
                   onChange={(e) => setFormData(d => ({ ...d, date: e.target.value }))}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900"
                 />
               </div>
 
@@ -544,13 +544,13 @@ export default function FinancePage() {
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="flex-1 bg-white/5 py-2 rounded-lg hover:bg-white/10 transition-colors"
+                  className="flex-1 bg-gray-100 py-2 rounded-lg hover:bg-gray-200 transition-colors text-gray-700"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-purple-500 py-2 rounded-lg hover:bg-purple-600 transition-colors"
+                  className="flex-1 bg-purple-500 py-2 rounded-lg hover:bg-purple-600 transition-colors text-white"
                 >
                   Add Entry
                 </button>
@@ -572,17 +572,17 @@ export default function FinancePage() {
 
       {/* AI Prompt Modal */}
       {showAIPrompt && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-          <div className="bg-gray-900 rounded-xl p-6 w-full max-w-md mx-4 border border-white/10">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-md mx-4 border border-gray-200 shadow-xl">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold">Add Financial Entry with AI</h2>
+              <h2 className="text-xl font-bold text-gray-900">Add Financial Entry with AI</h2>
               <button
                 onClick={() => {
                   setShowAIPrompt(false)
                   setAiInput('')
                   setAiError(null)
                 }}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-400 hover:text-gray-600 transition-colors"
                 disabled={aiLoading}
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -592,14 +592,14 @@ export default function FinancePage() {
             </div>
             <form onSubmit={handleAISubmit}>
               <div className="mb-4">
-                <label className="block text-sm text-gray-400 mb-2">
+                <label className="block text-sm text-gray-600 mb-2">
                   Describe your transaction in natural language
                 </label>
                 <textarea
                   value={aiInput}
                   onChange={(e) => setAiInput(e.target.value)}
                   placeholder="e.g., 'Spent $45 on dinner at the restaurant' or 'Got paid $2000 for freelance work'"
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50 text-gray-900"
                   required
                   disabled={aiLoading}
                 />
@@ -611,7 +611,7 @@ export default function FinancePage() {
               {/* Error message */}
               {aiError && (
                 <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
-                  <p className="text-sm text-red-400">{aiError}</p>
+                  <p className="text-sm text-red-500">{aiError}</p>
                 </div>
               )}
 
@@ -628,7 +628,7 @@ export default function FinancePage() {
                       key={example}
                       type="button"
                       onClick={() => setAiInput(example)}
-                      className="text-xs px-2 py-1 bg-white/5 hover:bg-white/10 rounded-full text-gray-400 hover:text-white transition-colors"
+                      className="text-xs px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-600 hover:text-gray-900 transition-colors"
                       disabled={aiLoading}
                     >
                       {example}
@@ -645,14 +645,14 @@ export default function FinancePage() {
                     setAiInput('')
                     setAiError(null)
                   }}
-                  className="flex-1 bg-white/5 py-2 rounded-lg hover:bg-white/10 transition-colors disabled:opacity-50"
+                  className="flex-1 bg-gray-100 py-2 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50 text-gray-700"
                   disabled={aiLoading}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-purple-500 py-2 rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="flex-1 bg-purple-500 py-2 rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 text-white"
                   disabled={aiLoading || !aiInput.trim()}
                 >
                   {aiLoading ? (

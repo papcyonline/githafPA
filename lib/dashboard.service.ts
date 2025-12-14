@@ -3,6 +3,7 @@ import { calendarService, CalendarEvent } from './calendar.service'
 import { goalsService, Goal } from './goals.service'
 import { habitsService, HabitWithLogs } from './habits.service'
 import { format, isToday, isTomorrow, isPast, parseISO, startOfDay, endOfDay } from 'date-fns'
+import { ENABLE_MOCK_DATA, getMockDashboardData } from './mock-data'
 
 export interface Task {
   id: string
@@ -66,6 +67,11 @@ function getGreeting(): string {
 
 export const dashboardService = {
   async getDashboardData(): Promise<DashboardData> {
+    // Return mock data if enabled
+    if (ENABLE_MOCK_DATA) {
+      return getMockDashboardData() as DashboardData
+    }
+
     const today = format(new Date(), 'yyyy-MM-dd')
 
     // Fetch all data in parallel

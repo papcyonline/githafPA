@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, subMonths } from 'date-fns'
+import { ENABLE_MOCK_DATA, mockFinancialInsights } from '@/lib/mock-data'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -8,6 +9,11 @@ const supabase = createClient(
 )
 
 export async function GET(req: NextRequest) {
+  // Return mock data if enabled
+  if (ENABLE_MOCK_DATA) {
+    return NextResponse.json(mockFinancialInsights)
+  }
+
   try {
     const { searchParams } = new URL(req.url)
     const period = searchParams.get('period') || 'month'

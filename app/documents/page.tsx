@@ -217,7 +217,7 @@ export default function DocumentsPage() {
           <button
             onClick={() => setActiveTab('documents')}
             className={`px-4 py-2 rounded-lg transition-colors ${
-              activeTab === 'documents' ? 'bg-purple-500 text-white' : 'bg-white/5 text-gray-400'
+              activeTab === 'documents' ? 'bg-purple-500 text-white' : 'bg-gray-100 text-gray-600'
             }`}
           >
             My Documents ({documents.length})
@@ -225,7 +225,7 @@ export default function DocumentsPage() {
           <button
             onClick={() => setActiveTab('templates')}
             className={`px-4 py-2 rounded-lg transition-colors ${
-              activeTab === 'templates' ? 'bg-purple-500 text-white' : 'bg-white/5 text-gray-400'
+              activeTab === 'templates' ? 'bg-purple-500 text-white' : 'bg-gray-100 text-gray-600'
             }`}
           >
             Templates ({templates.length})
@@ -240,7 +240,7 @@ export default function DocumentsPage() {
               return (
                 <div
                   key={doc.id}
-                  className="bg-white/5 rounded-xl p-5 border border-white/10 hover:bg-white/10 transition-all cursor-pointer"
+                  className="bg-white rounded-xl p-5 border border-gray-200 hover:bg-gray-50 transition-all cursor-pointer shadow-sm"
                   onClick={() => setViewingDocument(doc)}
                 >
                   <div className="flex items-start justify-between mb-3">
@@ -271,7 +271,7 @@ export default function DocumentsPage() {
             })}
 
             {documents.length === 0 && (
-              <div className="col-span-full text-center py-12 text-gray-400">
+              <div className="col-span-full text-center py-12 text-gray-600">
                 <div className="flex justify-center mb-4">
                   <DocumentTypeIcon type="report" className="w-12 h-12" />
                 </div>
@@ -289,7 +289,7 @@ export default function DocumentsPage() {
               return (
                 <div
                   key={template.id}
-                  className="bg-white/5 rounded-xl p-5 border border-white/10"
+                  className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <DocumentTypeIcon type={template.template_type} className="w-7 h-7" />
@@ -309,7 +309,7 @@ export default function DocumentsPage() {
                   {template.variables && template.variables.length > 0 && (
                     <div className="mt-3 flex flex-wrap gap-1">
                       {template.variables.slice(0, 3).map(v => (
-                        <span key={v.name} className="text-xs px-2 py-0.5 rounded bg-white/10 text-gray-400">
+                        <span key={v.name} className="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-600">
                           {v.label}
                         </span>
                       ))}
@@ -329,7 +329,7 @@ export default function DocumentsPage() {
             })}
 
             {templates.length === 0 && (
-              <div className="col-span-full text-center py-12 text-gray-400">
+              <div className="col-span-full text-center py-12 text-gray-600">
                 <div className="flex justify-center mb-4">
                   <DocumentTypeIcon type="proposal" className="w-12 h-12" />
                 </div>
@@ -343,25 +343,25 @@ export default function DocumentsPage() {
 
       {/* Generate Document Modal */}
       {showGenerateModal && selectedTemplate && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-          <div className="bg-gray-900 rounded-xl p-6 w-full max-w-md mx-4 border border-white/10 max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl font-bold mb-4">Generate: {selectedTemplate.name}</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-md mx-4 border border-gray-200 max-h-[90vh] overflow-y-auto shadow-xl">
+            <h2 className="text-xl font-bold mb-4 text-gray-900">Generate: {selectedTemplate.name}</h2>
             <div className="space-y-4">
               {selectedTemplate.variables?.map((variable) => (
                 <div key={variable.name}>
-                  <label className="block text-sm text-gray-400 mb-1">{variable.label}</label>
+                  <label className="block text-sm text-gray-600 mb-1">{variable.label}</label>
                   {variable.type === 'textarea' ? (
                     <textarea
                       value={variableValues[variable.name] || ''}
                       onChange={(e) => setVariableValues(v => ({ ...v, [variable.name]: e.target.value }))}
-                      className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 h-24"
+                      className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 h-24 text-gray-900"
                     />
                   ) : (
                     <input
                       type={variable.type === 'date' ? 'date' : 'text'}
                       value={variableValues[variable.name] || ''}
                       onChange={(e) => setVariableValues(v => ({ ...v, [variable.name]: e.target.value }))}
-                      className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2"
+                      className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-gray-900"
                     />
                   )}
                 </div>
@@ -370,13 +370,13 @@ export default function DocumentsPage() {
               <div className="flex gap-3 pt-2">
                 <button
                   onClick={() => { setShowGenerateModal(false); setSelectedTemplate(null) }}
-                  className="flex-1 bg-white/5 py-2 rounded-lg"
+                  className="flex-1 bg-gray-100 py-2 rounded-lg text-gray-700 hover:bg-gray-200"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleGenerate}
-                  className="flex-1 bg-purple-500 py-2 rounded-lg"
+                  className="flex-1 bg-purple-500 py-2 rounded-lg text-white hover:bg-purple-600"
                 >
                   Generate
                 </button>
@@ -388,21 +388,21 @@ export default function DocumentsPage() {
 
       {/* View Document Modal */}
       {viewingDocument && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-          <div className="bg-gray-900 rounded-xl p-6 w-full max-w-3xl mx-4 border border-white/10 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-3xl mx-4 border border-gray-200 max-h-[90vh] overflow-y-auto shadow-xl">
             <div className="flex items-start justify-between mb-4">
-              <h2 className="text-xl font-bold">{viewingDocument.title}</h2>
+              <h2 className="text-xl font-bold text-gray-900">{viewingDocument.title}</h2>
               <button
                 onClick={() => setViewingDocument(null)}
-                className="text-gray-400 hover:text-white"
+                className="text-gray-400 hover:text-gray-600"
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
-            <div className="prose prose-invert max-w-none">
-              <pre className="whitespace-pre-wrap text-sm bg-white/5 p-4 rounded-lg">
+            <div className="prose max-w-none">
+              <pre className="whitespace-pre-wrap text-sm bg-gray-50 p-4 rounded-lg text-gray-900">
                 {viewingDocument.content}
               </pre>
             </div>
@@ -422,13 +422,13 @@ export default function DocumentsPage() {
 
       {/* AI Prompt Modal */}
       {showAIPrompt && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-          <div className="bg-gray-900 rounded-xl p-6 w-full max-w-md mx-4 border border-white/10">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-md mx-4 border border-gray-200 shadow-xl">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold">Create Document with AI</h2>
+              <h2 className="text-xl font-bold text-gray-900">Create Document with AI</h2>
               <button
                 onClick={() => setShowAIPrompt(false)}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-400 hover:text-gray-600 transition-colors"
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -446,13 +446,13 @@ export default function DocumentsPage() {
               fetchData()
             }}>
               <div className="mb-4">
-                <label className="block text-sm text-gray-400 mb-2">
+                <label className="block text-sm text-gray-600 mb-2">
                   Describe the document you want to create
                 </label>
                 <textarea
                   name="aiInput"
                   placeholder="e.g., 'Create a project proposal for a mobile app development' or 'Generate meeting notes template for weekly standups'"
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900"
                   required
                 />
                 <p className="text-xs text-gray-500 mt-2">
@@ -463,13 +463,13 @@ export default function DocumentsPage() {
                 <button
                   type="button"
                   onClick={() => setShowAIPrompt(false)}
-                  className="flex-1 bg-white/5 py-2 rounded-lg hover:bg-white/10 transition-colors"
+                  className="flex-1 bg-gray-100 py-2 rounded-lg hover:bg-gray-200 transition-colors text-gray-700"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-purple-500 py-2 rounded-lg hover:bg-purple-600 transition-colors"
+                  className="flex-1 bg-purple-500 py-2 rounded-lg hover:bg-purple-600 transition-colors text-white"
                 >
                   Create Document
                 </button>
@@ -481,17 +481,17 @@ export default function DocumentsPage() {
 
       {/* Upload Document Modal */}
       {showUploadModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
-          <div className="bg-gray-900 rounded-xl p-6 w-full max-w-2xl border border-white/10 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 p-4">
+          <div className="bg-white rounded-xl p-6 w-full max-w-2xl border border-gray-200 max-h-[90vh] overflow-y-auto shadow-xl">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold">Upload & Analyze Document</h2>
+              <h2 className="text-xl font-bold text-gray-900">Upload & Analyze Document</h2>
               <button
                 onClick={() => {
                   setShowUploadModal(false)
                   setSelectedFile(null)
                   setUploadAnalysis(null)
                 }}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-400 hover:text-gray-600 transition-colors"
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -501,7 +501,7 @@ export default function DocumentsPage() {
 
             {!selectedFile ? (
               <div className="space-y-4">
-                <div className="border-2 border-dashed border-white/20 rounded-xl p-8 text-center">
+                <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center">
                   <input
                     type="file"
                     accept=".pdf,.doc,.docx,.txt"
@@ -516,24 +516,24 @@ export default function DocumentsPage() {
                     <svg className="w-16 h-16 mx-auto mb-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                     </svg>
-                    <p className="text-lg font-medium mb-2">Click to upload a document</p>
-                    <p className="text-sm text-gray-400">Supports PDF, DOC, DOCX, TXT files</p>
+                    <p className="text-lg font-medium mb-2 text-gray-900">Click to upload a document</p>
+                    <p className="text-sm text-gray-600">Supports PDF, DOC, DOCX, TXT files</p>
                   </label>
                 </div>
-                <p className="text-sm text-gray-400 text-center">
+                <p className="text-sm text-gray-600 text-center">
                   AI will automatically extract key points, summarize, and analyze your document
                 </p>
               </div>
             ) : uploadAnalysis ? (
               <div className="space-y-6">
                 {/* File Info */}
-                <div className="flex items-center gap-3 bg-white/5 p-4 rounded-lg">
-                  <svg className="w-8 h-8 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-lg">
+                  <svg className="w-8 h-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <div className="flex-1">
-                    <p className="font-medium">{selectedFile.name}</p>
-                    <p className="text-sm text-gray-400">{(selectedFile.size / 1024).toFixed(1)} KB</p>
+                    <p className="font-medium text-gray-900">{selectedFile.name}</p>
+                    <p className="text-sm text-gray-600">{(selectedFile.size / 1024).toFixed(1)} KB</p>
                   </div>
                 </div>
 
@@ -549,7 +549,7 @@ export default function DocumentsPage() {
                 </div>
 
                 {/* Key Points */}
-                <div className="bg-white/5 rounded-xl p-5 border border-white/10">
+                <div className="bg-gray-50 rounded-xl p-5 border border-gray-200">
                   <h3 className="font-semibold mb-3 flex items-center gap-2">
                     <svg className="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
@@ -559,8 +559,8 @@ export default function DocumentsPage() {
                   <ul className="space-y-2">
                     {uploadAnalysis.keyPoints.map((point, idx) => (
                       <li key={idx} className="flex items-start gap-2">
-                        <span className="text-green-400 mt-1">•</span>
-                        <span className="text-gray-300">{point}</span>
+                        <span className="text-green-500 mt-1">•</span>
+                        <span className="text-gray-700">{point}</span>
                       </li>
                     ))}
                   </ul>
@@ -574,7 +574,7 @@ export default function DocumentsPage() {
                       setSelectedFile(null)
                       setUploadAnalysis(null)
                     }}
-                    className="flex-1 bg-white/5 py-3 rounded-lg hover:bg-white/10 transition-colors font-medium"
+                    className="flex-1 bg-gray-100 py-3 rounded-lg hover:bg-gray-200 transition-colors font-medium text-gray-700"
                   >
                     Done
                   </button>
@@ -583,20 +583,20 @@ export default function DocumentsPage() {
             ) : (
               <div className="space-y-4">
                 {/* Processing UI */}
-                <div className="flex items-center gap-3 bg-white/5 p-4 rounded-lg">
-                  <svg className="w-8 h-8 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-lg">
+                  <svg className="w-8 h-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                   </svg>
                   <div className="flex-1">
-                    <p className="font-medium">{selectedFile.name}</p>
-                    <p className="text-sm text-gray-400">{(selectedFile.size / 1024).toFixed(1)} KB</p>
+                    <p className="font-medium text-gray-900">{selectedFile.name}</p>
+                    <p className="text-sm text-gray-600">{(selectedFile.size / 1024).toFixed(1)} KB</p>
                   </div>
                 </div>
 
                 {uploading && (
                   <div className="text-center py-8">
                     <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                    <p className="text-gray-400">Analyzing document with AI...</p>
+                    <p className="text-gray-600">Analyzing document with AI...</p>
                   </div>
                 )}
 
@@ -606,7 +606,7 @@ export default function DocumentsPage() {
                       onClick={() => {
                         setSelectedFile(null)
                       }}
-                      className="flex-1 bg-white/5 py-3 rounded-lg hover:bg-white/10 transition-colors"
+                      className="flex-1 bg-gray-100 py-3 rounded-lg hover:bg-gray-200 transition-colors text-gray-700"
                     >
                       Change File
                     </button>

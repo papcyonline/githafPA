@@ -16,7 +16,7 @@ interface DailyCheckin {
 
 // Mood icons (sad to happy)
 const MoodIcon = ({ level, className = "w-6 h-6" }: { level: number; className?: string }) => {
-  const colors = ['text-red-400', 'text-orange-400', 'text-yellow-400', 'text-lime-400', 'text-green-400']
+  const colors = ['text-red-500', 'text-orange-500', 'text-yellow-500', 'text-lime-500', 'text-green-500']
   return (
     <svg className={`${className} ${colors[level - 1]}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
       {level <= 2 ? (
@@ -47,7 +47,7 @@ const MoodIcon = ({ level, className = "w-6 h-6" }: { level: number; className?:
 
 // Energy icons
 const EnergyIcon = ({ level, className = "w-6 h-6" }: { level: number; className?: string }) => {
-  const colors = ['text-gray-400', 'text-blue-400', 'text-cyan-400', 'text-yellow-400', 'text-orange-400']
+  const colors = ['text-gray-400', 'text-blue-500', 'text-cyan-500', 'text-yellow-500', 'text-orange-500']
   return (
     <svg className={`${className} ${colors[level - 1]}`} fill="currentColor" viewBox="0 0 24 24">
       <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
@@ -57,7 +57,7 @@ const EnergyIcon = ({ level, className = "w-6 h-6" }: { level: number; className
 
 // Stress icons
 const StressIcon = ({ level, className = "w-6 h-6" }: { level: number; className?: string }) => {
-  const color = level <= 2 ? 'text-green-400' : level === 3 ? 'text-yellow-400' : 'text-red-400'
+  const color = level <= 2 ? 'text-green-500' : level === 3 ? 'text-yellow-500' : 'text-red-500'
   return (
     <svg className={`${className} ${color}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -117,20 +117,20 @@ export function DailyCheckinWidget() {
 
   if (isLoading) {
     return (
-      <div className="bg-white/5 rounded-2xl p-6 border border-white/10 animate-pulse">
-        <div className="h-6 bg-white/10 rounded w-32 mb-4"></div>
-        <div className="h-20 bg-white/10 rounded-lg"></div>
+      <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm animate-pulse">
+        <div className="h-6 bg-gray-200 rounded w-32 mb-4"></div>
+        <div className="h-20 bg-gray-200 rounded-lg"></div>
       </div>
     )
   }
 
   if (checkin) {
     return (
-      <div className="bg-gradient-to-br from-purple-900/30 to-blue-900/30 rounded-2xl p-6 border border-purple-700/30">
+      <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-6 border border-purple-200 shadow-sm">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-white">Today's Check-in</h3>
-          <Link href="/checkin" className="text-sm text-purple-400 hover:text-purple-300">
-            Details →
+          <h3 className="font-semibold text-gray-900">Today's Check-in</h3>
+          <Link href="/checkin" className="text-sm text-purple-600 hover:text-purple-700">
+            Details
           </Link>
         </div>
 
@@ -138,26 +138,26 @@ export function DailyCheckinWidget() {
           {checkin.mood_score && (
             <div className="text-center">
               <div className="mb-1 flex justify-center"><MoodIcon level={checkin.mood_score} className="w-8 h-8" /></div>
-              <div className="text-xs text-gray-400">Mood</div>
+              <div className="text-xs text-gray-500">Mood</div>
             </div>
           )}
           {checkin.energy_level && (
             <div className="text-center">
               <div className="mb-1 flex justify-center"><EnergyIcon level={checkin.energy_level} className="w-8 h-8" /></div>
-              <div className="text-xs text-gray-400">Energy</div>
+              <div className="text-xs text-gray-500">Energy</div>
             </div>
           )}
           {checkin.stress_level && (
             <div className="text-center">
               <div className="mb-1 flex justify-center"><StressIcon level={checkin.stress_level} className="w-8 h-8" /></div>
-              <div className="text-xs text-gray-400">Stress</div>
+              <div className="text-xs text-gray-500">Stress</div>
             </div>
           )}
         </div>
 
         {checkin.ai_response && (
-          <div className="bg-white/5 rounded-lg p-3 border border-white/10">
-            <p className="text-sm text-gray-300 italic">"{checkin.ai_response}"</p>
+          <div className="bg-white/70 rounded-lg p-3 border border-purple-100">
+            <p className="text-sm text-gray-700 italic">"{checkin.ai_response}"</p>
           </div>
         )}
       </div>
@@ -166,8 +166,8 @@ export function DailyCheckinWidget() {
 
   if (showQuickCheckin) {
     return (
-      <div className="bg-gradient-to-br from-purple-900/30 to-blue-900/30 rounded-2xl p-6 border border-purple-700/30">
-        <h3 className="font-semibold text-white mb-4">How are you feeling?</h3>
+      <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-6 border border-purple-200 shadow-sm">
+        <h3 className="font-semibold text-gray-900 mb-4">How are you feeling?</h3>
         <div className="flex justify-center gap-3">
           {[1, 2, 3, 4, 5].map((level) => (
             <button
@@ -176,8 +176,8 @@ export function DailyCheckinWidget() {
               disabled={quickMood !== null}
               className={`p-3 rounded-lg transition-all hover:scale-110 ${
                 quickMood === level
-                  ? 'bg-purple-500/30 scale-110'
-                  : 'hover:bg-white/10'
+                  ? 'bg-purple-200 scale-110'
+                  : 'hover:bg-gray-100'
               } ${quickMood !== null && quickMood !== level ? 'opacity-50' : ''}`}
             >
               <MoodIcon level={level} className="w-8 h-8" />
@@ -186,7 +186,7 @@ export function DailyCheckinWidget() {
         </div>
         <button
           onClick={() => setShowQuickCheckin(false)}
-          className="mt-4 text-sm text-gray-400 hover:text-white w-full text-center"
+          className="mt-4 text-sm text-gray-500 hover:text-gray-700 w-full text-center"
         >
           Cancel
         </button>
@@ -195,21 +195,21 @@ export function DailyCheckinWidget() {
   }
 
   return (
-    <div className="bg-gradient-to-br from-purple-900/30 to-blue-900/30 rounded-2xl p-6 border border-purple-700/30">
-      <h3 className="font-semibold text-white mb-2">Daily Check-in</h3>
-      <p className="text-gray-400 text-sm mb-4">
+    <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-6 border border-purple-200 shadow-sm">
+      <h3 className="font-semibold text-gray-900 mb-2">Daily Check-in</h3>
+      <p className="text-gray-500 text-sm mb-4">
         Good {getTimeOfDay()}! Take a moment to check in with yourself.
       </p>
       <div className="flex gap-3">
         <button
           onClick={() => setShowQuickCheckin(true)}
-          className="flex-1 bg-purple-500/20 text-purple-400 py-2 rounded-lg hover:bg-purple-500/30 transition-colors"
+          className="flex-1 bg-purple-100 text-purple-700 py-2 rounded-lg hover:bg-purple-200 transition-colors font-medium"
         >
           Quick Check-in
         </button>
         <Link
           href="/checkin"
-          className="flex-1 bg-white/5 text-white py-2 rounded-lg hover:bg-white/10 transition-colors text-center"
+          className="flex-1 bg-white text-gray-700 py-2 rounded-lg hover:bg-gray-50 transition-colors text-center border border-gray-200 font-medium"
         >
           Full Check-in
         </Link>
