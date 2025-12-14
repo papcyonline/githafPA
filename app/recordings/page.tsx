@@ -165,7 +165,7 @@ export default function RecordingsPage() {
               </button>
             </div>
           ) : (
-            <div className="space-y-3 max-w-3xl">
+            <div className="space-y-3">
               {filteredRecordings.map((recording) => {
                 const isPlaying = currentlyPlaying === recording.id
                 const progress = playbackPosition[recording.id] || 0

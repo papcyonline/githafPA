@@ -158,7 +158,7 @@ function SettingsContent() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-3xl mx-auto">
+      <div>
           <h1 className="text-3xl sm:text-4xl font-black mb-8">
             <span className="gradient-text">Settings</span>
           </h1>

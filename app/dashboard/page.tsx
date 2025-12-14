@@ -480,7 +480,7 @@ export default function DashboardPage() {
               </div>
             ) : activeView === 'overview' ? (
               /* Smart Dashboard View */
-              <div className="space-y-6 max-w-7xl mx-auto">
+              <div className="space-y-6">
                 {/* Enhanced Briefing with AI Insights */}
                 {dashboardData && (
                   <EnhancedBriefing
@@ -599,7 +599,7 @@ export default function DashboardPage() {
               </div>
             ) : (
               /* Recordings View */
-              <div className="space-y-4 max-w-5xl">
+              <div className="space-y-4">
                 {/* Search and Filters */}
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6">
                   {/* Search Bar */}

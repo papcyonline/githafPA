@@ -194,7 +194,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
         {/* Content Area - Only this scrolls */}
         <div className="flex-1 overflow-y-auto bg-gray-50">
-          <div className="p-3 sm:p-6">
+          <div className="p-3 sm:p-4 lg:p-6 w-full">
             {children}
           </div>
         </div>

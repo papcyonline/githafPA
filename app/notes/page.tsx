@@ -192,7 +192,7 @@ export default function NotesPage() {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {notes.map((note) => (
                   <div key={note.id} className="bg-white border border-gray-200 rounded-2xl p-5 hover:bg-gray-50 transition-all group shadow-sm">
                     <div className="flex items-start justify-between gap-2 mb-3">
@@ -228,7 +228,7 @@ export default function NotesPage() {
                 </button>
               </div>
             ) : (
-              <div className="space-y-3 max-w-3xl">
+              <div className="space-y-3">
                 {reminders.map((reminder) => (
                   <div key={reminder.id} className="bg-white border border-gray-200 rounded-2xl p-5 hover:bg-gray-50 transition-all group shadow-sm">
                     <div className="flex items-start justify-between gap-4">
@@ -271,7 +271,7 @@ export default function NotesPage() {
                 </button>
               </div>
             ) : (
-              <div className="space-y-2 max-w-2xl">
+              <div className="space-y-2">
                 {tasks.map((task) => (
                   <div key={task.id} className="bg-white border border-gray-200 rounded-xl p-4 hover:bg-gray-50 transition-all group flex items-center gap-3 shadow-sm">
                     <input

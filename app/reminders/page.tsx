@@ -478,7 +478,7 @@ function RemindersContent() {
               </div>
             </div>
           ) : (
-            <div className="max-w-2xl mx-auto space-y-6">
+            <div className="space-y-6">
               {/* Today */}
               {todayReminders.length > 0 && (
                 <div>

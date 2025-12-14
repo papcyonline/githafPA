@@ -228,7 +228,7 @@ export default function CheckinPage() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-2xl mx-auto">
+      <div>
         {/* Page Header */}
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-black">Daily Check-in</h1>
@@ -277,7 +277,7 @@ export default function CheckinPage() {
         </div>
       </div>
 
-      <main className="max-w-2xl mx-auto px-4 pb-8">
+      <main className="pb-8">
         {activeTab === 'checkin' && (
           <div className="space-y-6">
             {/* AI Response */}
