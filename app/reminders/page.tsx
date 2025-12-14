@@ -8,6 +8,7 @@ import { remindersService, Reminder } from '@/lib/notes.service'
 import { supabase } from '@/lib/supabase'
 import FloatingAIChat from '@/components/FloatingAIChat'
 import DashboardLayout from '@/components/DashboardLayout'
+import AudioRecorder from '@/components/AudioRecorder'
 
 function RemindersContent() {
   const router = useRouter()
@@ -23,6 +24,8 @@ function RemindersContent() {
   const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default')
   const audioContextRef = useRef<AudioContext | null>(null)
   const notifiedRemindersRef = useRef<Set<string>>(new Set())
+  const [showRecorder, setShowRecorder] = useState(false)
+  const snoozeTimersRef = useRef<Map<string, NodeJS.Timeout>>(new Map())
 
   // Form state
   const [title, setTitle] = useState('')
@@ -132,6 +135,51 @@ function RemindersContent() {
   const dismissReminder = (id: string) => {
     setActiveReminders(prev => prev.filter(r => r.id !== id))
   }
+
+  // Snooze reminder for 5 minutes
+  const snoozeReminder = (reminder: Reminder) => {
+    // Dismiss the current popup
+    dismissReminder(reminder.id)
+
+    // Show toast notification
+    setNotification({ type: 'success', message: 'Reminder snoozed for 5 minutes' })
+
+    // Clear any existing snooze timer for this reminder
+    const existingTimer = snoozeTimersRef.current.get(reminder.id)
+    if (existingTimer) {
+      clearTimeout(existingTimer)
+    }
+
+    // Set a new timer for 5 minutes
+    const timer = setTimeout(() => {
+      // Show the reminder again
+      setActiveReminders(prev => [...prev, reminder])
+      playNotificationSound()
+
+      // Show browser notification
+      if (notificationPermission === 'granted') {
+        new Notification('PAssist AI Reminder (Snoozed)', {
+          body: reminder.title,
+          icon: '/logo.png',
+          tag: `${reminder.id}-snooze`,
+        })
+      }
+
+      // Clean up timer reference
+      snoozeTimersRef.current.delete(reminder.id)
+    }, 5 * 60 * 1000) // 5 minutes in milliseconds
+
+    // Store the timer reference
+    snoozeTimersRef.current.set(reminder.id, timer)
+  }
+
+  // Cleanup snooze timers on unmount
+  useEffect(() => {
+    return () => {
+      snoozeTimersRef.current.forEach(timer => clearTimeout(timer))
+      snoozeTimersRef.current.clear()
+    }
+  }, [])
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -314,6 +362,18 @@ function RemindersContent() {
               </svg>
             </button>
 
+            {/* Voice Recording Button */}
+            <button
+              onClick={() => setShowRecorder(true)}
+              className="flex items-center gap-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 border border-purple-500/30 px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors"
+              title="Record voice reminder"
+            >
+              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+              </svg>
+              <span className="hidden sm:inline">Record</span>
+            </button>
+
             <button
               onClick={() => setShowModal(true)}
               className="bg-[#A855F7] hover:bg-[#9333EA] px-3 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold transition-all inline-flex items-center space-x-1 sm:space-x-2 text-sm sm:text-base"
@@ -355,9 +415,7 @@ function RemindersContent() {
 
               <div className="flex gap-2">
                 <button
-                  onClick={() => {
-                    playNotificationSound()
-                  }}
+                  onClick={() => snoozeReminder(activeReminders[0])}
                   className="flex-1 px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-gray-300 rounded-xl transition-colors text-sm font-medium"
                 >
                   Snooze 5min
@@ -406,10 +464,18 @@ function RemindersContent() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
               </svg>
               <h3 className="text-2xl font-bold mb-2">No reminders yet</h3>
-              <p className="text-gray-400 mb-6">Create a reminder or record a voice note</p>
-              <button onClick={() => setShowModal(true)} className="bg-[#A855F7] hover:bg-[#9333EA] px-6 py-3 rounded-full font-semibold transition-all">
-                Create Reminder
-              </button>
+              <p className="text-gray-400 mb-6">Type or speak to create your first reminder</p>
+              <div className="flex gap-3">
+                <button onClick={() => setShowRecorder(true)} className="bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-400 px-6 py-3 rounded-full font-semibold transition-all flex items-center gap-2">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                  </svg>
+                  Record Voice
+                </button>
+                <button onClick={() => setShowModal(true)} className="bg-[#A855F7] hover:bg-[#9333EA] px-6 py-3 rounded-full font-semibold transition-all">
+                  Type Reminder
+                </button>
+              </div>
             </div>
           ) : (
             <div className="max-w-2xl mx-auto space-y-6">
@@ -528,6 +594,16 @@ function RemindersContent() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Audio Recorder Modal */}
+      {showRecorder && (
+        <AudioRecorder
+          onClose={() => setShowRecorder(false)}
+          onRecordingComplete={fetchReminders}
+          context="reminder"
+          contextHint="Say something like 'Remind me to call John tomorrow at 3pm' or 'Remind me to buy groceries on Friday'"
+        />
       )}
 
       <FloatingAIChat />

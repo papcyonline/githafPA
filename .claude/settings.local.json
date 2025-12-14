@@ -19,7 +19,9 @@
       "Bash(timeout:*)",
       "Bash(curl:*)",
       "Bash(git checkout:*)",
-      "Bash(copy \"c:\\Users\\papcy\\Downloads\\one (2).png\" \"C:\\Users\\papcy\\Desktop\\YoMeet Web\\public\\nine.png\")"
+      "Bash(copy \"c:\\Users\\papcy\\Downloads\\one (2).png\" \"C:\\Users\\papcy\\Desktop\\YoMeet Web\\public\\nine.png\")",
+      "Bash(find:*)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []

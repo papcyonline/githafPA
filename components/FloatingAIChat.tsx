@@ -153,6 +153,7 @@ export default function FloatingAIChat() {
         },
         body: JSON.stringify({
           messages: [...messages, userMessage],
+          userId: user?.id,
         }),
       })
 
@@ -290,42 +291,54 @@ export default function FloatingAIChat() {
                     />
                   </svg>
                 </div>
-                <h3 className="text-white font-bold mb-2">Hi! I'm your AI assistant</h3>
+                <h3 className="text-white font-bold mb-2">Hi! I'm PAssist</h3>
                 <p className="text-gray-400 text-sm mb-6">
-                  Ask me anything or have me research topics for you!
+                  Your personal assistant with access to all your data. Ask me anything!
                 </p>
 
                 <div className="grid grid-cols-1 gap-2 w-full">
                   <button
-                    onClick={() => setInput('Find me the cheapest hotels in Dubai and save to notes')}
-                    className="p-3 bg-gradient-to-r from-pink-500/10 to-purple-500/10 hover:from-pink-500/20 hover:to-purple-500/20 rounded-xl text-left border border-pink-500/20 transition-all text-sm"
+                    onClick={() => setInput('What recordings do I have?')}
+                    className="p-3 bg-gradient-to-r from-purple-500/10 to-blue-500/10 hover:from-purple-500/20 hover:to-blue-500/20 rounded-xl text-left border border-purple-500/20 transition-all text-sm"
                   >
                     <div className="text-white font-semibold flex items-center gap-2">
-                      <svg className="w-4 h-4 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      <svg className="w-4 h-4 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
                       </svg>
-                      Research hotels in Dubai
+                      View my recordings
                     </div>
-                    <div className="text-gray-400 text-xs">I'll find options and save to notes</div>
+                    <div className="text-gray-400 text-xs">See all your audio notes</div>
                   </button>
                   <button
-                    onClick={() => setInput('Search for best restaurants in NYC and remind me tomorrow')}
+                    onClick={() => setInput('What are my upcoming tasks and reminders?')}
+                    className="p-3 bg-gradient-to-r from-green-500/10 to-teal-500/10 hover:from-green-500/20 hover:to-teal-500/20 rounded-xl text-left border border-green-500/20 transition-all text-sm"
+                  >
+                    <div className="text-white font-semibold flex items-center gap-2">
+                      <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                      </svg>
+                      Check my schedule
+                    </div>
+                    <div className="text-gray-400 text-xs">Tasks, reminders & events</div>
+                  </button>
+                  <button
+                    onClick={() => setInput('How am I doing financially?')}
                     className="p-3 bg-gradient-to-r from-amber-500/10 to-orange-500/10 hover:from-amber-500/20 hover:to-orange-500/20 rounded-xl text-left border border-amber-500/20 transition-all text-sm"
                   >
                     <div className="text-white font-semibold flex items-center gap-2">
                       <svg className="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      Research & remind me
+                      Financial overview
                     </div>
-                    <div className="text-gray-400 text-xs">Find restaurants and set a reminder</div>
+                    <div className="text-gray-400 text-xs">Income, expenses & budgets</div>
                   </button>
                   <button
-                    onClick={() => setInput('Help me organize my notes')}
+                    onClick={() => setInput('Find me the cheapest hotels in Dubai and save to notes')}
                     className="p-3 bg-white/5 hover:bg-white/10 rounded-xl text-left border border-white/10 transition-all text-sm"
                   >
-                    <div className="text-white font-semibold">Organize notes</div>
-                    <div className="text-gray-400 text-xs">Get organization tips</div>
+                    <div className="text-white font-semibold">Research anything</div>
+                    <div className="text-gray-400 text-xs">I'll find info and save it for you</div>
                   </button>
                 </div>
               </div>

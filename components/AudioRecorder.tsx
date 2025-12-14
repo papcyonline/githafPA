@@ -264,7 +264,22 @@ export default function AudioRecorder({ onClose, onRecordingComplete, context, c
             const parsed = await parseResponse.json()
 
             // Auto-create the appropriate item based on parsed type
-            if (parsed.type === 'reminder' && parsed.title) {
+            if (parsed.type === 'finance_expense' || parsed.type === 'finance_income' || parsed.type === 'finance_transfer' || parsed.type === 'finance_investment') {
+              // Handle financial entries
+              const entryType = parsed.type.replace('finance_', '') as 'expense' | 'income' | 'transfer' | 'investment'
+              await supabase.from('financial_entries').insert({
+                user_id: user?.id,
+                entry_type: entryType,
+                amount: parsed.amount || 0,
+                currency: 'USD',
+                category: parsed.category || 'Other',
+                description: parsed.description || preview.transcript,
+                date: parsed.date || new Date().toISOString().split('T')[0],
+                recurring: false,
+                recurrence_rule: null,
+                tags: null,
+              })
+            } else if (parsed.type === 'reminder' && parsed.title) {
               await supabase.from('reminders').insert({
                 user_id: user?.id,
                 title: parsed.title,

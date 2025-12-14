@@ -127,6 +127,10 @@ function buildContextPrompt(context: string | undefined, today: string): { syste
   let typeOptions = '"reminder" | "task" | "note" | "event"'
 
   switch (context) {
+    case 'reminder':
+      contextInstructions = 'The user is creating a reminder. Focus on extracting the reminder title, when they want to be reminded (date/time), and any additional context. Parse natural language dates like "tomorrow", "next Monday", "in 3 days", "Friday at 2pm".'
+      typeOptions = '"reminder"'
+      break
     case 'finance':
       contextInstructions = 'The user is in the Finance section. Focus on extracting financial information.'
       typeOptions = '"finance_expense" | "finance_income" | "finance_transfer" | "finance_investment"'

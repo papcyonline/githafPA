@@ -87,6 +87,10 @@ export default function DocumentsPage() {
   const [viewingDocument, setViewingDocument] = useState<GeneratedDocument | null>(null)
   const [showRecorder, setShowRecorder] = useState(false)
   const [showAIPrompt, setShowAIPrompt] = useState(false)
+  const [showUploadModal, setShowUploadModal] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [uploadAnalysis, setUploadAnalysis] = useState<{ summary: string; keyPoints: string[] } | null>(null)
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -175,6 +179,16 @@ export default function DocumentsPage() {
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-black">Documents</h1>
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => setShowUploadModal(true)}
+              className="flex items-center gap-2 bg-green-500/20 hover:bg-green-500/30 text-green-400 border border-green-500/30 px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors"
+              title="Upload and analyze document"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+              <span className="hidden sm:inline">Upload</span>
+            </button>
             <button
               onClick={() => setShowRecorder(true)}
               className="flex items-center gap-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 border border-purple-500/30 px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors"
@@ -461,6 +475,179 @@ export default function DocumentsPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Upload Document Modal */}
+      {showUploadModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
+          <div className="bg-gray-900 rounded-xl p-6 w-full max-w-2xl border border-white/10 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold">Upload & Analyze Document</h2>
+              <button
+                onClick={() => {
+                  setShowUploadModal(false)
+                  setSelectedFile(null)
+                  setUploadAnalysis(null)
+                }}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {!selectedFile ? (
+              <div className="space-y-4">
+                <div className="border-2 border-dashed border-white/20 rounded-xl p-8 text-center">
+                  <input
+                    type="file"
+                    accept=".pdf,.doc,.docx,.txt"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      if (file) setSelectedFile(file)
+                    }}
+                    className="hidden"
+                    id="file-upload"
+                  />
+                  <label htmlFor="file-upload" className="cursor-pointer">
+                    <svg className="w-16 h-16 mx-auto mb-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    <p className="text-lg font-medium mb-2">Click to upload a document</p>
+                    <p className="text-sm text-gray-400">Supports PDF, DOC, DOCX, TXT files</p>
+                  </label>
+                </div>
+                <p className="text-sm text-gray-400 text-center">
+                  AI will automatically extract key points, summarize, and analyze your document
+                </p>
+              </div>
+            ) : uploadAnalysis ? (
+              <div className="space-y-6">
+                {/* File Info */}
+                <div className="flex items-center gap-3 bg-white/5 p-4 rounded-lg">
+                  <svg className="w-8 h-8 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div className="flex-1">
+                    <p className="font-medium">{selectedFile.name}</p>
+                    <p className="text-sm text-gray-400">{(selectedFile.size / 1024).toFixed(1)} KB</p>
+                  </div>
+                </div>
+
+                {/* Summary */}
+                <div className="bg-gradient-to-br from-purple-900/30 to-blue-900/30 rounded-xl p-5 border border-purple-500/30">
+                  <h3 className="font-semibold mb-3 flex items-center gap-2">
+                    <svg className="w-5 h-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Summary
+                  </h3>
+                  <p className="text-gray-300 leading-relaxed">{uploadAnalysis.summary}</p>
+                </div>
+
+                {/* Key Points */}
+                <div className="bg-white/5 rounded-xl p-5 border border-white/10">
+                  <h3 className="font-semibold mb-3 flex items-center gap-2">
+                    <svg className="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                    Key Points
+                  </h3>
+                  <ul className="space-y-2">
+                    {uploadAnalysis.keyPoints.map((point, idx) => (
+                      <li key={idx} className="flex items-start gap-2">
+                        <span className="text-green-400 mt-1">•</span>
+                        <span className="text-gray-300">{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Actions */}
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => {
+                      setShowUploadModal(false)
+                      setSelectedFile(null)
+                      setUploadAnalysis(null)
+                    }}
+                    className="flex-1 bg-white/5 py-3 rounded-lg hover:bg-white/10 transition-colors font-medium"
+                  >
+                    Done
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {/* Processing UI */}
+                <div className="flex items-center gap-3 bg-white/5 p-4 rounded-lg">
+                  <svg className="w-8 h-8 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                  </svg>
+                  <div className="flex-1">
+                    <p className="font-medium">{selectedFile.name}</p>
+                    <p className="text-sm text-gray-400">{(selectedFile.size / 1024).toFixed(1)} KB</p>
+                  </div>
+                </div>
+
+                {uploading && (
+                  <div className="text-center py-8">
+                    <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <p className="text-gray-400">Analyzing document with AI...</p>
+                  </div>
+                )}
+
+                {!uploading && (
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => {
+                        setSelectedFile(null)
+                      }}
+                      className="flex-1 bg-white/5 py-3 rounded-lg hover:bg-white/10 transition-colors"
+                    >
+                      Change File
+                    </button>
+                    <button
+                      onClick={async () => {
+                        setUploading(true)
+                        try {
+                          const formData = new FormData()
+                          formData.append('file', selectedFile)
+                          formData.append('user_id', user?.id || '')
+
+                          const response = await fetch('/api/documents/upload', {
+                            method: 'POST',
+                            body: formData,
+                          })
+
+                          if (response.ok) {
+                            const data = await response.json()
+                            setUploadAnalysis({
+                              summary: data.summary || 'No summary available',
+                              keyPoints: data.keyPoints || []
+                            })
+                            fetchData()
+                          } else {
+                            alert('Failed to analyze document. Please try again.')
+                          }
+                        } catch (error) {
+                          console.error('Upload error:', error)
+                          alert('An error occurred. Please try again.')
+                        } finally {
+                          setUploading(false)
+                        }
+                      }}
+                      className="flex-1 bg-purple-500 py-3 rounded-lg hover:bg-purple-600 transition-colors font-medium"
+                    >
+                      Analyze Document
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}
