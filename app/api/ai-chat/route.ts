@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
-import { supabase } from '@/lib/supabase'
+import { serverSupabase } from '@/lib/api/auth'
 
 export async function POST(req: NextRequest) {
   try {
@@ -36,21 +36,21 @@ export async function POST(req: NextRequest) {
           documentsRes,
         ] = await Promise.all([
           // Recordings
-          supabase
+          serverSupabase
             .from('recordings')
             .select('title, created_at, transcript')
             .eq('user_id', userId)
             .order('created_at', { ascending: false })
             .limit(5),
           // Tasks
-          supabase
+          serverSupabase
             .from('tasks')
             .select('title, completed, due_date, priority')
             .eq('user_id', userId)
             .order('created_at', { ascending: false })
             .limit(10),
           // Reminders
-          supabase
+          serverSupabase
             .from('reminders')
             .select('title, reminder_date, reminder_time, description')
             .eq('user_id', userId)
@@ -58,14 +58,14 @@ export async function POST(req: NextRequest) {
             .order('reminder_date', { ascending: true })
             .limit(10),
           // Notes
-          supabase
+          serverSupabase
             .from('notes')
             .select('title, content')
             .eq('user_id', userId)
             .order('updated_at', { ascending: false })
             .limit(5),
           // Calendar Events
-          supabase
+          serverSupabase
             .from('calendar_events')
             .select('title, start_time, end_time, description')
             .eq('user_id', userId)
@@ -73,34 +73,34 @@ export async function POST(req: NextRequest) {
             .order('start_time', { ascending: true })
             .limit(10),
           // Financial Entries (recent)
-          supabase
+          serverSupabase
             .from('financial_entries')
             .select('entry_type, amount, category, description, date')
             .eq('user_id', userId)
             .order('date', { ascending: false })
             .limit(10),
           // Financial Budgets
-          supabase
+          serverSupabase
             .from('financial_budgets')
             .select('category, amount, period')
             .eq('user_id', userId)
             .eq('is_active', true),
           // Goals
-          supabase
+          serverSupabase
             .from('goals')
             .select('title, target_date, progress, status')
             .eq('user_id', userId)
             .order('created_at', { ascending: false })
             .limit(5),
           // Habits
-          supabase
+          serverSupabase
             .from('habits')
             .select('name, frequency, current_streak')
             .eq('user_id', userId)
             .eq('is_active', true)
             .limit(10),
           // Life Tasks
-          supabase
+          serverSupabase
             .from('life_tasks')
             .select('title, category, due_date, next_due_at')
             .eq('user_id', userId)
@@ -108,7 +108,7 @@ export async function POST(req: NextRequest) {
             .order('next_due_at', { ascending: true })
             .limit(10),
           // Personal Events
-          supabase
+          serverSupabase
             .from('personal_events')
             .select('title, event_type, event_date, person_name')
             .eq('user_id', userId)
@@ -116,20 +116,35 @@ export async function POST(req: NextRequest) {
             .order('event_date', { ascending: true })
             .limit(10),
           // Daily Check-ins (recent)
-          supabase
+          serverSupabase
             .from('daily_checkins')
             .select('checkin_date, mood_score, energy_level, stress_level')
             .eq('user_id', userId)
             .order('checkin_date', { ascending: false })
             .limit(3),
           // Generated Documents
-          supabase
+          serverSupabase
             .from('generated_documents')
             .select('title, document_type, created_at')
             .eq('user_id', userId)
             .order('created_at', { ascending: false })
             .limit(5),
         ])
+
+        // Log any errors in fetching data
+        console.log('AI Chat - Fetching data for user:', userId)
+        if (recordingsRes.error) console.error('Recordings error:', recordingsRes.error)
+        if (tasksRes.error) console.error('Tasks error:', tasksRes.error)
+        if (remindersRes.error) console.error('Reminders error:', remindersRes.error)
+        if (notesRes.error) console.error('Notes error:', notesRes.error)
+
+        // Log data counts
+        console.log('Data fetched:', {
+          recordings: recordingsRes.data?.length || 0,
+          tasks: tasksRes.data?.length || 0,
+          reminders: remindersRes.data?.length || 0,
+          notes: notesRes.data?.length || 0,
+        })
 
         // Build context from user data
         const contextParts = []
@@ -139,6 +154,8 @@ export async function POST(req: NextRequest) {
           contextParts.push(`\n**Recordings (${recordingsRes.data.length} recent):**\n${recordingsRes.data.map(r =>
             `- "${r.title}" (${new Date(r.created_at).toLocaleDateString()})`
           ).join('\n')}`)
+        } else {
+          contextParts.push(`\n**Recordings:** No recordings found`)
         }
 
         // Tasks
@@ -149,12 +166,16 @@ export async function POST(req: NextRequest) {
             contextParts.push(`\n**Active Tasks (${incompleteTasks.length}):**\n${incompleteTasks.map(t =>
               `- ${t.title}${t.due_date ? ` (due: ${t.due_date})` : ''} [${t.priority}]`
             ).join('\n')}`)
+          } else {
+            contextParts.push(`\n**Active Tasks:** No active tasks`)
           }
           if (completedTasks.length > 0) {
             contextParts.push(`\n**Completed Tasks (${completedTasks.length}):**\n${completedTasks.slice(0, 3).map(t =>
               `- ${t.title}`
             ).join('\n')}`)
           }
+        } else {
+          contextParts.push(`\n**Tasks:** No tasks found`)
         }
 
         // Reminders
@@ -162,6 +183,8 @@ export async function POST(req: NextRequest) {
           contextParts.push(`\n**Upcoming Reminders (${remindersRes.data.length}):**\n${remindersRes.data.map(r =>
             `- "${r.title}" on ${r.reminder_date} at ${r.reminder_time}`
           ).join('\n')}`)
+        } else {
+          contextParts.push(`\n**Reminders:** No upcoming reminders`)
         }
 
         // Notes
@@ -238,9 +261,10 @@ export async function POST(req: NextRequest) {
           ).join('\n')}`)
         }
 
-        if (contextParts.length > 0) {
-          userContext = `\n\n---USER DATA---${contextParts.join('\n')}\n---END USER DATA---\n\nUse this data to provide personalized, specific answers. Reference this information when users ask about ANY aspect of their data.`
-        }
+        // Always include context, even if empty
+        userContext = `\n\n---USER DATA---${contextParts.join('\n')}\n---END USER DATA---\n\nIMPORTANT: Use ONLY the data above to answer questions about the user's recordings, tasks, reminders, notes, etc. If a category shows "No [items] found", tell the user they don't have any yet. Be specific and accurate - NEVER make up data that isn't listed above.`
+
+        console.log('User context built with', contextParts.length, 'sections')
       } catch (dataError) {
         console.error('Error fetching user data:', dataError)
         // Continue without user context if there's an error
